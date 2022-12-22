@@ -77,6 +77,8 @@ function start() {
         return await ctx.reply('Для початку введіть команду /start')
       }
 
+      await ctx.reply('Готую склади...')
+
       const players = ctx.message.text.split('\n')
       let teamsData = {}
       for (let i = 1; i <= teamsQuantity; i++) teamsData[i] = []
