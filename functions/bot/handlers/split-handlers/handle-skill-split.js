@@ -1,4 +1,4 @@
-const getRandomFromArray = require('../helpers/get-random-from-array')
+const getRandomFromArray = require('../../helpers/get-random-from-array')
 
 module.exports = (players, teamsData) => {
   const playersCopy = [...players]

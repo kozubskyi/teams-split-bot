@@ -1,9 +1,10 @@
 require('dotenv').config()
 const { Telegraf, Markup } = require('telegraf')
 // const TelegramBot = require('node-telegram-bot-api')
-const { CREATOR_CHAT_ID } = require('./helpers/chat-ids')
-const { onSplitVersionClick, onTeamsQuantityClick } = require('./on-buttons-click')
-const { handleSkillSplit, handleRandomSplit } = require('./split-handlers')
+const { BOT_USERNAME, CREATOR_USERNAME, CREATOR_CHAT_ID } = require('./helpers/constants')
+const handleStartCommand = require('./handlers/handle-start-command')
+const { onSplitVersionClick, onTeamsQuantityClick } = require('./handlers/on-buttons-click')
+const { handleSkillSplit, handleRandomSplit } = require('./handlers/split-handlers')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 // const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true })
@@ -18,27 +19,8 @@ function start() {
   let teamsQuantity = 0
 
   // Start command handler
-  bot.start(async (ctx) => {
-    try {
-      await ctx.replyWithHTML(
-        `
-Я бот, що був створений для поділу гравців на команди у командних видах спорту. Вкажіть як ви хочете, щоб відбувся розподіл:
-
-<b>За скілом</b> - гравці будуть поділені на команди, враховуючи індивідуальні навички кожного гравця. Для цього пізніше потрібно буде відправити список гравців, сформований від найкращого до найгіршого гравця (на вашу суб'єктивну думку).
-
-<b>Рандомно</b> - гравці будуть поділені на команди випадковим чином, не зважаючи на індивідуальні навички кожного гравця.
-  `,
-        Markup.inlineKeyboard([
-          [
-            Markup.button.callback('💪 За скілом', 'skill_split'),
-            Markup.button.callback('🎲 Рандомно', 'random_split'),
-          ],
-        ])
-      )
-    } catch (err) {
-      console.error(err)
-    }
-  })
+  // bot.start(async (ctx) => await handleStartCommand(ctx))
+  bot.command('start', async (ctx) => await handleStartCommand(ctx))
 
   // Split version buttons click handlers
   bot.action('skill_split', async (ctx) => {
@@ -74,7 +56,8 @@ function start() {
 
     try {
       if (!teamsQuantity || !splitVersion) {
-        return await ctx.reply('Для початку введіть команду /start')
+        // await ctx.reply('Для початку введіть команду /start')
+        return
       }
 
       await ctx.reply('Готую склади...')
@@ -87,7 +70,6 @@ function start() {
       if (splitVersion === 'skill_split') {
         teamsData = handleSkillSplit(players, teamsData)
       }
-
       if (splitVersion === 'random_split') {
         teamsData = handleRandomSplit(players, teamsData)
       }
@@ -109,13 +91,17 @@ ${teamsData[teamName].join('\n')}
       splitVersion = ''
       teamsQuantity = 0
 
-      chatId !== CREATOR_CHAT_ID &&
+      username !== CREATOR_USERNAME &&
         (await ctx.telegram.sendMessage(
           CREATOR_CHAT_ID,
-          `ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив свої команди: ${reply}`
+          `
+ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив свої команди:
+
+${reply}
+          `
         ))
     } catch (err) {
-      chatId !== CREATOR_CHAT_ID && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
+      username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
 
       await ctx.telegram.sendMessage(
         CREATOR_CHAT_ID,

@@ -1,4 +1,4 @@
-const { CREATOR_CHAT_ID } = require('../helpers/chat-ids')
+const { CREATOR_USERNAME, CREATOR_CHAT_ID } = require('../../helpers/constants')
 
 module.exports = async (ctx, splitVersion) => {
   const firstName = ctx.callbackQuery.from.first_name
@@ -32,7 +32,7 @@ module.exports = async (ctx, splitVersion) => {
       await ctx.reply('Не вказано вид розподілу. Для початку введіть команду /start')
     }
   } catch (err) {
-    chatId !== CREATOR_CHAT_ID && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
+    username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
 
     await ctx.telegram.sendMessage(
       CREATOR_CHAT_ID,
