@@ -1,9 +1,8 @@
 require('dotenv').config()
 const { Telegraf, Markup } = require('telegraf')
 // const TelegramBot = require('node-telegram-bot-api')
-const { BOT_USERNAME, CREATOR_USERNAME, CREATOR_CHAT_ID } = require('./helpers/constants')
-const handleStartCommand = require('./handlers/handle-start-command')
-const { onSplitVersionClick, onTeamsQuantityClick } = require('./handlers/on-buttons-click')
+const handlers = require('./handlers')
+const { getLineups, getRandomFromArray, sendInfoMessageToCreator, getButtonText } = require('./helpers')
 const { handleSkillSplit, handleRandomSplit } = require('./handlers/split-handlers')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -15,66 +14,109 @@ function start() {
   //   { command: '/test', description: 'Test' },
   // ])
 
-  let splitVersion = ''
+  let splitVariant = ''
   let teamsQuantity = 0
+  let players = []
+  let teamsData = {}
 
   // Start command handler
   // bot.start(async (ctx) => await handleStartCommand(ctx))
-  bot.command('start', async (ctx) => await handleStartCommand(ctx))
+  bot.command('start', async (ctx) => {
+    await handlers.handleStartCommand(ctx)
+  })
 
   // Split version buttons click handlers
   bot.action('skill_split', async (ctx) => {
-    splitVersion = 'skill_split'
-    await onSplitVersionClick(ctx)
+    splitVariant = 'skill_split'
+    await handlers.handleSplitVariantClick(ctx)
   })
   bot.action('random_split', async (ctx) => {
-    splitVersion = 'random_split'
-    await onSplitVersionClick(ctx)
+    splitVariant = 'random_split'
+    await handlers.handleSplitVariantClick(ctx)
+  })
+  bot.action('captains_split', async (ctx) => {
+    splitVariant = 'captains_split'
+    await handlers.handleSplitVariantClick(ctx)
   })
 
   // Teams quantity buttons click handlers
   bot.action('2_teams', async (ctx) => {
     teamsQuantity = 2
-    await onTeamsQuantityClick(ctx, splitVersion)
+    await handlers.handleTeamsQuantityClick(ctx, splitVariant)
   })
   bot.action('3_teams', async (ctx) => {
     teamsQuantity = 3
-    await onTeamsQuantityClick(ctx, splitVersion)
+    await handlers.handleTeamsQuantityClick(ctx, splitVariant)
   })
   bot.action('4_teams', async (ctx) => {
     teamsQuantity = 4
-    await onTeamsQuantityClick(ctx, splitVersion)
+    await handlers.handleTeamsQuantityClick(ctx, splitVariant)
   })
 
   // Players list handler
   bot.on('text', async (ctx) => {
-    const firstName = ctx.message.from.first_name
-    const lastName = ctx.message.from.last_name
-    const username = ctx.message.from.username
-    const chatId = ctx.message.chat.id
-    const text = ctx.message.text
+    if (!teamsQuantity || !splitVariant) {
+      // await ctx.reply('Для початку введіть команду /start')
+      await ctx.reply('ALARM - TREBA /start')
+      return
+    }
+
+    players = ctx.message.text.split('\n')
+    for (let i = 1; i <= teamsQuantity; i++) teamsData[i] = []
 
     try {
-      if (!teamsQuantity || !splitVersion) {
-        // await ctx.reply('Для початку введіть команду /start')
-        return
+      if (splitVariant === 'captains_split') {
+        await ctx.reply(
+          'Як оберемо капітанів?',
+          Markup.inlineKeyboard([
+            [
+              Markup.button.callback('Ви вкажете', 'specified_captains'),
+              Markup.button.callback('Я оберу', 'random_captains'),
+            ],
+          ])
+        )
+      } else {
+        if (splitVariant === 'skill_split') {
+          teamsData = handleSkillSplit(players, teamsData)
+        }
+        if (splitVariant === 'random_split') {
+          teamsData = handleRandomSplit(players, teamsData)
+        }
+
+        const reply = `
+✅ <b>Поділив</b>
+Варіант розподілу: ${getButtonText(splitVariant)}
+Кількість команд: ${teamsQuantity} ${getLineups(teamsData)}
+`
+
+        await ctx.replyWithHTML(reply)
+
+        splitVariant = ''
+        teamsQuantity = 0
+        players = []
+        teamsData = {}
+
+        await sendInfoMessageToCreator(ctx, reply)
       }
+    } catch (err) {
+      await handlers.handleError(err, ctx)
+    }
+  })
 
-      await ctx.reply('Готую склади...')
+  // bot.action('specified_captains', (ctx) => ctx.reply(JSON.stringify(ctx)))
+  bot.action('random_captains', async (ctx) => {
+    let possibleCaptains = [...players]
+    const captains = []
 
-      const players = ctx.message.text.split('\n')
-      let teamsData = {}
-      for (let i = 1; i <= teamsQuantity; i++) teamsData[i] = []
-      const teams = Object.keys(teamsData)
+    for (let i = 1; i <= teamsQuantity; i++) {
+      const chosenCaptain = getRandomFromArray(possibleCaptains)
 
-      if (splitVersion === 'skill_split') {
-        teamsData = handleSkillSplit(players, teamsData)
-      }
-      if (splitVersion === 'random_split') {
-        teamsData = handleRandomSplit(players, teamsData)
-      }
+      captains.push(chosenCaptain)
 
-      const reply = `
+      possibleCaptains = possibleCaptains.filter((player) => player !== chosenCaptain)
+    }
+
+    await ctx.replyWithHTML(`
 ✔️ Поділив наступним чином:
         ${teams
           .map((teamName) => {
@@ -84,32 +126,7 @@ ${teamsData[teamName].join('\n')}
             `
           })
           .join('')}
-        `
-
-      await ctx.replyWithHTML(reply)
-
-      splitVersion = ''
-      teamsQuantity = 0
-
-      username !== CREATOR_USERNAME &&
-        (await ctx.telegram.sendMessage(
-          CREATOR_CHAT_ID,
-          `
-ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив свої команди:
-
-${reply}
-          `
-        ))
-    } catch (err) {
-      username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
-
-      await ctx.telegram.sendMessage(
-        CREATOR_CHAT_ID,
-        `❌ Помилка! Користувач "${firstName} ${lastName} <${username}> (${chatId})" відправив(-ла) повідомлення "${text}" і виникла помилка "${
-          err?.response?.data?.message ?? err
-        }"`
-      )
-    }
+        `)
   })
 
   // Sticker handler
@@ -124,7 +141,7 @@ ${reply}
 
 start()
 
-// bot.launch()
+bot.launch()
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
