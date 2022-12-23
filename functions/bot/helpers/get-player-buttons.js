@@ -1,0 +1,25 @@
+const { Markup } = require('telegraf')
+
+module.exports = function getPlayerButtons(arr, buttonsInString = 3) {
+  const buttons = []
+  let currentIndex = 0
+
+  arr.forEach((player) => {
+    const playerButton = Markup.button.callback(player, 'player_button')
+
+    buttons[currentIndex] = buttons[currentIndex] ?? []
+
+    if (buttons[currentIndex].length < buttonsInString) {
+      buttons[currentIndex].push(playerButton)
+    } else {
+      currentIndex++
+      buttons[currentIndex] = [playerButton]
+    }
+  })
+
+  for (let i = buttons[currentIndex].length; i < buttonsInString; i++) {
+    buttons[currentIndex].push(Markup.button.callback('➖', '➖'))
+  }
+
+  return Markup.inlineKeyboard(buttons)
+}

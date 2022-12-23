@@ -1,12 +1,11 @@
+const store = require('../../store')
 const getRandomFromArray = require('../../helpers/get-random-from-array')
 
-module.exports = (players, teamsData) => {
-  const playersCopy = [...players]
-  const teamsDataCopy = JSON.parse(JSON.stringify(teamsData))
-  const playersQuantity = players.length
-  const teams = Object.keys(teamsDataCopy)
+module.exports = function handleRandomSplit() {
+  const playersQuantity = store.players.length
+  const teams = Object.keys(store.teamsData)
 
-  let possibleTeams = [...teams]
+  let possibleTeams = []
   let teamSlots = []
 
   for (let i = 0; i < playersQuantity; i++) {
@@ -20,14 +19,12 @@ module.exports = (players, teamsData) => {
   }
 
   for (let i = 0; i < playersQuantity; i++) {
-    const chosenPlayer = getRandomFromArray(playersCopy)
+    const chosenPlayer = getRandomFromArray(store.players)
     const chosenTeam = getRandomFromArray(teamSlots)
 
-    teamsDataCopy[chosenTeam].push(chosenPlayer)
+    store.teamsData[chosenTeam].push(chosenPlayer)
 
-    playersCopy.splice(playersCopy.indexOf(chosenPlayer), 1)
+    store.players.splice(store.players.indexOf(chosenPlayer), 1)
     teamSlots.splice(teamSlots.indexOf(chosenTeam), 1)
   }
-
-  return teamsDataCopy
 }

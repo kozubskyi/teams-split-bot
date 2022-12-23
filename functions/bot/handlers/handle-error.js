@@ -1,3 +1,4 @@
+const store = require('../store')
 const { CREATOR_USERNAME, CREATOR_CHAT_ID } = require('../helpers/constants')
 
 module.exports = async function handleError(err, ctx) {
@@ -7,6 +8,8 @@ module.exports = async function handleError(err, ctx) {
   const chatId = ctx.callbackQuery?.message?.chat?.id || ctx.message?.chat?.id
   const value = ctx.callbackQuery?.data || ctx.message?.text
 
+  console.log({ err })
+
   username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
 
   await ctx.telegram.sendMessage(
@@ -15,4 +18,11 @@ module.exports = async function handleError(err, ctx) {
       err?.response?.data?.message ?? err
     }"`
   )
+
+  store.splitVariant = ''
+  store.teamsQuantity = 0
+  store.players = []
+  store.captains = []
+  store.nextList = 'players'
+  store.teamsData = {}
 }
