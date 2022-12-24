@@ -5,10 +5,7 @@ const { handleSkillSplit, handleRandomSplit } = require('./split-handlers')
 const handleError = require('./handle-error')
 
 module.exports = async function handleText(ctx) {
-  if (!store.splitVariant || !store.teamsQuantity) {
-    resetStore()
-    return
-  }
+  if (!store.splitVariant || !store.teamsQuantity) return
 
   store[store.list] = ctx.message.text.split('\n')
 
