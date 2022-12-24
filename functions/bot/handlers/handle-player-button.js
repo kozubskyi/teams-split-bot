@@ -4,7 +4,7 @@ const handleError = require('./handle-error')
 
 module.exports = async function handlePlayerButton(ctx) {
   const clickedPlayer = ctx.callbackQuery.data
-  if (clickedPlayer === '-') return
+  if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return
 
   try {
     if (!store.splitVariant) return await ctx.reply('Спочатку оберіть варіант розподілу', buttons.splitVariantButtons)
@@ -39,11 +39,13 @@ module.exports = async function handlePlayerButton(ctx) {
 
     let reply = ''
 
-    if (store.remainedPlayers.length) {
+    if (store.remainedPlayers.length > 1) {
       reply = `Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>`
 
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
     } else {
+      store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
+
       reply = `
 ✅ <b>Поділили</b>
 Варіант розподілу: ${getButtonText()}

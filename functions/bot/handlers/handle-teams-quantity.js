@@ -1,9 +1,12 @@
-const { store } = require('../store')
+const { store, resetStore } = require('../store')
 const { splitVariantButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
 module.exports = async function handleTeamsQuantity(ctx) {
-  if (!store.splitVariant) return await ctx.reply('Спочатку оберіть варіант розподілу', splitVariantButtons)
+  if (!store.splitVariant) {
+    resetStore()
+    return await ctx.reply('Спочатку оберіть варіант розподілу', splitVariantButtons)
+  }
 
   store.teamsQuantity = Number(ctx.callbackQuery.data[0])
 

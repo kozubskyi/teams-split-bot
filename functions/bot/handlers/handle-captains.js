@@ -1,10 +1,13 @@
-const { store } = require('../store')
+const { store, resetStore } = require('../store')
 const { buttons, getRandomFromArray, getLineups, getPlayerButtons } = require('../helpers')
 const handleError = require('./handle-error')
 
 module.exports = async function handleCaptains(ctx) {
   try {
-    if (!store.splitVariant) return await ctx.reply('Спочатку оберіть варіант розподілу', buttons.splitVariantButtons)
+    if (!store.splitVariant) {
+      resetStore()
+      return await ctx.reply('Спочатку оберіть варіант розподілу', buttons.splitVariantButtons)
+    }
     if (!store.teamsQuantity) return await ctx.reply('Спочатку вкажіть кількість команд', buttons.teamsQuantityButtons)
     if (!store.players.length) {
       let reply = `
@@ -17,6 +20,7 @@ module.exports = async function handleCaptains(ctx) {
 `
       return await ctx.replyWithHTML(reply)
     }
+    if (store.captains.length) return await ctx.reply('Капітанів уже обрано')
 
     store.captainsChoice = 'Рандомно'
 
