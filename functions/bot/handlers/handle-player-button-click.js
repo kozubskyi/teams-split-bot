@@ -32,8 +32,15 @@ module.exports = async function handlePlayerButtonClick(ctx) {
     let reply = ''
 
     if (store.remainedPlayers.length > 1) {
-      reply = `Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>`
+      const { first_name, last_name, username } = ctx.callbackQuery.from
 
+      reply = `
+Користувач ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${
+        ctx.callbackQuery.data
+      }
+
+Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>
+`
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
     } else {
       if (store.remainedPlayers.length === 1) store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
