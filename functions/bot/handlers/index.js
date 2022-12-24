@@ -3,6 +3,7 @@ module.exports = {
   handleSplitVariant: require('./handle-split-variant'),
   handleTeamsQuantity: require('./handle-teams-quantity'),
   handleText: require('./handle-text'),
-  handlePlayersList: require('./handle-players-list'),
+  handleCaptains: require('./handle-captains'),
+  handlePlayerButton: require('./handle-player-button'),
   handleError: require('./handle-error'),
 }

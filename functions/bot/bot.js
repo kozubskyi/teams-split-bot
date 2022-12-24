@@ -1,14 +1,15 @@
 require('dotenv').config()
-const { Telegraf, Markup } = require('telegraf')
-const store = require('./store')
+const { Telegraf } = require('telegraf')
 const handlers = require('./handlers')
-const helpers = require('./helpers')
+const { resetStore } = require('./store')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 function start() {
   // Start command handler
   bot.start(async (ctx) => await handlers.handleStartCommand(ctx))
+  // Stop command handler
+  bot.command('stop', (ctx) => resetStore())
 
   // SplitVariant button handlers
   bot.action('skill_split', async (ctx) => await handlers.handleSplitVariant(ctx))
@@ -23,10 +24,14 @@ function start() {
   // Text handler
   bot.on('text', async (ctx) => await handlers.handleText(ctx))
 
-  // bot.on('callback_query', async (ctx) => await handleButton(ctx))
+  // RandomCaptains button handler
+  bot.action('random_captains', async (ctx) => await handlers.handleCaptains(ctx))
+
+  // PlayerButtons handler
+  bot.on('callback_query', async (ctx) => await handlers.handlePlayerButton(ctx))
 
   // Sticker handler
-  bot.on('sticker', (ctx) => ctx.reply('👍'))
+  // bot.on('sticker', async (ctx) => await ctx.reply('👍'))
 
   console.log('✅ The bot is configured and must work correctly')
 }

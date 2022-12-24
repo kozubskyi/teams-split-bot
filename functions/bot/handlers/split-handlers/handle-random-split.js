@@ -1,4 +1,4 @@
-const store = require('../../store')
+const { store } = require('../../store')
 const getRandomFromArray = require('../../helpers/get-random-from-array')
 
 module.exports = function handleRandomSplit() {
@@ -18,13 +18,15 @@ module.exports = function handleRandomSplit() {
     possibleTeams = possibleTeams.filter((team) => team !== chosenTeam)
   }
 
+  store.remainedPlayers = [...store.players]
+
   for (let i = 0; i < playersQuantity; i++) {
-    const chosenPlayer = getRandomFromArray(store.players)
+    const chosenPlayer = getRandomFromArray(store.remainedPlayers)
     const chosenTeam = getRandomFromArray(teamSlots)
 
     store.teamsData[chosenTeam].push(chosenPlayer)
 
-    store.players.splice(store.players.indexOf(chosenPlayer), 1)
+    store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
     teamSlots.splice(teamSlots.indexOf(chosenTeam), 1)
   }
 }

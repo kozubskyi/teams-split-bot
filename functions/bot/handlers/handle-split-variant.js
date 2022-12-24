@@ -1,4 +1,4 @@
-const store = require('../store')
+const { store } = require('../store')
 const { teamsQuantityButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 

@@ -1,4 +1,4 @@
-const store = require('../store')
+const { store } = require('../store')
 const { splitVariantButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
@@ -27,4 +27,6 @@ ${reply}
   } catch (err) {
     await handleError(err, ctx)
   }
+
+  store.list = 'players'
 }

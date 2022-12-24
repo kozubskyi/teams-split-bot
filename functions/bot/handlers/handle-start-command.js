@@ -1,7 +1,10 @@
+const { resetStore } = require('../store')
 const { splitVariantButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
 module.exports = async function handleStartCommand(ctx) {
+  resetStore()
+
   const reply = `
 Я бот, що був створений для розподілу гравців на команди у командних видах спорту. Вкажіть як ви хочете, щоб відбувся розподіл:
 

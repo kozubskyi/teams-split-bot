@@ -1,9 +1,11 @@
-module.exports = function getButtonText(buttonValue) {
+const { store } = require('../store')
+
+module.exports = function getButtonText() {
   const buttons = {
     skill_split: 'За скілом',
     random_split: 'Рандомно',
     captains_split: 'Капітанами',
   }
 
-  return buttons[buttonValue]
+  return buttons[store.splitVariant]
 }

@@ -1,4 +1,4 @@
-const store = require('../store')
+const { resetStore } = require('../store')
 const { CREATOR_USERNAME, CREATOR_CHAT_ID } = require('../helpers/constants')
 
 module.exports = async function handleError(err, ctx) {
@@ -19,10 +19,5 @@ module.exports = async function handleError(err, ctx) {
     }"`
   )
 
-  store.splitVariant = ''
-  store.teamsQuantity = 0
-  store.players = []
-  store.captains = []
-  store.nextList = 'players'
-  store.teamsData = {}
+  resetStore()
 }

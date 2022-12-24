@@ -1,4 +1,4 @@
-const store = require('../../store')
+const { store } = require('../../store')
 const getRandomFromArray = require('../../helpers/get-random-from-array')
 
 module.exports = function handleSkillSplit() {

@@ -1,11 +1,11 @@
 const { Markup } = require('telegraf')
 
-module.exports = function getPlayerButtons(arr, buttonsInString = 3) {
+module.exports = function getPlayerButtons(arr, buttonsInString = 2) {
   const buttons = []
   let currentIndex = 0
 
   arr.forEach((player) => {
-    const playerButton = Markup.button.callback(player, 'player_button')
+    const playerButton = Markup.button.callback(player, player)
 
     buttons[currentIndex] = buttons[currentIndex] ?? []
 
@@ -18,7 +18,7 @@ module.exports = function getPlayerButtons(arr, buttonsInString = 3) {
   })
 
   for (let i = buttons[currentIndex].length; i < buttonsInString; i++) {
-    buttons[currentIndex].push(Markup.button.callback('➖', '➖'))
+    buttons[currentIndex].push(Markup.button.callback('-', '-'))
   }
 
   return Markup.inlineKeyboard(buttons)
