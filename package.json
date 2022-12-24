@@ -1,6 +1,6 @@
 {
   "name": "split-teams-bot",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "main": "functions/bot/bot.js",
   "scripts": {
