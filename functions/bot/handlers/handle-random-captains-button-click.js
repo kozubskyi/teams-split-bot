@@ -2,7 +2,7 @@ const { store, resetStore } = require('../store')
 const { buttons, getRandomFromArray, getLineups, getPlayerButtons } = require('../helpers')
 const handleError = require('./handle-error')
 
-module.exports = async function handleCaptains(ctx) {
+module.exports = async function handleRandomCaptainsButtonClick(ctx) {
   try {
     if (!store.splitVariant) {
       resetStore()

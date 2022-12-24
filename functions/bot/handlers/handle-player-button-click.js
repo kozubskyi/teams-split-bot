@@ -2,7 +2,7 @@ const { store, resetStore } = require('../store')
 const { buttons, getNextChoosingTeam, getButtonText, getLineups, getPlayerButtons } = require('../helpers')
 const handleError = require('./handle-error')
 
-module.exports = async function handlePlayerButton(ctx) {
+module.exports = async function handlePlayerButtonClick(ctx) {
   const clickedPlayer = ctx.callbackQuery.data
   if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return
 
@@ -19,14 +19,6 @@ module.exports = async function handlePlayerButton(ctx) {
 ...
 `
       return await ctx.replyWithHTML(reply)
-    }
-    if (!store.captains.length) {
-      const reply = `
-Відправте список з ${store.teamsQuantity}-х капітанів, або натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців.
-`
-      await ctx.reply(reply, buttons.randomCaptainsButton)
-
-      store.list = 'captains'
     }
 
     store.currentTeam = store.currentTeam === store.teamsQuantity ? 1 : store.currentTeam + 1

@@ -3,9 +3,22 @@ const getRandomFromArray = require('../../helpers/get-random-from-array')
 
 module.exports = function handleRandomSplit() {
   const playersQuantity = store.players.length
+  store.remainedPlayers = [...store.players]
   const teams = Object.keys(store.teamsData)
 
   let possibleTeams = []
+
+  // for (let i = 0; i < store.players.length; i++) {
+  //   if (!possibleTeams.length) possibleTeams = [...teams]
+
+  //   const chosenPlayer = getRandomFromArray(store.remainedPlayers)
+
+  //   store.teamsData[possibleTeams[0]].push(chosenPlayer)
+
+  //   store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
+  //   possibleTeams.shift()
+  // }
+
   let teamSlots = []
 
   for (let i = 0; i < playersQuantity; i++) {
@@ -17,8 +30,6 @@ module.exports = function handleRandomSplit() {
 
     possibleTeams = possibleTeams.filter((team) => team !== chosenTeam)
   }
-
-  store.remainedPlayers = [...store.players]
 
   for (let i = 0; i < playersQuantity; i++) {
     const chosenPlayer = getRandomFromArray(store.remainedPlayers)

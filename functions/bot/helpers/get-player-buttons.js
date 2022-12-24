@@ -1,10 +1,10 @@
 const { Markup } = require('telegraf')
 
-module.exports = function getPlayerButtons(arr, buttonsInString = 2) {
+module.exports = function getPlayerButtons(players, buttonsInString = 2) {
   const buttons = []
   let currentIndex = 0
 
-  arr.forEach((player) => {
+  players.forEach((player) => {
     const playerButton = Markup.button.callback(player, player)
 
     buttons[currentIndex] = buttons[currentIndex] ?? []

@@ -2,7 +2,7 @@ const { store } = require('../store')
 const { teamsQuantityButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
-module.exports = async function handleSplitVariant(ctx) {
+module.exports = async function handleSplitVariantButtonClick(ctx) {
   store.splitVariant = ctx.callbackQuery.data
 
   try {

@@ -1,9 +1,9 @@
 module.exports = {
   handleStartCommand: require('./handle-start-command'),
-  handleSplitVariant: require('./handle-split-variant'),
-  handleTeamsQuantity: require('./handle-teams-quantity'),
+  handleSplitVariantButtonClick: require('./handle-split-variant-button-click'),
+  handleTeamsQuantityButtonClick: require('./handle-teams-quantity-button-click'),
   handleText: require('./handle-text'),
-  handleCaptains: require('./handle-captains'),
-  handlePlayerButton: require('./handle-player-button'),
+  handleRandomCaptainsButtonClick: require('./handle-random-captains-button-click'),
+  handlePlayerButtonClick: require('./handle-player-button-click'),
   handleError: require('./handle-error'),
 }

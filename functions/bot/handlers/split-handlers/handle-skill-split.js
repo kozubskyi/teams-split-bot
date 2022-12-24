@@ -13,6 +13,7 @@ module.exports = function handleSkillSplit() {
 
     store.teamsData[chosenTeam].push(player)
 
-    possibleTeams.splice(possibleTeams.indexOf(chosenTeam), 1)
+    possibleTeams = possibleTeams.filter((team) => team !== chosenTeam)
+    // possibleTeams.splice(possibleTeams.indexOf(chosenTeam), 1)
   })
 }

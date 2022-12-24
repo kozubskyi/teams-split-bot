@@ -3,10 +3,10 @@ const { store } = require('../store')
 module.exports = function getLineups() {
   return `
 ${Object.keys(store.teamsData)
-  .map((teamName) => {
+  .map((team) => {
     return `
-<b>Команда ${teamName}:</b>
-${store.teamsData[teamName].join('\n')}
+<b>Команда ${team}:</b>
+${store.teamsData[team].join('\n')}
 `
   })
   .join('')}

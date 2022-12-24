@@ -2,13 +2,17 @@ const { store, resetStore } = require('../store')
 const { splitVariantButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
-module.exports = async function handleTeamsQuantity(ctx) {
+module.exports = async function handleTeamsQuantityButtonClick(ctx) {
   if (!store.splitVariant) {
     resetStore()
-    return await ctx.reply('Спочатку оберіть варіант розподілу', splitVariantButtons)
+    await ctx.reply('Спочатку оберіть варіант розподілу', splitVariantButtons)
+    return
   }
 
   store.teamsQuantity = Number(ctx.callbackQuery.data[0])
+  store.list = 'players'
+
+  for (let i = 1; i <= store.teamsQuantity; i++) store.teamsData[i] = []
 
   let reply = `
 Відправте список гравців у форматі:
@@ -30,6 +34,4 @@ ${reply}
   } catch (err) {
     await handleError(err, ctx)
   }
-
-  store.list = 'players'
 }

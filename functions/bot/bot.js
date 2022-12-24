@@ -12,23 +12,23 @@ function start() {
   bot.command('stop', (ctx) => resetStore())
 
   // SplitVariant button handlers
-  bot.action('skill_split', async (ctx) => await handlers.handleSplitVariant(ctx))
-  bot.action('random_split', async (ctx) => await handlers.handleSplitVariant(ctx))
-  bot.action('captains_split', async (ctx) => await handlers.handleSplitVariant(ctx))
+  bot.action('skill_split', async (ctx) => await handlers.handleSplitVariantButtonClick(ctx))
+  bot.action('random_split', async (ctx) => await handlers.handleSplitVariantButtonClick(ctx))
+  bot.action('captains_split', async (ctx) => await handlers.handleSplitVariantButtonClick(ctx))
 
   // TeamsQuantity button handlers
-  bot.action('2_teams', async (ctx) => await handlers.handleTeamsQuantity(ctx))
-  bot.action('3_teams', async (ctx) => await handlers.handleTeamsQuantity(ctx))
-  bot.action('4_teams', async (ctx) => await handlers.handleTeamsQuantity(ctx))
+  bot.action('2_teams', async (ctx) => await handlers.handleTeamsQuantityButtonClick(ctx))
+  bot.action('3_teams', async (ctx) => await handlers.handleTeamsQuantityButtonClick(ctx))
+  bot.action('4_teams', async (ctx) => await handlers.handleTeamsQuantityButtonClick(ctx))
 
   // Text handler
   bot.on('text', async (ctx) => await handlers.handleText(ctx))
 
   // RandomCaptains button handler
-  bot.action('random_captains', async (ctx) => await handlers.handleCaptains(ctx))
+  bot.action('random_captains', async (ctx) => await handlers.handleRandomCaptainsButtonClick(ctx))
 
   // PlayerButtons handler
-  bot.on('callback_query', async (ctx) => await handlers.handlePlayerButton(ctx))
+  bot.on('callback_query', async (ctx) => await handlers.handlePlayerButtonClick(ctx))
 
   // Sticker handler
   // bot.on('sticker', async (ctx) => await ctx.reply('👍'))
@@ -38,7 +38,7 @@ function start() {
 
 start()
 
-// bot.launch()
+bot.launch()
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
