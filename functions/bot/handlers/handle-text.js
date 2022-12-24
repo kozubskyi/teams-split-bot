@@ -1,7 +1,7 @@
 const { store, resetStore } = require('../store')
 const helpers = require('../helpers')
 const { buttons } = require('../helpers')
-const { handleSkillSplit, handleRandomSplit } = require('./split-handlers')
+const splitHandlers = require('./split-handlers')
 const handleError = require('./handle-error')
 
 module.exports = async function handleText(ctx) {
@@ -31,17 +31,7 @@ module.exports = async function handleText(ctx) {
         }
       }
 
-      store.remainedPlayers = store.players.filter((player) => !store.captains.includes(player))
-
-      let teams = Object.keys(store.teamsData)
-
-      store.captains.forEach((player) => {
-        const chosenTeam = helpers.getRandomFromArray(teams)
-
-        store.teamsData[chosenTeam].push(`${player} (C)`)
-
-        teams = teams.filter((team) => team !== chosenTeam)
-      })
+      splitHandlers.handleCaptainsSplit()
 
       const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
 
@@ -60,15 +50,21 @@ module.exports = async function handleText(ctx) {
 
       for (let i = 1; i <= store.teamsQuantity; i++) store.teamsData[i] = []
 
-      if (store.splitVariant === 'captains_split') {
+      if (store.splitVariant === 'captains_split' && store.players.length !== store.teamsQuantity) {
         const reply = `Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${store.teamsQuantity}-х капітанів.`
 
         await ctx.reply(reply, helpers.buttons.randomCaptainsButton)
 
         store.list = 'captains'
       } else {
-        if (store.splitVariant === 'skill_split') handleSkillSplit()
-        if (store.splitVariant === 'random_split') handleRandomSplit()
+        if (store.splitVariant === 'skill_split') splitHandlers.handleSkillSplit()
+        if (store.splitVariant === 'random_split') splitHandlers.handleRandomSplit()
+        if (store.splitVariant === 'captains_split' && store.players.length === store.teamsQuantity) {
+          splitHandlers.handlePlayersAndTeamsSameQuantity()
+        }
+        if (store.splitVariant === 'captains_split' && store.players.length === store.teamsQuantity + 1) {
+          splitHandlers.handlePlayersAndTeamsSameQuantity()
+        }
 
         const reply = `
 ✅ <b>Поділив</b>

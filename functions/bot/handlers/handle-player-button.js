@@ -44,7 +44,7 @@ module.exports = async function handlePlayerButton(ctx) {
 
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
     } else {
-      store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
+      if (store.remainedPlayers.length === 1) store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
 
       reply = `
 ✅ <b>Поділили</b>
