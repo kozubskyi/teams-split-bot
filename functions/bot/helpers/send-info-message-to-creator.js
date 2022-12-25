@@ -10,8 +10,7 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
     (await ctx.telegram.sendMessage(
       CREATOR_CHAT_ID,
       `
-ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив свої команди:
-
+ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив(-ла) свої команди:
 ${reply}
 `
     ))
