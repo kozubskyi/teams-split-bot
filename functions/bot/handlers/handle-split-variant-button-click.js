@@ -9,6 +9,7 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 
     const reply = `
 ${replies.chooseTeamsQuantityReply}
+
 <i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав варіант розподілу: ${getButtonText()}</i>
 `;
 

@@ -16,16 +16,10 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
     let reply = replies.sendPlayersListReply;
 
     if (store.splitVariant === 'skill_split') {
-      reply = `
-${reply}
-${replies.youChoseSkillSplitReply}
-`;
+      reply = `${reply} ${replies.youChoseSkillSplitReply}`;
     }
 
-    reply = `
-${reply}
-<i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав кількість команд: ${store.teamsQuantity}</i>
-`
+    reply = `${reply} <i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав кількість команд: ${store.teamsQuantity}</i>`
 
     await ctx.replyWithHTML(reply);
   } catch (err) {
