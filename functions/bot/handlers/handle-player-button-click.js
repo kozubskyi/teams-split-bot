@@ -31,13 +31,13 @@ module.exports = async function handlePlayerButtonClick(ctx) {
     let reply = ''
 
     if (store.remainedPlayers.length > 1) {
-      const { first_name, last_name, username } = ctx.callbackQuery.from
+      const { first_name, last_name } = ctx.callbackQuery.from
 
       reply = `
-Користувач ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${clickedPlayer}
+<i>ℹ️ ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${clickedPlayer}</i>
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`
+`;
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
     } else {
       if (store.remainedPlayers.length === 1) store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])

@@ -8,9 +8,9 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
     store.splitVariant = ctx.callbackQuery.data;
 
     const reply = `
-${replies.chooseTeamsQuantityReply}
-
 <i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав варіант розподілу: ${getButtonText()}</i>
+
+${replies.chooseTeamsQuantityReply}
 `;
 
     await ctx.replyWithHTML(reply, buttons.teamsQuantityButtons);
