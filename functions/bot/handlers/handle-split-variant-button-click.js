@@ -1,12 +1,18 @@
 const { store } = require('../store')
-const { replies, buttons } = require('../helpers')
+const { replies, buttons, getButtonText } = require('../helpers')
 const handleError = require('./handle-error')
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
-  store.splitVariant = ctx.callbackQuery.data
-
   try {
-    await ctx.reply(replies.chooseTeamsQuantityReply, buttons.teamsQuantityButtons)
+    store.splitVariant = ctx.callbackQuery.data
+
+    const reply = `
+Варіант розподілу: ${getButtonText()}
+
+${replies.chooseTeamsQuantityReply}
+`
+
+    await ctx.reply(reply, buttons.teamsQuantityButtons)
   } catch (err) {
     await handleError(err, ctx)
   }

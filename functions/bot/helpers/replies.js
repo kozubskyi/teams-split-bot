@@ -1,5 +1,3 @@
-const { store } = require('../store')
-
 const replies = {
   startCommandReply: `
 Я бот, що був створений для розподілу гравців на команди у командних видах спорту. Для початку оберіть варіант розподілу:
@@ -22,7 +20,7 @@ const replies = {
 Прізвище
 ...
 `,
-  sendPlayersListSkillSplitReply: `
+  youChoseSkillSplitReply: `
 Відправте список гравців у форматі:
 
 Прізвище
