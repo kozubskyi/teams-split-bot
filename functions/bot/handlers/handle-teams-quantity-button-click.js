@@ -1,32 +1,21 @@
 const { store, resetStore } = require('../store')
-const { splitVariantButtons } = require('../helpers/buttons')
+const { replies, buttons } = require('../helpers')
 const handleError = require('./handle-error')
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
-  if (!store.splitVariant) {
-    resetStore()
-    await ctx.reply('Спочатку оберіть варіант розподілу', splitVariantButtons)
-    return
-  }
+  if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, buttons.splitVariantButtons)
 
   store.teamsQuantity = Number(ctx.callbackQuery.data[0])
   store.list = 'players'
 
   for (let i = 1; i <= store.teamsQuantity; i++) store.teamsData[i] = []
 
-  let reply = `
-Відправте список гравців у форматі:
+  let reply = ''
 
-Прізвище
-Прізвище
-Прізвище
-...
-`
   if (store.splitVariant === 'skill_split') {
-    reply = `
-${reply}
-<i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця (на вашу суб'єктивну думку).</i>
-`
+    reply = replies.sendPlayersListSkillSplitReply
+  } else {
+    reply = replies.sendPlayersListReply
   }
 
   try {

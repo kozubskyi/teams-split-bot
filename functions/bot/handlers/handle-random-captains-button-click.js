@@ -1,28 +1,14 @@
-const { store, resetStore } = require('../store')
-const { buttons, getRandomFromArray, getLineups, getPlayerButtons } = require('../helpers')
+const { store } = require('../store')
+const { replies, getRandomFromArray, getLineups, getPlayerButtons, sendFinalReply } = require('../helpers')
+const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons')
 const handleError = require('./handle-error')
 
 module.exports = async function handleRandomCaptainsButtonClick(ctx) {
   try {
-    if (!store.splitVariant) {
-      resetStore()
-      return await ctx.reply('Спочатку оберіть варіант розподілу', buttons.splitVariantButtons)
-    }
-    if (!store.teamsQuantity) return await ctx.reply('Спочатку вкажіть кількість команд', buttons.teamsQuantityButtons)
-    if (!store.players.length) {
-      let reply = `
-Відправте список гравців у форматі:
-
-Прізвище
-Прізвище
-Прізвище
-...
-`
-      return await ctx.replyWithHTML(reply)
-    }
-    if (store.captains.length) return await ctx.reply('Капітанів уже обрано')
-
-    store.captainsChoice = 'Рандомно'
+    if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons)
+    if (!store.teamsQuantity) return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons)
+    if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply)
+    if (store.captains.length) return await ctx.reply(replies.captainsAreSpecified)
 
     store.remainedPlayers = [...store.players]
     let teams = Object.keys(store.teamsData)
@@ -38,12 +24,19 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       teams = teams.filter((team) => team !== chosenTeam)
     }
 
-    const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
+    if (store.remainedPlayers.length === 1) {
+      store.teamsData['1'].push(store.remainedPlayers[0])
 
-    const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>`
+      await sendFinalReply(ctx)
+      return
+    }
+
+    const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
+    const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
 
     await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 
+    store.captainsChoice = 'Рандомно'
     store.list = ''
   } catch (err) {
     await handleError(err, ctx)

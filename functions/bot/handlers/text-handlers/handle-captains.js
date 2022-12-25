@@ -1,5 +1,5 @@
 const { store } = require('../../store')
-const helpers = require('../../helpers')
+const { getRandomFromArray, getLineups, replies, getPlayerButtons, sendFinalReply } = require('../../helpers')
 
 module.exports = async function handleCaptains(ctx) {
   if (store.captains.length !== store.teamsQuantity) {
@@ -9,7 +9,7 @@ module.exports = async function handleCaptains(ctx) {
     store.captains = []
     return
   }
-  for (let i = 0; i < store.captains.length; i++) {
+  for (let i = 0; i < store.teamsQuantity; i++) {
     if (!store.players.includes(store.captains[i])) {
       await ctx.reply(
         `Капітана "${store.captains[i]}" немає у списку гравців, спробуйте ще. Кожний наступний капітан повинен бути вказаний з нового рядка.`
@@ -23,8 +23,8 @@ module.exports = async function handleCaptains(ctx) {
   let teams = Object.keys(store.teamsData)
 
   for (let i = 0; i < store.teamsQuantity; i++) {
-    const chosenTeam = helpers.getRandomFromArray(teams)
-    const chosenPlayer = helpers.getRandomFromArray(store.captains)
+    const chosenTeam = getRandomFromArray(teams)
+    const chosenPlayer = getRandomFromArray(store.captains)
 
     store.teamsData[chosenTeam].push(`${chosenPlayer} (C)`)
 
@@ -32,10 +32,17 @@ module.exports = async function handleCaptains(ctx) {
     store.captains = store.captains.filter((captain) => captain !== chosenPlayer)
   }
 
-  const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
-  const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${helpers.getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>`
+  if (store.remainedPlayers.length === 1) {
+    store.teamsData['1'].push(store.remainedPlayers[0])
 
-  await ctx.replyWithHTML(reply, helpers.getPlayerButtons(store.remainedPlayers))
+    await sendFinalReply(ctx)
+    return
+  }
+
+  const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
+  const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
+
+  await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 
   store.captainsChoice = 'Вказано'
   store.list = ''

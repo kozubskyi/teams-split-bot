@@ -1,5 +1,5 @@
 const { store } = require('../../store')
-const getRandomFromArray = require('../../helpers/get-random-from-array')
+const { getRandomFromArray } = require('../../helpers')
 
 module.exports = function handleSkillSplit() {
   const teams = Object.keys(store.teamsData)
@@ -14,6 +14,5 @@ module.exports = function handleSkillSplit() {
     store.teamsData[chosenTeam].push(player)
 
     possibleTeams = possibleTeams.filter((team) => team !== chosenTeam)
-    // possibleTeams.splice(possibleTeams.indexOf(chosenTeam), 1)
   })
 }

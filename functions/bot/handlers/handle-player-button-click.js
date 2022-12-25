@@ -1,25 +1,24 @@
 const { store, resetStore } = require('../store')
-const { buttons, getNextChoosingTeam, getButtonText, getLineups, getPlayerButtons } = require('../helpers')
+const {
+  replies,
+  getNextChoosingTeam,
+  getButtonText,
+  getLineups,
+  getPlayerButtons,
+  sendInfoMessageToCreator,
+} = require('../helpers')
+const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons')
+
 const handleError = require('./handle-error')
 
 module.exports = async function handlePlayerButtonClick(ctx) {
-  const clickedPlayer = ctx.callbackQuery.data
-  if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return
-
   try {
-    if (!store.splitVariant) return await ctx.reply('Спочатку оберіть варіант розподілу', buttons.splitVariantButtons)
-    if (!store.teamsQuantity) return await ctx.reply('Спочатку вкажіть кількість команд', buttons.teamsQuantityButtons)
-    if (!store.players.length) {
-      let reply = `
-Відправте список гравців у форматі:
+    const clickedPlayer = ctx.callbackQuery.data
+    if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return
 
-Прізвище
-Прізвище
-Прізвище
-...
-`
-      return await ctx.replyWithHTML(reply)
-    }
+    if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons)
+    if (!store.teamsQuantity) return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons)
+    if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply)
 
     store.currentTeam = store.currentTeam === store.teamsQuantity ? 1 : store.currentTeam + 1
 
@@ -35,11 +34,9 @@ module.exports = async function handlePlayerButtonClick(ctx) {
       const { first_name, last_name, username } = ctx.callbackQuery.from
 
       reply = `
-Користувач ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${
-        ctx.callbackQuery.data
-      }
+Користувач ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${clickedPlayer}
 
-Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} <i>❗Інші користувачі чату не натискайте на кнопки гравців, тому що бот сприйме це як вибір капітана.</i>
+Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
     } else {
@@ -54,6 +51,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
       await ctx.replyWithHTML(reply)
 
+      await sendInfoMessageToCreator(ctx, reply)
       resetStore()
     }
   } catch (err) {

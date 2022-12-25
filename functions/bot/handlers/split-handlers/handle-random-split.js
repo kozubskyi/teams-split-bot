@@ -1,5 +1,5 @@
 const { store } = require('../../store')
-const getRandomFromArray = require('../../helpers/get-random-from-array')
+const { getRandomFromArray } = require('../../helpers')
 
 module.exports = function handleRandomSplit() {
   const playersQuantity = store.players.length

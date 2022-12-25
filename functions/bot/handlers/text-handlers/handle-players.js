@@ -5,7 +5,7 @@ const splitHandlers = require('../split-handlers')
 module.exports = async function handlePlayers(ctx) {
   if (store.players.length < store.teamsQuantity) {
     await ctx.reply(
-      `Вказано гравців: ${store.players.length}, а потрібно не меньше ${store.teamsQuantity}-х, спробуйте ще. Кожний наступний гравець повинен бути вказаний з нового рядка.`
+      `Потрібно вказати не менше ${store.teamsQuantity}-х гравців, а вказано ${store.players.length}, спробуйте ще. Кожний наступний гравець повинен бути вказаний з нового рядка.`
     )
     store.players = []
     return
@@ -26,17 +26,7 @@ module.exports = async function handlePlayers(ctx) {
       store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
     }
 
-    // if (store.players.length === store.teamsQuantity + 1) store.teamsData['1'].push(store.remainedPlayers[0])
-
-    const reply = `
-✅ <b>Поділив</b>
-Варіант розподілу: ${helpers.getButtonText()}
-Кількість команд: ${store.teamsQuantity} ${helpers.getLineups()}
-`
-    await ctx.replyWithHTML(reply)
-
-    await helpers.sendInfoMessageToCreator(ctx, reply)
-    resetStore()
+    helpers.sendFinalReply(ctx)
     return
   }
 
@@ -49,17 +39,8 @@ module.exports = async function handlePlayers(ctx) {
     store.list = 'captains'
     return
   }
-
   if (store.splitVariant === 'skill_split') splitHandlers.handleSkillSplit()
   if (store.splitVariant === 'random_split') splitHandlers.handleRandomSplit()
 
-  const reply = `
-✅ <b>Поділив</b>
-Варіант розподілу: ${helpers.getButtonText()}
-Кількість команд: ${store.teamsQuantity} ${helpers.getLineups()}
-`
-  await ctx.replyWithHTML(reply)
-
-  await helpers.sendInfoMessageToCreator(ctx, reply)
-  resetStore()
+  helpers.sendFinalReply(ctx)
 }
