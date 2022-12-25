@@ -18,7 +18,7 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 ${replies.sendPlayersListReply}
 `
     if (store.splitVariant === 'skill_split') {
-      reply = `${reply} ${replies.youChoseSkillSplitReply}`;
+      reply = `${reply}${replies.youChoseSkillSplitReply}`;
     }
 
     await ctx.replyWithHTML(reply);
