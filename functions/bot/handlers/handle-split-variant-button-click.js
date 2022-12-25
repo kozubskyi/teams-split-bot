@@ -1,19 +1,19 @@
-const { store } = require('../store')
-const { replies, buttons, getButtonText } = require('../helpers')
-const handleError = require('./handle-error')
+const { store } = require('../store');
+const { replies, buttons, getButtonText } = require('../helpers');
+const handleError = require('./handle-error');
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
   try {
-    store.splitVariant = ctx.callbackQuery.data
+    const { first_name, last_name } = ctx.callbackQuery.from;
+    store.splitVariant = ctx.callbackQuery.data;
 
     const reply = `
-Варіант розподілу: ${getButtonText()}
-
 ${replies.chooseTeamsQuantityReply}
-`
+<i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав варіант розподілу: ${getButtonText()}</i>
+`;
 
-    await ctx.reply(reply, buttons.teamsQuantityButtons)
+    await ctx.replyWithHTML(reply, buttons.teamsQuantityButtons);
   } catch (err) {
-    await handleError(err, ctx)
+    await handleError(err, ctx);
   }
-}
+};
