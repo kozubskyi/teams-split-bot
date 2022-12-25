@@ -14,14 +14,12 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
     let reply = `
 Варіант розподілу: ${getButtonText()}
 Кількість команд: ${store.teamsQuantity}
-
 ${replies.sendPlayersListReply}
 `
 
     if (store.splitVariant === 'skill_split') {
       reply = `
 ${reply}
-
 ${replies.youChoseSkillSplitReply}
 `
     }
