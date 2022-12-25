@@ -43,7 +43,8 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
     const firstPickCaptain = store.teamsData['1'][0].slice(0, -4);
     const reply = `
 <i>ℹ️ ${first_name} ${last_name ? last_name : null} вирішив обрати капітанів рандомно</i>
-Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
+
+Першим гравця обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;
 
     await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));

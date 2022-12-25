@@ -15,7 +15,6 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 
     let reply = `
 <i>ℹ️ ${first_name} ${last_name ? last_name : null} обрав кількість команд: ${store.teamsQuantity}</i>
-    
 ${replies.sendPlayersListReply}
 `
     if (store.splitVariant === 'skill_split') {
