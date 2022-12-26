@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kozubskyi/split-teams-bot.git"
+    "url": "git+https://github.com/kozubskyi/teams-split-bot.git"
   },
   "keywords": [],
   "author": "Denys Kozubskyi <denys.kozubskyi@gmail.com>",
