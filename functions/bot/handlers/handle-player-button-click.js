@@ -1,13 +1,13 @@
 const { store, resetStore } = require('../store');
 const {
   replies,
+  getNextChoosingTeam,
   getButtonText,
   getLineups,
   getPlayerButtons,
   sendInfoMessageToCreator,
 } = require('../helpers');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
-const { getNextChoosingTeam } = require('../helpers/get-choosing-team');
 const handleError = require('./handle-error');
 
 module.exports = async function handlePlayerButtonClick(ctx) {

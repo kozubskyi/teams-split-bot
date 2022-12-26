@@ -25,7 +25,7 @@ module.exports = function getPlayerButtons(players, buttonsInString = 2) {
   if (store.lastChosenPlayer) {
     currentIndex++;
     buttons[currentIndex] = [
-      Markup.button.callback('Відмінити останній вибір', 'cancel_last_chosen_player'),
+      Markup.button.callback('🔙 Відмінити останній вибір', 'cancel_last_chosen_player'),
     ];
   }
 

@@ -3,7 +3,7 @@ module.exports = {
   constants: require('./constants'),
   getButtonText: require('./get-button-text'),
   getLineups: require('./get-lineups'),
-  getChoosingTeam: require('./get-choosing-team'),
+  getNextChoosingTeam: require('./get-next-choosing-team'),
   getPlayerButtons: require('./get-player-buttons'),
   getRandomFromArray: require('./get-random-from-array'),
   replies: require('./replies'),
