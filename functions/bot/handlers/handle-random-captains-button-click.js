@@ -8,7 +8,7 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
     if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons)
     if (!store.teamsQuantity) return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons)
     if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply)
-    if (store.captains.length) return await ctx.reply(replies.captainsAreSpecified)
+    if (store.captains.length) return
 
     store.remainedPlayers = [...store.players]
     let teams = Object.keys(store.teamsData)
