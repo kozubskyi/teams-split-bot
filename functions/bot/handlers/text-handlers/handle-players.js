@@ -23,7 +23,7 @@ module.exports = async function handlePlayers(ctx) {
       store.teamsData[chosenTeam].push(player)
 
       teams = teams.filter((team) => team !== chosenTeam)
-      store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
+      store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
     }
 
     helpers.sendFinalReply(ctx)

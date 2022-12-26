@@ -31,29 +31,29 @@ module.exports = async function handlePlayerButtonClick(ctx) {
     let reply = ''
 
     if (store.remainedPlayers.length > 1) {
-      const { first_name, last_name } = ctx.callbackQuery.from
+      const { first_name, last_name, username } = ctx.callbackQuery.from
 
       reply = `
-<i>ℹ️ ${first_name} ${last_name ? last_name : null} для команди ${store.currentTeam} обрав гравця: ${clickedPlayer}</i>
+<i>ℹ️ ${first_name} ${last_name ? last_name : username} для команди ${store.currentTeam} обрав гравця: ${clickedPlayer}</i>
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`;
+`
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
-    } else {
-      if (store.remainedPlayers.length === 1) store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
+      return
+    }
+    if (store.remainedPlayers.length === 1) store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0])
 
-      reply = `
+    reply = `
 ✅ <b>Поділили</b>
 Варіант розподілу: ${getButtonText()}
 Кількість команд: ${store.teamsQuantity}
 Капітанів обрано: ${store.captainsChoice} ${getLineups()}
 `
 
-      await ctx.replyWithHTML(reply)
+    await ctx.replyWithHTML(reply)
 
-      await sendInfoMessageToCreator(ctx, reply)
-      resetStore()
-    }
+    await sendInfoMessageToCreator(ctx, reply)
+    resetStore()
   } catch (err) {
     await handleError(err, ctx)
   }
