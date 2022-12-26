@@ -28,7 +28,7 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       store.captains.push(chosenPlayer);
       store.teamsData[chosenTeam].push(`${chosenPlayer} (C)`);
 
-      store.remainedPlayers = store.remainedPlayers.filter(player => player !== chosenPlayer);
+      store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
       teams = teams.filter(team => team !== chosenTeam);
     }
 

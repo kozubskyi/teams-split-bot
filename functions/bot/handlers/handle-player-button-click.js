@@ -24,7 +24,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
     store.teamsData[store.currentTeam].push(clickedPlayer)
 
-    store.remainedPlayers = store.remainedPlayers.filter((player) => player !== clickedPlayer)
+    store.remainedPlayers.splice(store.remainedPlayers.indexOf(clickedPlayer), 1)
 
     const currentPickCaptain = store.teamsData[getNextChoosingTeam()][0].slice(0, -4)
 

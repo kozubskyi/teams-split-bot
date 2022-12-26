@@ -37,7 +37,7 @@ module.exports = function handleRandomSplit() {
 
     store.teamsData[chosenTeam].push(chosenPlayer)
 
-    store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
+    store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
     teamSlots.splice(teamSlots.indexOf(chosenTeam), 1)
   }
 }
