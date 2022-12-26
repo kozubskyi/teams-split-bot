@@ -3,6 +3,7 @@ const { getRandomFromArray, getLineups, replies, getPlayerButtons, sendFinalRepl
 
 module.exports = async function handleCaptains(ctx) {
   if (!store.players.length) return
+
   if (store.captains.length !== store.teamsQuantity) {
     await ctx.reply(
       `Потрібно вказати ${store.teamsQuantity}-х капітанів, а вказано ${store.captains.length}, спробуйте ще. Кожний наступний капітан повинен бути вказаний з нового рядка.`

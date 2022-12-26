@@ -9,7 +9,10 @@ module.exports = async function handleText(ctx) {
   try {
     if (!store.splitVariant || !store.teamsQuantity) return
 
-    store[store.list] = ctx.message.text.split('\n')
+    store[store.list] = ctx.message.text.split('\n').map((playerString) => {
+      const playerArray = playerString.split('.')
+      return playerArray.length === 1 ? playerArray[0].trim() : playerArray[1].trim()
+    })
 
     if (store.list === 'captains') {
       await textHandlers.handleCaptains(ctx)
