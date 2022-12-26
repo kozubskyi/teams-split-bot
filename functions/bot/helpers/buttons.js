@@ -13,6 +13,7 @@ module.exports = {
     ],
   ]),
   randomCaptainsButton: Markup.inlineKeyboard([
-    [Markup.button.callback('©️ Обрати капітанів рандомно', 'random_captains')],
+    [Markup.button.callback('Обрати капітанів рандомно', 'random_captains')],
   ]),
+
 }
