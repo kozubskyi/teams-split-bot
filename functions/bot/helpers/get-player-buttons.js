@@ -22,10 +22,12 @@ module.exports = function getPlayerButtons(players, buttonsInString = 2) {
     buttons[currentIndex].push(Markup.button.callback('-', '-'));
   }
 
-  if (store.lastChosenPlayer)
-    buttons[currentIndex + 1].push(
-      Markup.button.callback('Відмінити останній вибір', 'cancel_last_chosen_player')
-    );
+  if (store.lastChosenPlayer) {
+    currentIndex++;
+    buttons[currentIndex] = [
+      Markup.button.callback('Відмінити останній вибір', 'cancel_last_chosen_player'),
+    ];
+  }
 
   return Markup.inlineKeyboard(buttons);
 };
