@@ -9,6 +9,7 @@ let store = {
   captainsChoice: '',
   teamsData: {},
   currentTeam: 0,
+  lastChosenPlayer: '',
 };
 
 const resetStore = () => {
@@ -22,6 +23,7 @@ const resetStore = () => {
   store.captainsChoice = '';
   store.teamsData = {};
   store.currentTeam = 0;
+  store.lastChosenPlayer = '';
 };
 
 module.exports = {
