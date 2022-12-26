@@ -12,14 +12,16 @@ const handleError = require('./handle-error');
 
 module.exports = async function handlePlayerButtonClick(ctx) {
   try {
+    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) return
+
     const clickedPlayer = ctx.callbackQuery.data;
     if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return;
 
-    if (!store.splitVariant)
-      return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
-    if (!store.teamsQuantity)
-      return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
-    if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
+    // if (!store.splitVariant)
+    //   return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
+    // if (!store.teamsQuantity)
+    //   return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
+    // if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
 
     store.currentTeam = store.currentTeam === store.teamsQuantity ? 1 : store.currentTeam + 1;
     store.lastChosenPlayer = clickedPlayer;

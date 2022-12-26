@@ -5,12 +5,19 @@ const handleError = require('./handle-error');
 
 module.exports = async function handleLastChosenPlayerCancellation(ctx) {
   try {
-    if (!store.splitVariant)
-      return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
-    if (!store.teamsQuantity)
-      return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
-    if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
-    if (!store.lastChosenPlayer) return;
+    if (
+      !store.splitVariant ||
+      !store.teamsQuantity ||
+      !store.players.length ||
+      !store.lastChosenPlayer
+    )
+      return;
+    // if (!store.splitVariant)
+    //   return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
+    // if (!store.teamsQuantity)
+    //   return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
+    // if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
+    // if (!store.lastChosenPlayer) return;
 
     for (let team = 1; team <= store.teamsQuantity; team++) {
       if (!store.teamsData[team].includes(store.lastChosenPlayer)) continue;

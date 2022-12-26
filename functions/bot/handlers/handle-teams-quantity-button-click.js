@@ -4,7 +4,8 @@ const handleError = require('./handle-error')
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
   try {
-    if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, buttons.splitVariantButtons)
+    if (!store.splitVariant) return
+    // if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, buttons.splitVariantButtons)
 
     const { first_name, last_name, username } = ctx.callbackQuery.from
     store.teamsQuantity = Number(ctx.callbackQuery.data[0])
