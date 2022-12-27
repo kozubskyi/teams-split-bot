@@ -10,6 +10,8 @@ module.exports = async function handleText(ctx) {
     if (!store.splitVariant || !store.teamsQuantity) return
 
     store[store.list] = ctx.message.text.split('\n').map((playerString) => {
+      if (Number.isNaN(parseInt(playerString))) return playerString
+
       const playerArray = playerString.split('.')
       return playerArray.length === 1 ? playerArray[0].trim() : playerArray[1].trim()
     })
