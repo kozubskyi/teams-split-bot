@@ -21,7 +21,10 @@ module.exports = async function handleCaptains(ctx) {
     }
   }
 
-  store.remainedPlayers = store.players.filter((player) => !store.captains.includes(player))
+  store.remainedPlayers = [...store.players]
+  store.captains.forEach(captain => {
+    store.remainedPlayers.splice(store.remainedPlayers.indexOf(captain), 1)
+  })
   store.remainedCaptains = [...store.captains]
   let teams = Object.keys(store.teamsData)
 

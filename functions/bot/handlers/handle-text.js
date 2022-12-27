@@ -12,10 +12,6 @@ module.exports = async function handleText(ctx) {
     const splitSymbols = ['.', ')', '-'];
 
     store[store.list] = ctx.message.text.split('\n').map(playerString => {
-      playerString = playerString.replace('-/+', '');
-      playerString = playerString.replace('+/-', '');
-      playerString = playerString.replace('+', '');
-
       for (let i = 0; i < playerString.length; i++) {
         if (splitSymbols.includes(playerString[i]) && !Number.isNaN(Number(playerString[i - 1]))) {
           playerString = playerString.replace(playerString[i], '~');
