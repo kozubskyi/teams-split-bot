@@ -19,7 +19,10 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 Відправте список гравців де кожний наступний гравець вказаний з нового рядка
 `
     if (store.splitVariant === 'skill_split') {
-      reply = `${reply}${replies.youChoseSkillSplitReply}`
+      reply = `
+${reply}
+${replies.youChoseSkillSplitReply}
+`
     }
 
     await ctx.replyWithHTML(reply)

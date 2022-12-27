@@ -19,21 +19,21 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       const chosenTeam = getRandomFromArray(teams)
 
       store.captains.push(chosenPlayer)
-      store.teamsData[chosenTeam].push(`${chosenPlayer} (C)`)
+      store.teamsData[chosenTeam].push(`1. ${chosenPlayer} (C)`)
 
       store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
       teams = teams.filter((team) => team !== chosenTeam)
     }
 
     if (store.remainedPlayers.length === 1) {
-      store.teamsData['1'].push(store.remainedPlayers[0])
+      store.teamsData['1'].push(`2. ${store.remainedPlayers[0]}`)
 
       await sendFinalReply(ctx)
       return
     }
 
     const { first_name, last_name, username } = ctx.callbackQuery.from
-    const firstPickCaptain = store.teamsData['1'][0].slice(0, -4)
+    const firstPickCaptain = store.teamsData['1'][0].slice(3, -4)
     const reply = `
 <i>ℹ️ ${first_name} ${last_name ? last_name : username} вирішив обрати капітанів рандомно</i>
 

@@ -1,12 +1,12 @@
-const { store } = require('../../store')
-const { getRandomFromArray } = require('../../helpers')
+const { store } = require('../../store');
+const { getRandomFromArray } = require('../../helpers');
 
 module.exports = function handleRandomSplit() {
-  const playersQuantity = store.players.length
-  store.remainedPlayers = [...store.players]
-  const teams = Object.keys(store.teamsData)
+  const playersQuantity = store.players.length;
+  store.remainedPlayers = [...store.players];
+  const teams = Object.keys(store.teamsData);
 
-  let possibleTeams = []
+  let possibleTeams = [];
 
   // for (let i = 0; i < store.players.length; i++) {
   //   if (!possibleTeams.length) possibleTeams = [...teams]
@@ -19,25 +19,26 @@ module.exports = function handleRandomSplit() {
   //   possibleTeams.shift()
   // }
 
-  let teamSlots = []
+  let teamSlots = [];
 
   for (let i = 0; i < playersQuantity; i++) {
-    if (!possibleTeams.length) possibleTeams = [...teams]
+    if (!possibleTeams.length) possibleTeams = [...teams];
 
-    const chosenTeam = getRandomFromArray(possibleTeams)
+    const chosenTeam = getRandomFromArray(possibleTeams);
 
-    teamSlots.push(chosenTeam)
+    teamSlots.push(chosenTeam);
 
-    possibleTeams = possibleTeams.filter((team) => team !== chosenTeam)
+    possibleTeams = possibleTeams.filter(team => team !== chosenTeam);
   }
 
   for (let i = 0; i < playersQuantity; i++) {
-    const chosenPlayer = getRandomFromArray(store.remainedPlayers)
-    const chosenTeam = getRandomFromArray(teamSlots)
+    const chosenPlayer = getRandomFromArray(store.remainedPlayers);
+    const chosenTeam = getRandomFromArray(teamSlots);
 
-    store.teamsData[chosenTeam].push(chosenPlayer)
+    const count = store.teamsData[chosenTeam].length + 1;
+    store.teamsData[chosenTeam].push(`${count}. ${chosenPlayer}`);
 
-    store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
-    teamSlots.splice(teamSlots.indexOf(chosenTeam), 1)
+    store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1);
+    teamSlots.splice(teamSlots.indexOf(chosenTeam), 1);
   }
-}
+};

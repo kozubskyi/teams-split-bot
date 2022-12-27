@@ -22,21 +22,21 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
     for (let team = 1; team <= store.teamsQuantity; team++) {
       if (!store.teamsData[team].includes(store.lastChosenPlayer)) continue;
 
-      store.teamsData[team] = store.teamsData[team].filter(
-        player => player !== store.lastChosenPlayer
-      );
+      store.teamsData[team].splice(store.teamsData[team].indexOf(store.lastChosenPlayer), 1);
     }
 
-    store.remainedPlayers.push(store.lastChosenPlayer);
+    const slicedLastChosenPlayer = store.lastChosenPlayer.slice(3).trim();
 
-    const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(0, -4);
+    store.remainedPlayers.push(slicedLastChosenPlayer);
+
+    const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
 
     const { first_name, last_name, username } = ctx.callbackQuery.from;
 
     const reply = `
 <i>ℹ️ ${first_name} ${last_name ? last_name : username} відмінив вибір для команди ${
       store.currentTeam
-    } гравця: ${store.lastChosenPlayer}</i>
+    } гравця: ${slicedLastChosenPlayer}</i>
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;

@@ -12,7 +12,7 @@ const handleError = require('./handle-error');
 
 module.exports = async function handlePlayerButtonClick(ctx) {
   try {
-    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) return
+    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) return;
 
     const clickedPlayer = ctx.callbackQuery.data;
     if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return;
@@ -24,13 +24,15 @@ module.exports = async function handlePlayerButtonClick(ctx) {
     // if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
 
     store.currentTeam = store.currentTeam === store.teamsQuantity ? 1 : store.currentTeam + 1;
-    store.lastChosenPlayer = clickedPlayer;
+    const count = store.teamsData[store.currentTeam].length + 1;
+    const preparedPlayer = `${count}. ${clickedPlayer}`;
+    store.lastChosenPlayer = preparedPlayer;
 
-    store.teamsData[store.currentTeam].push(clickedPlayer);
+    store.teamsData[store.currentTeam].push(preparedPlayer);
 
     store.remainedPlayers.splice(store.remainedPlayers.indexOf(clickedPlayer), 1);
 
-    const currentPickCaptain = store.teamsData[getNextChoosingTeam()][0].slice(0, -4);
+    const currentPickCaptain = store.teamsData[getNextChoosingTeam()][0].slice(3, -4);
 
     let reply = '';
 
@@ -47,8 +49,11 @@ module.exports = async function handlePlayerButtonClick(ctx) {
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
       return;
     }
-    if (store.remainedPlayers.length === 1)
-      store.teamsData[getNextChoosingTeam()].push(store.remainedPlayers[0]);
+    if (store.remainedPlayers.length === 1) {
+      const nextChoosingTeam = getNextChoosingTeam();
+      const count = store.teamsData[nextChoosingTeam].length + 1;
+      store.teamsData[nextChoosingTeam].push(`${count}. ${store.remainedPlayers[0]}`);
+    }
 
     reply = `
 ✅ <b>Поділили</b>
