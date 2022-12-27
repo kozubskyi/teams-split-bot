@@ -15,7 +15,8 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 
     let reply = `
 <i>ℹ️ ${first_name} ${last_name ? last_name : username} обрав кількість команд: ${store.teamsQuantity}</i>
-${replies.sendPlayersListReply}
+
+Відправте список гравців де кожний наступний гравець вказаний з нового рядка
 `
     if (store.splitVariant === 'skill_split') {
       reply = `${reply}${replies.youChoseSkillSplitReply}`
