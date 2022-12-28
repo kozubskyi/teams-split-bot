@@ -5,7 +5,8 @@ module.exports = {
   handleText: require('./handle-text'),
   handleRandomCaptainsButtonClick: require('./handle-random-captains-button-click'),
   handleLastChosenPlayerCancellation: require('./handle-last-chosen-player-cancellation'),
+  handleChangeSequenseButtonClick: require('./handle-change-sequense-button-click'),
   handleChangeCaptainsButtonClick: require('./handle-change-captains-button-click'),
   handlePlayerButtonClick: require('./handle-player-button-click'),
   handleError: require('./handle-error'),
-}
+};

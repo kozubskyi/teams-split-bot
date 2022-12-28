@@ -6,6 +6,7 @@ const {
   getPlayerButtons,
   sendFinalReply,
 } = require('../helpers');
+const { getNextChoosingTeam } = require('../helpers/get-choosing-team');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
 const handleError = require('./handle-error');
 
@@ -37,21 +38,24 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       teams = teams.filter(team => team !== chosenTeam);
     }
 
+    store.currentTeam = getNextChoosingTeam();
+
     if (store.remainedPlayers.length === 1) {
-      store.teamsData['1'].push(`2. ${store.remainedPlayers[0]}`);
+      store.teamsData[store.currentTeam].push(`2. ${store.remainedPlayers[0]}`);
 
       await sendFinalReply(ctx);
       return;
     }
 
     const { first_name, last_name } = ctx.callbackQuery.from;
-    const firstPickCaptain = store.teamsData['1'][0].slice(3, -4);
+    const firstPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
     const reply = `
 <i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати капітанів рандомно</i>
 
 Першим гравця обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;
-    // await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+
+    await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
     await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
 
     store.captainsChoice = 'Рандомно';

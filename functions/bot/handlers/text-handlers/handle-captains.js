@@ -6,6 +6,7 @@ const {
   getPlayerButtons,
   sendFinalReply,
 } = require('../../helpers');
+const { getNextChoosingTeam } = require('../../helpers/get-choosing-team');
 
 module.exports = async function handleCaptains(ctx) {
   if (!store.players.length) return;
@@ -44,14 +45,16 @@ module.exports = async function handleCaptains(ctx) {
     store.remainedCaptains.splice(store.remainedCaptains.indexOf(chosenCaptain), 1);
   }
 
+  store.currentTeam = getNextChoosingTeam();
+
   if (store.remainedPlayers.length === 1) {
-    store.teamsData['1'].push(`2. ${store.remainedPlayers[0]}`);
+    store.teamsData[store.currentTeam].push(`2. ${store.remainedPlayers[0]}`);
 
     await sendFinalReply(ctx);
     return;
   }
 
-  const firstPickCaptain = store.teamsData['1'][0].slice(3, -4);
+  const firstPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
   const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${
     replies.dontTouchPlayerButtons
   }`;

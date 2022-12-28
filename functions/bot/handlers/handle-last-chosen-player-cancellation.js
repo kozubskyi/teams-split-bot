@@ -1,6 +1,7 @@
 const { store } = require('../store');
 const { replies, getLineups, getPlayerButtons } = require('../helpers');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
+const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team');
 const handleError = require('./handle-error');
 
 module.exports = async function handleLastChosenPlayerCancellation(ctx) {
@@ -9,6 +10,7 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
       !store.splitVariant ||
       !store.teamsQuantity ||
       !store.players.length ||
+      !store.captains.length ||
       !store.lastChosenPlayer
     )
       return;
@@ -29,19 +31,24 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 
     store.remainedPlayers.push(slicedLastChosenPlayer);
 
+    if (store.sequense === 'reverse') {
+      store.currentTeam = getNextChoosingTeam();
+    } else {
+      store.currentTeam = getPrevChoosingTeam();
+    }
+
     const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
 
     const { first_name, last_name } = ctx.callbackQuery.from;
 
     const reply = `
-<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для команди ${
+<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для "Команди ${
       store.currentTeam
-    } гравця: ${slicedLastChosenPlayer}</i>
+    }" гравця "${slicedLastChosenPlayer}"</i>
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;
     store.lastChosenPlayer = '';
-    store.currentTeam = store.currentTeam === 1 ? store.teamsQuantity : store.currentTeam - 1;
 
     await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
     await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
