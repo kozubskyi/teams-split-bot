@@ -18,7 +18,7 @@ module.exports = async function handlePlayers(ctx) {
     for (let i = 0; i < store.teamsQuantity; i++) {
       const chosenTeam = helpers.getRandomFromArray(teams)
       const chosenPlayer = helpers.getRandomFromArray(store.remainedPlayers)
-      const player = store.splitVariant === 'captains_split' ? `${chosenPlayer} (C)` : chosenPlayer
+      const player = store.splitVariant === 'captains_split' ? `1. ${chosenPlayer} (C)` : `1. ${chosenPlayer}`
 
       store.teamsData[chosenTeam].push(player)
 
