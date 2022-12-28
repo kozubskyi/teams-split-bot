@@ -25,19 +25,19 @@ module.exports = function getPlayerButtons(players, buttonsInString = 2) {
   if (store.lastChosenPlayer) {
     currentIndex++;
     buttons[currentIndex] = [
-      Markup.button.callback('❌ Відмінити останній вибір', 'cancel_last_chosen_player'), // ❌✖️🚫❎
+      Markup.button.callback('✖️ Відмінити останній вибір', 'cancel_last_chosen_player'), // ❌✖️🚫❎
     ];
   }
 
   if (store.remainedPlayers.length % store.teamsQuantity === 0) {
     currentIndex++;
     buttons[currentIndex] = [
-      Markup.button.callback('↩️ Змінити послідовність вибору', 'change_sequence'), // ↩️🔙
+      Markup.button.callback('🔙 Змінити послідовність вибору', 'change_sequence'), // ↩️🔙
     ];
   }
 
   currentIndex++;
-  buttons[currentIndex] = [Markup.button.callback('⭐️ Обрати інших капітанів', 'change_captains')]; // ©️⭐️
+  buttons[currentIndex] = [Markup.button.callback('©️ Обрати інших капітанів', 'change_captains')]; // ©️⭐️
 
   return Markup.inlineKeyboard(buttons);
 };

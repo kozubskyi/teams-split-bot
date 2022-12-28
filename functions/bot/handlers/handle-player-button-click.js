@@ -31,13 +31,11 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
     store.remainedPlayers.splice(store.remainedPlayers.indexOf(clickedPlayer), 1);
 
-    reply = `
-<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} для "Команди ${
-      store.currentTeam
-    }" обрав гравця "${clickedPlayer}"</i>
+    const { first_name, last_name } = ctx.callbackQuery.from;
 
-Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`;
+    let reply = `<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} для "Команди ${
+      store.currentTeam
+    }" обрав гравця "${clickedPlayer}"</i>`;
 
     if (store.sequense === 'reverse') {
       store.currentTeam = getPrevChoosingTeam();
@@ -47,10 +45,12 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
     const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
 
-    let reply = '';
-
     if (store.remainedPlayers.length > 1) {
-      const { first_name, last_name } = ctx.callbackQuery.from;
+      reply = `
+${reply}
+
+Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
+`;
 
       await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
