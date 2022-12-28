@@ -13,6 +13,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
     )
       return;
 
+    store.lastChosenPlayer = ''
     store.sequense = store.sequense === 'straight' ? 'reverse' : 'straight';
 
     if (store.sequense === 'reverse') {
