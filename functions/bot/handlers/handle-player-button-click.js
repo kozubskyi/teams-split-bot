@@ -37,10 +37,10 @@ module.exports = async function handlePlayerButtonClick(ctx) {
     let reply = '';
 
     if (store.remainedPlayers.length > 1) {
-      const { first_name, last_name, username } = ctx.callbackQuery.from;
+      const { first_name, last_name } = ctx.callbackQuery.from;
 
       reply = `
-<i>ℹ️ ${first_name} ${last_name ? last_name : username} для команди ${
+<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} для команди ${
         store.currentTeam
       } обрав гравця: ${clickedPlayer}</i>
 

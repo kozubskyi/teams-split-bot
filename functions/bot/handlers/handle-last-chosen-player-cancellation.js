@@ -31,10 +31,10 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 
     const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4);
 
-    const { first_name, last_name, username } = ctx.callbackQuery.from;
+    const { first_name, last_name } = ctx.callbackQuery.from;
 
     const reply = `
-<i>ℹ️ ${first_name} ${last_name ? last_name : username} відмінив вибір для команди ${
+<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для команди ${
       store.currentTeam
     } гравця: ${slicedLastChosenPlayer}</i>
 

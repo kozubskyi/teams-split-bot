@@ -14,12 +14,12 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
     store.currentTeam = 0;
     store.lastChosenPlayer = '';
 
-    const { first_name, last_name, username } = ctx.callbackQuery.from;
+    const { first_name, last_name } = ctx.callbackQuery.from;
 
     await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
     await ctx.replyWithHTML(
       `
-<i>ℹ️ ${first_name} ${last_name ? last_name : username} вирішив обрати інших капітанів</i>
+<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати інших капітанів</i>
 
 Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${
         store.teamsQuantity

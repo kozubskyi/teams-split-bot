@@ -4,12 +4,12 @@ const handleError = require('./handle-error');
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
   try {
-    const { first_name, last_name, username } = ctx.callbackQuery.from;
+    const { first_name, last_name } = ctx.callbackQuery.from;
     store.splitVariant = ctx.callbackQuery.data;
 
     const reply = `
-<i>ℹ️ ${first_name} ${
-      last_name ? last_name : username
+<i>ℹ️ ${first_name}${
+      last_name ? ` ${last_name}` : ''
     } обрав варіант розподілу: ${getButtonText()}</i>
 
 ${replies.chooseTeamsQuantityReply}
