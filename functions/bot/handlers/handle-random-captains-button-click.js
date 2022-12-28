@@ -49,7 +49,7 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
     const reply = `
 <i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати капітанів рандомно</i>
 
-Першим гравця обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
+Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;
 
     await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
