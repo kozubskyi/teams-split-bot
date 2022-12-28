@@ -43,6 +43,7 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
     store.lastChosenPlayer = '';
     store.currentTeam = store.currentTeam === 1 ? store.teamsQuantity : store.currentTeam - 1;
 
+    await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
     await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
   } catch (err) {
     await handleError(err, ctx);

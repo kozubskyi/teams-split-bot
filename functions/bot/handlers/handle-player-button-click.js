@@ -46,6 +46,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `;
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers));
       return;
     }
@@ -62,6 +63,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 Капітанів обрано: ${store.captainsChoice} ${getLineups()}
 `;
 
+    await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
     await ctx.replyWithHTML(reply);
 
     await sendInfoMessageToCreator(ctx, reply);
