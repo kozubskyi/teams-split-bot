@@ -11,7 +11,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
     store.remainedCaptains = [];
     store.captainsChoice = '';
     for (let i = 1; i <= store.teamsQuantity; i++) store.teamsData[i] = [];
-    store.currentTeam = 0;
+    store.currentTeam = 1;
     store.lastChosenPlayer = '';
 
     const { first_name, last_name } = ctx.callbackQuery.from;
