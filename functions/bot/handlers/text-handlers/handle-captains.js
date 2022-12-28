@@ -6,7 +6,6 @@ const {
   getPlayerButtons,
   sendFinalReply,
 } = require('../../helpers');
-const { getNextChoosingTeam } = require('../../helpers/get-choosing-team');
 
 module.exports = async function handleCaptains(ctx) {
   if (!store.players.length) return;
@@ -44,8 +43,6 @@ module.exports = async function handleCaptains(ctx) {
     teams = teams.filter(team => team !== chosenTeam);
     store.remainedCaptains.splice(store.remainedCaptains.indexOf(chosenCaptain), 1);
   }
-
-  store.currentTeam = getNextChoosingTeam();
 
   if (store.remainedPlayers.length === 1) {
     store.teamsData[store.currentTeam].push(`2. ${store.remainedPlayers[0]}`);

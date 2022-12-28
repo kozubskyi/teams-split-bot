@@ -6,7 +6,6 @@ const {
   getPlayerButtons,
   sendFinalReply,
 } = require('../helpers');
-const { getNextChoosingTeam } = require('../helpers/get-choosing-team');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
 const handleError = require('./handle-error');
 
@@ -37,8 +36,6 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1);
       teams = teams.filter(team => team !== chosenTeam);
     }
-
-    store.currentTeam = getNextChoosingTeam();
 
     if (store.remainedPlayers.length === 1) {
       store.teamsData[store.currentTeam].push(`2. ${store.remainedPlayers[0]}`);

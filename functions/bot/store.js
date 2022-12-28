@@ -11,7 +11,7 @@ let store = {
   captainsChoice: '',
   teamsData: {},
   sequense: 'straight',
-  currentTeam: 0,
+  currentTeam: 1,
   lastChosenPlayer: '',
 };
 
@@ -28,7 +28,7 @@ const resetStore = () => {
   store.captainsChoice = '';
   store.teamsData = {};
   store.sequense = 'straight';
-  store.currentTeam = 0;
+  store.currentTeam = 1;
   store.lastChosenPlayer = '';
 };
 
