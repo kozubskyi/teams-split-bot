@@ -56,7 +56,7 @@ function start() {
 
 start();
 
-bot.launch();
+// bot.launch();
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
