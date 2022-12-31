@@ -1,6 +1,7 @@
 module.exports = {
   buttons: require('./buttons'),
   constants: require('./constants'),
+  doesTeamsHaveSamePlayersQuantity: require('./does-teams-have-same-players-quantity'),
   getButtonText: require('./get-button-text'),
   getLineups: require('./get-lineups'),
   getChoosingTeam: require('./get-choosing-team'),

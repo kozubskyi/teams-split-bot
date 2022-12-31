@@ -1,5 +1,11 @@
 const { Markup } = require('telegraf');
 const { store } = require('../store');
+const {
+  cancelLastChosenPlayerButton,
+  changeSequenceButton,
+  changeCaptainsButton,
+} = require('./buttons');
+const doesTeamsHaveSamePlayersQuantity = require('./does-teams-have-same-players-quantity');
 
 module.exports = function getPlayerButtons(players, buttonsInString = 2) {
   const buttons = [];
@@ -24,20 +30,16 @@ module.exports = function getPlayerButtons(players, buttonsInString = 2) {
 
   if (store.lastChosenPlayer) {
     currentIndex++;
-    buttons[currentIndex] = [
-      Markup.button.callback('✖️ Відмінити останній вибір', 'cancel_last_chosen_player'), // ❌✖️🚫❎
-    ];
+    buttons[currentIndex] = cancelLastChosenPlayerButton;
   }
 
-  if (store.remainedPlayers.length % store.teamsQuantity === 0) {
+  if (doesTeamsHaveSamePlayersQuantity()) {
     currentIndex++;
-    buttons[currentIndex] = [
-      Markup.button.callback('🔙 Змінити послідовність вибору', 'change_sequence'), // ↩️🔙
-    ];
+    buttons[currentIndex] = changeSequenceButton;
   }
 
   currentIndex++;
-  buttons[currentIndex] = [Markup.button.callback('©️ Обрати інших капітанів', 'change_captains')]; // ©️⭐️
+  buttons[currentIndex] = changeCaptainsButton;
 
   return Markup.inlineKeyboard(buttons);
 };

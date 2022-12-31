@@ -1,5 +1,5 @@
 const { store } = require('../store');
-const { replies, buttons, getButtonText } = require('../helpers');
+const { buttons, getButtonText } = require('../helpers');
 const handleError = require('./handle-error');
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
@@ -11,7 +11,7 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
     const reply = `
 <i>ℹ️ ${store.splitVariantChooser} обрав варіант розподілу "${getButtonText()}"</i>
 
-${replies.chooseTeamsQuantityReply}
+Оберіть кількість команд
 `;
 
     await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);

@@ -1,11 +1,11 @@
-require('dotenv').config()
-const { text } = require('stream/consumers')
-const { Telegraf } = require('telegraf')
-const handlers = require('./handlers')
-const textHandlers = require('./handlers/text-handlers')
-const { resetStore } = require('./store')
+require('dotenv').config();
+const { text } = require('stream/consumers');
+const { Telegraf } = require('telegraf');
+const handlers = require('./handlers');
+const textHandlers = require('./handlers/text-handlers');
+const { resetStore } = require('./store');
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
 function start() {
   // Development handlers
@@ -54,21 +54,21 @@ function start() {
   console.log('✅ The bot is configured and must work correctly');
 }
 
-start()
+start();
 
-// bot.launch()
+bot.launch();
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
 // process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
-exports.handler = async (event) => {
+exports.handler = async event => {
   try {
-    await bot.handleUpdate(JSON.parse(event.body))
-    return { statusCode: 200, body: '' }
+    await bot.handleUpdate(JSON.parse(event.body));
+    return { statusCode: 200, body: '' };
   } catch (e) {
-    console.error('error in handler:', e)
-    return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' }
+    console.error('error in handler:', e);
+    return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' };
   }
-}
+};

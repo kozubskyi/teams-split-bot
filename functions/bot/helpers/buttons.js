@@ -1,9 +1,12 @@
-const { Markup } = require('telegraf')
+const { Markup } = require('telegraf');
 
 module.exports = {
   splitVariantButtons: Markup.inlineKeyboard([
-    [Markup.button.callback('💪 За скілом', 'skill_split'), Markup.button.callback('🎲 Рандомно', 'random_split')],
     [Markup.button.callback('👥 Капітанами', 'captains_split')],
+    [
+      Markup.button.callback('💪 За скілом', 'skill_split'),
+      Markup.button.callback('🎲 Рандомно', 'random_split'),
+    ],
   ]),
   teamsQuantityButtons: Markup.inlineKeyboard([
     [
@@ -15,5 +18,17 @@ module.exports = {
   randomCaptainsButton: Markup.inlineKeyboard([
     [Markup.button.callback('Обрати капітанів рандомно', 'random_captains')],
   ]),
-
-}
+  captainsChoosingButtons: Markup.inlineKeyboard([
+    [
+      Markup.button.callback('Рандомно', 'random_captains'),
+      Markup.button.callback('Вказати', 'specified_captains'),
+    ],
+  ]),
+  cancelLastChosenPlayerButton: [
+    Markup.button.callback('✖️ Відмінити останній вибір', 'cancel_last_chosen_player'),
+  ], // ❌✖️🚫❎
+  changeSequenceButton: [
+    Markup.button.callback('🔙 Змінити послідовність вибору', 'change_sequence'),
+  ], // ↩️🔙
+  changeCaptainsButton: [Markup.button.callback('©️ Обрати інших капітанів', 'change_captains')], // ©️⭐️
+};

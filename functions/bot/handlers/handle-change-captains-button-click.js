@@ -16,17 +16,16 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 
     const { first_name, last_name } = ctx.callbackQuery.from;
 
-    await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
-    await ctx.replyWithHTML(
-      `
+    const reply = `
 <i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати інших капітанів</i>
 
 Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${
-        store.teamsQuantity
-      }-х капітанів.
-`,
-      buttons.randomCaptainsButton
-    );
+      store.teamsQuantity
+    }-х капітанів.
+`;
+
+    await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+    await ctx.replyWithHTML(reply, buttons.randomCaptainsButton);
 
     store.list = 'captains';
   } catch (err) {
