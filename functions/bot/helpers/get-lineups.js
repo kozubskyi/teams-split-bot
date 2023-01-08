@@ -1,14 +1,14 @@
 const { store } = require('../store')
 
 module.exports = function getLineups() {
-  return `
+	return `
 ${Object.keys(store.teamsData)
-  .map((team) => {
-    return `
+	.map(team => {
+		return `
 <b>Команда ${team}:</b>
 ${store.teamsData[team].join('\n')}
 `
-  })
-  .join('')}
+	})
+	.join('')}
 `
 }

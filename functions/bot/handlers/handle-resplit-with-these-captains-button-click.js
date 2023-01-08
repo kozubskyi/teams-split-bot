@@ -5,44 +5,32 @@ const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-cho
 const handleStartCommand = require('./handle-start-command')
 const handleError = require('./handle-error')
 
-module.exports = async function handleLastChosenPlayerCancellation(ctx) {
+module.exports = async function handleResplitWithTheseCaptainsButtonClick(ctx) {
 	try {
-		if (
-			!store.splitVariant ||
-			!store.teamsQuantity ||
-			!store.players.length ||
-			!store.captains.length ||
-			!store.lastChosenPlayer
-		) {
+		if (!store.splitVariant || !store.teamsQuantity || !store.players.length || !store.captains.length) {
 			await ctx.reply(replies.noActivityForLongTime)
 			await handleStartCommand(ctx)
 			return
 		}
 
-		for (let team = 1; team <= store.teamsQuantity; team++) {
-			if (!store.teamsData[team].includes(store.lastChosenPlayer)) continue
+		store.remainedPlayers = [...store.players]
+		store.captains.forEach(captain => store.remainedPlayers.splice(store.remainedPlayers.indexOf(captain), 1))
+		for (let team = 1; team <= store.teamsQuantity; team++) store.teamsData[team].length = 1
+		store.currentTeam = 1
+		store.sequense = 'straight'
 
-			store.teamsData[team].splice(store.teamsData[team].indexOf(store.lastChosenPlayer), 1)
-		}
-
-		const slicedLastChosenPlayer = store.lastChosenPlayer.slice(3).trim()
-
-		store.remainedPlayers.push(slicedLastChosenPlayer)
-
-		if (store.sequense === 'reverse') {
-			store.currentTeam = getNextChoosingTeam()
-		} else {
-			store.currentTeam = getPrevChoosingTeam()
-		}
+		// if (store.sequense === 'reverse') {
+		//   store.currentTeam = getNextChoosingTeam();
+		// } else {
+		//   store.currentTeam = getPrevChoosingTeam();
+		// }
 
 		const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4)
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
 		const reply = `
-<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для "Команди ${
-			store.currentTeam
-		}" гравця "${slicedLastChosenPlayer}"</i>
+<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив переділитися цими ж капітанами</i>
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `

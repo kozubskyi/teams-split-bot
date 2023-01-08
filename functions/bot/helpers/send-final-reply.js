@@ -4,13 +4,13 @@ const getLineups = require('./get-lineups')
 const sendInfoMessageToCreator = require('./send-info-message-to-creator')
 
 module.exports = async function sendFinalReply(ctx) {
-  const reply = `
+	const reply = `
 ✅ <b>Поділив</b>
 Варіант розподілу: ${getButtonText()}
 Кількість команд: ${store.teamsQuantity} ${getLineups()}
 `
-  await ctx.replyWithHTML(reply)
+	await ctx.replyWithHTML(reply)
 
-  await sendInfoMessageToCreator(ctx, reply)
-  resetStore()
+	await sendInfoMessageToCreator(ctx, reply)
+	resetStore()
 }

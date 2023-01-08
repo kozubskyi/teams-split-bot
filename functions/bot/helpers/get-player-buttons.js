@@ -1,45 +1,46 @@
-const { Markup } = require('telegraf');
-const { store } = require('../store');
-const {
-  cancelLastChosenPlayerButton,
-  changeSequenceButton,
-  changeCaptainsButton,
-} = require('./buttons');
-const doesTeamsHaveSamePlayersQuantity = require('./does-teams-have-same-players-quantity');
+const { Markup } = require('telegraf')
+const { store } = require('../store')
+const { cancelLastChosenPlayerButton, changeSequenceButton, resplitButton, changeCaptainsButton } = require('./buttons')
+const doesTeamsHaveSamePlayersQuantity = require('./does-teams-have-same-players-quantity')
 
 module.exports = function getPlayerButtons(players, buttonsInString = 2) {
-  const buttons = [];
-  let currentIndex = 0;
+	const buttons = []
+	let currentIndex = 0
 
-  players.forEach(player => {
-    const playerButton = Markup.button.callback(player, player);
+	players.forEach(player => {
+		const playerButton = Markup.button.callback(player, player)
 
-    buttons[currentIndex] = buttons[currentIndex] ?? [];
+		buttons[currentIndex] = buttons[currentIndex] ?? []
 
-    if (buttons[currentIndex].length < buttonsInString) {
-      buttons[currentIndex].push(playerButton);
-    } else {
-      currentIndex++;
-      buttons[currentIndex] = [playerButton];
-    }
-  });
+		if (buttons[currentIndex].length < buttonsInString) {
+			buttons[currentIndex].push(playerButton)
+		} else {
+			currentIndex++
+			buttons[currentIndex] = [playerButton]
+		}
+	})
 
-  for (let i = buttons[currentIndex].length; i < buttonsInString; i++) {
-    buttons[currentIndex].push(Markup.button.callback('-', '-'));
-  }
+	for (let i = buttons[currentIndex].length; i < buttonsInString; i++) {
+		buttons[currentIndex].push(Markup.button.callback('-', '-'))
+	}
 
-  if (store.lastChosenPlayer) {
-    currentIndex++;
-    buttons[currentIndex] = cancelLastChosenPlayerButton;
-  }
+	if (store.lastChosenPlayer) {
+		currentIndex++
+		buttons[currentIndex] = cancelLastChosenPlayerButton
+	}
 
-  if (doesTeamsHaveSamePlayersQuantity()) {
-    currentIndex++;
-    buttons[currentIndex] = changeSequenceButton;
-  }
+	if (doesTeamsHaveSamePlayersQuantity()) {
+		currentIndex++
+		buttons[currentIndex] = changeSequenceButton
+	}
 
-  currentIndex++;
-  buttons[currentIndex] = changeCaptainsButton;
+	if (store.players.length !== store.remainedPlayers.length + store.teamsQuantity) {
+		currentIndex++
+		buttons[currentIndex] = resplitButton
+	}
 
-  return Markup.inlineKeyboard(buttons);
-};
+	currentIndex++
+	buttons[currentIndex] = changeCaptainsButton
+
+	return Markup.inlineKeyboard(buttons)
+}
