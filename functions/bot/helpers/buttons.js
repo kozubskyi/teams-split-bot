@@ -18,8 +18,8 @@ module.exports = {
 	captainsChoosingButtons: Markup.inlineKeyboard([
 		[Markup.button.callback('Рандомно', 'random_captains'), Markup.button.callback('Вказати', 'specified_captains')]
 	]),
-	cancelLastChosenPlayerButton: [Markup.button.callback('✖️ Відмінити останній вибір', 'cancel_last_chosen_player')], // ❌✖️🚫❎
-	changeSequenceButton: [Markup.button.callback('🔙 Змінити послідовність вибору', 'change_sequence')], // ↩️🔙
-	resplitButton: [Markup.button.callback('🔚 Переділитись цими капітанами', 'resplit_with_these_captains')], // ⏮⏪◀️⬅️
+	cancelLastChosenPlayerButton: [Markup.button.callback('❌ Відмінити останній вибір', 'cancel_last_chosen_player')], // ❌✖️🚫❎
+	changeSequenceButton: [Markup.button.callback('↩️ Змінити послідовність вибору', 'change_sequence')], // ↩️🔙
+	resplitButton: [Markup.button.callback('🔙 Переділитись цими капітанами', 'resplit_with_these_captains')], // ⏮⏪◀️⬅️🔚🔙
 	changeCaptainsButton: [Markup.button.callback('©️ Обрати інших капітанів', 'change_captains')] // ©️⭐️
 }
