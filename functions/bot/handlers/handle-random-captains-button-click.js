@@ -7,6 +7,7 @@ const {
   sendFinalReply,
 } = require('../helpers');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
+const handleStartCommand = require('./handle-start-command');
 const handleError = require('./handle-error');
 
 module.exports = async function handleRandomCaptainsButtonClick(ctx) {
@@ -17,8 +18,8 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
       !store.players.length ||
       store.captains.length
     ) {
-      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.reply(replies.noActivityForLongTime);
+      await handleStartCommand(ctx);
       return;
     }
 

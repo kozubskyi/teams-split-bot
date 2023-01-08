@@ -1,12 +1,13 @@
 const { store, resetStore } = require('../store');
 const { replies, buttons, getButtonText } = require('../helpers');
+const handleStartCommand = require('./handle-start-command');
 const handleError = require('./handle-error');
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
   try {
     if (!store.splitVariant) {
-      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.reply(replies.noActivityForLongTime);
+      await handleStartCommand(ctx);
       return;
     }
 

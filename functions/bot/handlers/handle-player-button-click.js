@@ -8,13 +8,14 @@ const {
 } = require('../helpers');
 const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team');
 const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons');
+const handleStartCommand = require('./handle-start-command');
 const handleError = require('./handle-error');
 
 module.exports = async function handlePlayerButtonClick(ctx) {
   try {
     if (!store.splitVariant || !store.teamsQuantity || !store.players.length) {
-      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.reply(replies.noActivityForLongTime);
+      await handleStartCommand(ctx);
       return;
     }
 

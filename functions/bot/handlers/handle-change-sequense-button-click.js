@@ -1,6 +1,7 @@
 const { store } = require('../store');
 const { replies, getLineups, getPlayerButtons } = require('../helpers');
 const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team');
+const handleStartCommand = require('./handle-start-command');
 const handleError = require('./handle-error');
 
 module.exports = async function handleChangeCaptainsButtonClick(ctx) {
@@ -11,8 +12,8 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
       !store.players.length ||
       !store.captains.length
     ) {
-      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
       await ctx.reply(replies.noActivityForLongTime);
+      await handleStartCommand(ctx);
       return;
     }
 
