@@ -1,4 +1,4 @@
-const { CREATOR_USERNAME, CREATOR_CHAT_ID } = require('./constants')
+const { CREATOR_CHAT_ID } = require('./constants')
 
 module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 	const firstName = ctx.callbackQuery?.from?.first_name || ctx.message?.from?.first_name
@@ -6,7 +6,7 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 	const username = ctx.callbackQuery?.from?.username || ctx.message?.from?.username
 	const chatId = ctx.callbackQuery?.message?.chat?.id || ctx.message?.chat?.id
 
-	username !== CREATOR_USERNAME &&
+	chatId !== CREATOR_CHAT_ID &&
 		(await ctx.telegram.sendMessage(
 			CREATOR_CHAT_ID,
 			`
