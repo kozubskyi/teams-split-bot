@@ -19,12 +19,6 @@ module.exports = async function handleResplitWithTheseCaptainsButtonClick(ctx) {
 		store.currentTeam = 1
 		store.sequense = 'straight'
 
-		// if (store.sequense === 'reverse') {
-		//   store.currentTeam = getNextChoosingTeam();
-		// } else {
-		//   store.currentTeam = getPrevChoosingTeam();
-		// }
-
 		const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4)
 
 		const { first_name, last_name } = ctx.callbackQuery.from
