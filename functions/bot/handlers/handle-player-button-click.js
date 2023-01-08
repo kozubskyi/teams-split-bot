@@ -12,7 +12,11 @@ const handleError = require('./handle-error');
 
 module.exports = async function handlePlayerButtonClick(ctx) {
   try {
-    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) return;
+    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) {
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+      await ctx.reply(replies.noActivityForLongTime);
+      return;
+    }
 
     const clickedPlayer = ctx.callbackQuery.data;
     if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return;

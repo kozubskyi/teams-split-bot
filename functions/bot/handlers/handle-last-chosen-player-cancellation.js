@@ -12,14 +12,11 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
       !store.players.length ||
       !store.captains.length ||
       !store.lastChosenPlayer
-    )
+    ) {
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+      await ctx.reply(replies.noActivityForLongTime);
       return;
-    // if (!store.splitVariant)
-    //   return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
-    // if (!store.teamsQuantity)
-    //   return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
-    // if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
-    // if (!store.lastChosenPlayer) return;
+    }
 
     for (let team = 1; team <= store.teamsQuantity; team++) {
       if (!store.teamsData[team].includes(store.lastChosenPlayer)) continue;

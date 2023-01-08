@@ -4,8 +4,11 @@ const handleError = require('./handle-error');
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
   try {
-    if (!store.splitVariant) return;
-    // if (!store.splitVariant) return await ctx.reply(replies.firstChooseSplitVariantReply, buttons.splitVariantButtons)
+    if (!store.splitVariant) {
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+      await ctx.reply(replies.noActivityForLongTime);
+      return;
+    }
 
     const { first_name, last_name } = ctx.callbackQuery.from;
     store.teamsQuantity = Number(ctx.callbackQuery.data[0]);

@@ -1,10 +1,14 @@
 const { store } = require('../store');
-const { buttons } = require('../helpers');
+const { replies, buttons } = require('../helpers');
 const handleError = require('./handle-error');
 
 module.exports = async function handleChangeCaptainsButtonClick(ctx) {
   try {
-    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) return;
+    if (!store.splitVariant || !store.teamsQuantity || !store.players.length) {
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+      await ctx.reply(replies.noActivityForLongTime);
+      return;
+    }
 
     store.captains = [];
     store.remainedPlayers = [];

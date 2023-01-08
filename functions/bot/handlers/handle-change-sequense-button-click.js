@@ -10,10 +10,13 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
       !store.teamsQuantity ||
       !store.players.length ||
       !store.captains.length
-    )
+    ) {
+      await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id);
+      await ctx.reply(replies.noActivityForLongTime);
       return;
+    }
 
-    store.lastChosenPlayer = ''
+    store.lastChosenPlayer = '';
     store.sequense = store.sequense === 'straight' ? 'reverse' : 'straight';
 
     if (store.sequense === 'reverse') {
