@@ -24,7 +24,7 @@ module.exports = function getPlayerButtons(players, buttonsInString = 2) {
 		buttons[currentIndex].push(Markup.button.callback('-', '-'))
 	}
 
-	if (store.lastChosenPlayer) {
+	if (store.lastChosenPlayers.length) {
 		currentIndex++
 		buttons[currentIndex] = cancelLastChosenPlayerButton
 	}

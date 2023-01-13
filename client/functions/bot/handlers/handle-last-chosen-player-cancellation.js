@@ -12,20 +12,22 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 			!store.teamsQuantity ||
 			!store.players.length ||
 			!store.captains.length ||
-			!store.lastChosenPlayer
+			!store.lastChosenPlayers.length
 		) {
 			await ctx.reply(replies.noActivityForLongTime)
 			await handleStartCommand(ctx)
 			return
 		}
 
-		for (let team = 1; team <= store.teamsQuantity; team++) {
-			if (!store.teamsData[team].includes(store.lastChosenPlayer)) continue
+		const lastChosenPlayer = store.lastChosenPlayers.pop()
 
-			store.teamsData[team].splice(store.teamsData[team].indexOf(store.lastChosenPlayer), 1)
+		for (let team = 1; team <= store.teamsQuantity; team++) {
+			if (store.teamsData[team].includes(lastChosenPlayer)) {
+				store.teamsData[team].splice(store.teamsData[team].indexOf(lastChosenPlayer), 1)
+			}
 		}
 
-		const slicedLastChosenPlayer = store.lastChosenPlayer.slice(3).trim()
+		const slicedLastChosenPlayer = lastChosenPlayer.slice(3).trim()
 
 		store.remainedPlayers.push(slicedLastChosenPlayer)
 

@@ -14,18 +14,12 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 		}
 
 		const clickedPlayer = ctx.callbackQuery.data
-		if (clickedPlayer === '-' || !store.remainedPlayers.includes(clickedPlayer)) return
-
-		// if (!store.splitVariant)
-		//   return await ctx.reply(replies.firstChooseSplitVariantReply, splitVariantButtons);
-		// if (!store.teamsQuantity)
-		//   return await ctx.reply(replies.fitstChooseTeamsQuantityReply, teamsQuantityButtons);
-		// if (!store.players.length) return await ctx.replyWithHTML(replies.sendPlayersListReply);
+		if (clickedPlayer === '-') return
 
 		const count = store.teamsData[store.currentTeam].length + 1
 		const preparedPlayer = `${count}. ${clickedPlayer}`
-		store.lastChosenPlayer = preparedPlayer
 
+		store.lastChosenPlayers.push(preparedPlayer)
 		store.teamsData[store.currentTeam].push(preparedPlayer)
 
 		store.remainedPlayers.splice(store.remainedPlayers.indexOf(clickedPlayer), 1)
