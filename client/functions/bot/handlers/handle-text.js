@@ -19,7 +19,7 @@ module.exports = async function handleText(ctx) {
 			}
 
 			const playerArray = playerString.split('~')
-			return playerArray.length === 1 ? playerArray[0].trim() : playerArray[1].trim()
+			return playerArray[playerArray.length - 1].trim()
 		})
 
 		if (store.list === 'captains') {

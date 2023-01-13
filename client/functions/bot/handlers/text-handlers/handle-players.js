@@ -1,3 +1,4 @@
+const { Markup } = require('telegraf')
 const { store, resetStore } = require('../../store')
 const helpers = require('../../helpers')
 const splitHandlers = require('../split-handlers')
@@ -33,10 +34,8 @@ module.exports = async function handlePlayers(ctx) {
 	if (store.splitVariant === 'captains_split') {
 		await ctx.reply(
 			`Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${store.teamsQuantity}-х капітанів.`,
-			helpers.buttons.randomCaptainsButton
+			Markup.inlineKeyboard([helpers.buttons.randomCaptainsButton])
 		)
-
-		// await ctx.reply(`Як оберемо капітанів?`, helpers.buttons.captainsChoosingButtons);
 
 		store.list = 'captains'
 		return

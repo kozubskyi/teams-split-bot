@@ -1,3 +1,4 @@
+const { Markup } = require('telegraf')
 const { resetStore } = require('../store')
 const { buttons } = require('../helpers')
 const handleError = require('./handle-error')
@@ -16,7 +17,8 @@ module.exports = async function handleStartCommand(ctx) {
 <b>Рандомно</b> - гравці будуть поділені на команди випадковим чином.
 `
 
-		await ctx.replyWithHTML(reply, buttons.splitVariantButtons)
+		await ctx.replyWithHTML(reply, Markup.inlineKeyboard(buttons.splitVariantButtons))
+		Markup
 	} catch (err) {
 		await handleError(err, ctx)
 	}
