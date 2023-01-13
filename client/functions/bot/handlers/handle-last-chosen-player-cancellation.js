@@ -39,16 +39,16 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
-		const reply = `
-<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для "Команди ${
-			store.currentTeam
-		}" гравця "${slicedLastChosenPlayer}"</i>
+		const reply = `Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
 
-Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`
 		store.lastChosenPlayer = ''
 
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
+		await ctx.replyWithHTML(
+			`<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір для Команди ${
+				store.currentTeam
+			} гравця ${slicedLastChosenPlayer}</i>`
+		)
 		await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 	} catch (err) {
 		await handleError(err, ctx)

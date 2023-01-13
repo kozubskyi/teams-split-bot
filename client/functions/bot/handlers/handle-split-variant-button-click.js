@@ -8,14 +8,9 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 		store.splitVariant = ctx.callbackQuery.data
 		store.splitVariantChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
 
-		const reply = `
-<i>ℹ️ ${store.splitVariantChooser} обрав варіант розподілу "${getButtonText()}"</i>
-
-Оберіть кількість команд
-`
-
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-		await ctx.replyWithHTML(reply, buttons.teamsQuantityButtons)
+		await ctx.replyWithHTML(`<i>Користувач ${store.splitVariantChooser} обрав варіант розподілу: ${getButtonText()}</i>`)
+		await ctx.reply('Оберіть кількість команд', buttons.teamsQuantityButtons)
 	} catch (err) {
 		await handleError(err, ctx)
 	}

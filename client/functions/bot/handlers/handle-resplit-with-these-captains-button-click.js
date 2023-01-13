@@ -23,14 +23,14 @@ module.exports = async function handleResplitWithTheseCaptainsButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
-		const reply = `
-<i>ℹ️ ${first_name}${last_name ? ` ${last_name}` : ''} вирішив переділитися цими ж капітанами</i>
+		const reply = `Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
 
-Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`
 		store.lastChosenPlayer = ''
 
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
+		await ctx.replyWithHTML(
+			`<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} вирішив переділитися цими ж капітанами</i>`
+		)
 		await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 	} catch (err) {
 		await handleError(err, ctx)
