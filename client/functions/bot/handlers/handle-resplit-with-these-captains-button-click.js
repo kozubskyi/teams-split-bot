@@ -17,7 +17,7 @@ module.exports = async function handleResplitWithTheseCaptainsButtonClick(ctx) {
 		store.captains.forEach(captain => store.remainedPlayers.splice(store.remainedPlayers.indexOf(captain), 1))
 		for (let team = 1; team <= store.teamsQuantity; team++) store.teamsData[team].length = 1
 		store.currentTeam = 1
-		store.sequense = 'straight'
+		store.sequence = 'straight'
 
 		const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4)
 

@@ -10,9 +10,9 @@ let store = {
   list: '',
   captainsChoice: '',
   teamsData: {},
-  sequense: 'straight',
+  sequence: 'straight',
   currentTeam: 1,
-  lastChosenPlayer: '',
+  lastChosenPlayers: [],
 };
 
 const resetStore = () => {
@@ -27,9 +27,9 @@ const resetStore = () => {
   store.list = '';
   store.captainsChoice = '';
   store.teamsData = {};
-  store.sequense = 'straight';
+  store.sequence = 'straight';
   store.currentTeam = 1;
-  store.lastChosenPlayer = '';
+  store.lastChosenPlayers = [];
 };
 
 module.exports = {

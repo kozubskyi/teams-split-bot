@@ -30,7 +30,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 			store.currentTeam
 		} обрав гравця: ${clickedPlayer}</i>`
 
-		if (store.sequense === 'reverse') {
+		if (store.sequence === 'reverse') {
 			store.currentTeam = getPrevChoosingTeam()
 		} else {
 			store.currentTeam = getNextChoosingTeam()

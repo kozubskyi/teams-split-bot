@@ -1,3 +1,4 @@
+const { Markup } = require('telegraf')
 const { store } = require('../store')
 const { replies, buttons } = require('../helpers')
 const handleStartCommand = require('./handle-start-command')
@@ -21,13 +22,13 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
-		const reply = `Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${
-			store.teamsQuantity
-		}-х капітанів.`
+		const reply = `Натисність на кнопку нижче і я самостійно випадковим чином оберу капітанів зі списку гравців, або відправте список з ${store.teamsQuantity}-х капітанів.`
 
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-		await ctx.replyWithHTML(`<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати інших капітанів</i>`)
-		await ctx.replyWithHTML(reply, buttons.randomCaptainsButton)
+		await ctx.replyWithHTML(
+			`<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати інших капітанів</i>`
+		)
+		await ctx.replyWithHTML(reply, Markup.inlineKeyboard(buttons.randomCaptainsButton))
 
 		store.list = 'captains'
 	} catch (err) {

@@ -13,9 +13,9 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 		}
 
 		store.lastChosenPlayer = ''
-		store.sequense = store.sequense === 'straight' ? 'reverse' : 'straight'
+		store.sequence = store.sequence === 'straight' ? 'reverse' : 'straight'
 
-		if (store.sequense === 'reverse') {
+		if (store.sequence === 'reverse') {
 			store.currentTeam = getPrevChoosingTeam()
 		} else {
 			store.currentTeam = getNextChoosingTeam()

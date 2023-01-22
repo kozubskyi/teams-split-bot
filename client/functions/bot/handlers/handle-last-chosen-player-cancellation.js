@@ -31,7 +31,7 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 
 		store.remainedPlayers.push(slicedLastChosenPlayer)
 
-		if (store.sequense === 'reverse') {
+		if (store.sequence === 'reverse') {
 			store.currentTeam = getNextChoosingTeam()
 		} else {
 			store.currentTeam = getPrevChoosingTeam()
@@ -52,6 +52,8 @@ module.exports = async function handleLastChosenPlayerCancellation(ctx) {
 			} гравця ${slicedLastChosenPlayer}</i>`
 		)
 		await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
+
+		console.log({ store })
 	} catch (err) {
 		await handleError(err, ctx)
 	}

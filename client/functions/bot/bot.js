@@ -29,7 +29,7 @@ function start() {
 	bot.action('random_captains', async ctx => await handlers.handleRandomCaptainsButtonClick(ctx))
 
 	bot.action('cancel_last_chosen_player', async ctx => await handlers.handleLastChosenPlayerCancellation(ctx))
-	bot.action('change_sequence', async ctx => await handlers.handleChangeSequenseButtonClick(ctx))
+	bot.action('change_sequence', async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
 	bot.action('resplit_with_these_captains', async ctx => await handlers.handleResplitWithTheseCaptainsButtonClick(ctx))
 	bot.action('change_captains', async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))
 
@@ -42,7 +42,7 @@ function start() {
 
 start()
 
-// bot.launch();
+// bot.launch()
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
