@@ -28,9 +28,9 @@ module.exports = async function handleResplitWithTheseCaptainsButtonClick(ctx) {
 
 Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
 `
-		store.lastChosenPlayer = ''
+		store.lastChosenPlayers = []
 
-		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)	
+		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
 		await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 	} catch (err) {
 		await handleError(err, ctx)
