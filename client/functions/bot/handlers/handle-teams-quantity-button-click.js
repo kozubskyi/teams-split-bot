@@ -18,7 +18,11 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 
 		for (let team = 1; team <= store.teamsQuantity; team++) store.teamsData[team] = []
 
-		let reply = 'Відправте список гравців де кожний наступний гравець вказаний з нового рядка'
+		let reply = `
+<i>Користувач ${store.teamsQuantityChooser} обрав кількість команд: ${store.teamsQuantity}</i>
+
+Відправте список гравців де кожний наступний гравець вказаний з нового рядка
+`
 
 		if (store.splitVariant === 'skill_split') {
 			reply = `
@@ -29,9 +33,6 @@ ${reply}
 		}
 
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-		await ctx.replyWithHTML(
-			`<i>Користувач ${store.teamsQuantityChooser} обрав кількість команд: ${store.teamsQuantity}</i>`
-		)
 		await ctx.replyWithHTML(reply)
 	} catch (err) {
 		await handleError(err, ctx)

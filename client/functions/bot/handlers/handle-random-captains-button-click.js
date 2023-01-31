@@ -35,12 +35,12 @@ module.exports = async function handleRandomCaptainsButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 		const firstPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4)
-		const reply = `Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
+		const reply = `
+<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати капітанів рандомно</i>
 
+Першим обирає: <b>${firstPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
+`
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-		await ctx.replyWithHTML(
-			`<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} вирішив обрати капітанів рандомно</i>`
-		)
 		await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 
 		store.captainsChoice = 'Рандомно'

@@ -26,10 +26,6 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
-		const infoReply = `<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} для Команди ${
-			store.currentTeam
-		} обрав гравця: ${clickedPlayer}</i>`
-
 		if (store.sequence === 'reverse') {
 			store.currentTeam = getPrevChoosingTeam()
 		} else {
@@ -41,10 +37,14 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 		let reply = ''
 
 		if (store.remainedPlayers.length > 1) {
-			reply = `Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}`
-
+			reply = `
+<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} для Команди ${
+				store.currentTeam
+			} обрав гравця: ${clickedPlayer}</i>
+		
+Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
+`
 			await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-			await ctx.replyWithHTML(infoReply)
 			await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
 			return
 		}
@@ -59,10 +59,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 Кількість команд: ${store.teamsQuantity}
 Капітанів обрано: ${store.captainsChoice} ${getLineups()}
 `
-
 		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-		await ctx.replyWithHTML(infoReply)
-		await ctx.replyWithHTML(`<i>Для Команди ${store.currentTeam} залишився гравець: ${store.remainedPlayers[0]}</i>`)
 		await ctx.replyWithHTML(reply)
 
 		await sendInfoMessageToCreator(ctx, reply)
