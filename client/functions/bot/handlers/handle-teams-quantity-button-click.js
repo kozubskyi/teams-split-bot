@@ -27,7 +27,6 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 		if (store.splitVariant === 'skill_split') {
 			reply = `
 ${reply}
-
 <i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця (на вашу суб'єктивну думку)</i>
 `
 		}
