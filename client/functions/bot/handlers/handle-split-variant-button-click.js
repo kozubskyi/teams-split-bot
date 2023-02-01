@@ -7,10 +7,10 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 	try {
 		const { first_name, last_name } = ctx.callbackQuery.from
 		store.splitVariant = ctx.callbackQuery.data
-		store.splitVariantChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
+		const splitVariantChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
 
 		const reply = `
-<i>Користувач ${store.splitVariantChooser} обрав варіант розподілу: ${getButtonText()}</i>
+<i>Користувач ${splitVariantChooser} обрав варіант розподілу: ${getButtonText()}</i>
 
 Оберіть кількість команд
 `

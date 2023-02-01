@@ -5,13 +5,17 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 	const lastName = ctx.callbackQuery?.from?.last_name || ctx.message?.from?.last_name
 	const username = ctx.callbackQuery?.from?.username || ctx.message?.from?.username
 	const chatId = ctx.callbackQuery?.message?.chat?.id || ctx.message?.chat?.id
+	const type = ctx.callbackQuery?.message?.chat?.type || ctx.message?.chat?.type
+	const title = ctx.callbackQuery?.message?.chat?.title || ctx.message?.chat?.title
 
-	chatId !== CREATOR_CHAT_ID &&
-		(await ctx.telegram.sendMessage(
-			CREATOR_CHAT_ID,
-			`
-ℹ️ Користувач "${firstName} ${lastName} <${username}> (${chatId})" щойно поділив(-ла) свої команди:
+	// chatId !== CREATOR_CHAT_ID &&
+	await ctx.telegram.sendMessage(
+		CREATOR_CHAT_ID,
+		`
+ℹ️ Користувач "${firstName} ${lastName} <${username}> (${type} chat ${
+			type === 'group' ? `'${title}' ` : ''
+		}${chatId})" щойно поділив свої команди:
 ${reply}
 `
-		))
+	)
 }

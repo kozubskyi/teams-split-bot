@@ -1,8 +1,6 @@
 let store = {
   splitVariant: '',
-  splitVariantChooser: '',
   teamsQuantity: 0,
-  teamsQuantityChooser: '',
   players: [],
   captains: [],
   remainedPlayers: [],
@@ -17,9 +15,7 @@ let store = {
 
 const resetStore = () => {
   store.splitVariant = '';
-  store.splitVariantChooser = '';
   store.teamsQuantity = 0;
-  store.teamsQuantityChooser = '';
   store.players = [];
   store.captains = [];
   store.remainedPlayers = [];

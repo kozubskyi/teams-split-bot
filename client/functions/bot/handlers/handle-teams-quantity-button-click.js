@@ -13,13 +13,13 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 		store.teamsQuantity = Number(ctx.callbackQuery.data[0])
-		store.teamsQuantityChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
+		const teamsQuantityChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
 		store.list = 'players'
 
 		for (let team = 1; team <= store.teamsQuantity; team++) store.teamsData[team] = []
 
 		let reply = `
-<i>Користувач ${store.teamsQuantityChooser} обрав кількість команд: ${store.teamsQuantity}</i>
+<i>Користувач ${teamsQuantityChooser} обрав кількість команд: ${store.teamsQuantity}</i>
 
 Відправте список гравців де кожний наступний гравець вказаний з нового рядка
 `
