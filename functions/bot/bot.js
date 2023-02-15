@@ -14,7 +14,7 @@ function start() {
 
 	bot.start(async ctx => await handlers.handleStartCommand(ctx))
 	bot.command('stop', ctx => resetStore())
-	bot.command('store', ctx => ctx.reply(JSON.stringify(store)))
+	// bot.command('store', ctx => ctx.reply(JSON.stringify(store)))
 
 	bot.action('skill_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action('random_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
