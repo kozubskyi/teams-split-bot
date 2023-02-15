@@ -9,8 +9,8 @@ module.exports = async function sendFinalReply(ctx) {
 Варіант розподілу: ${getButtonText()}
 Кількість команд: ${store.teamsQuantity} ${getLineups()}
 `
-	await sendInfoMessageToCreator(ctx, reply)
 	await ctx.replyWithHTML(reply)
+	await sendInfoMessageToCreator(ctx, reply)
 
 	resetStore()
 }
