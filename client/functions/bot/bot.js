@@ -34,7 +34,7 @@ function start() {
 
 	bot.on('callback_query', async ctx => await handlers.handlePlayerButtonClick(ctx))
 
-	bot.on('sticker', async ctx => await ctx.reply('👍'))
+	// bot.on('sticker', async ctx => await ctx.reply('👍'))
 
 	console.log('✅ The bot is configured and must work correctly')
 }
