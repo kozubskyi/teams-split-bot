@@ -1,7 +1,7 @@
 const { store, resetStore } = require('../store')
 const { replies, getButtonText, getLineups, getPlayerButtons, sendInfoMessageToCreator } = require('../helpers')
 const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team')
-const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons')
+const { splitVariantButtons, teamsQuantityButtons } = require('../../../../functions/bot/helpers/buttons')
 const handleStartCommand = require('./handle-start-command')
 const handleError = require('./handle-error')
 
