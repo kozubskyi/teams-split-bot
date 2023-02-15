@@ -9,14 +9,14 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 	const type = ctx.callbackQuery?.message?.chat?.type || ctx.message?.chat?.type
 	const title = ctx.callbackQuery?.message?.chat?.title || ctx.message?.chat?.title
 	// const buttonValue = ctx.callbackQuery?.data
-	const text = ctx.message.text
+	const text = ctx.message?.text
 
 	let creatorReply = `
 Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId} щойно`
 
-	if (text.slice(0, 6) === '/start') {
+	if (text?.slice(0, 6) === '/start') {
 		creatorReply = `${creatorReply} натиснув команду Start.`
 	} else {
 		creatorReply = `

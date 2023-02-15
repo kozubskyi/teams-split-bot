@@ -11,6 +11,7 @@ module.exports = async function sendFinalReply(ctx) {
 `
 	resetStore()
 
+	//! 👇 Чомусь відпрацьовує лише перший з двох рядків
 	await ctx.replyWithHTML(reply)
 	await sendInfoMessageToCreator(ctx, reply)
 }
