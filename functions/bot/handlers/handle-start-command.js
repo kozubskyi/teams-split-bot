@@ -1,10 +1,13 @@
 const { Markup } = require('telegraf')
 const { resetStore } = require('../store')
 const { buttons } = require('../helpers')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 
 module.exports = async function handleStartCommand(ctx) {
 	try {
+		//TODO 1. Handle chat and user (message sender)
+
 		resetStore()
 
 		const reply = `
@@ -16,9 +19,8 @@ module.exports = async function handleStartCommand(ctx) {
 
 <b>Рандомно</b> - гравці будуть поділені на команди випадковим чином.
 `
-
 		await ctx.replyWithHTML(reply, Markup.inlineKeyboard(buttons.splitVariantButtons))
-		Markup
+		await sendInfoMessageToCreator(ctx, reply)
 	} catch (err) {
 		await handleError(err, ctx)
 	}
