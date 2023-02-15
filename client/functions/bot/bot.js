@@ -12,9 +12,8 @@ function start() {
 	// bot.on('text', async ctx => await ctx.reply('⚙️ Бот на реконструкції, скоро повернусь'));
 	// bot.on('callback_query', async ctx => await ctx.reply('⚙️ Бот на реконструкції, скоро повернусь'));
 
-	// Start command handler
 	bot.start(async ctx => await handlers.handleStartCommand(ctx))
-	// bot.command('stop', ctx => resetStore());
+	bot.command('stop', ctx => resetStore());
 
 	bot.action('skill_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action('random_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
