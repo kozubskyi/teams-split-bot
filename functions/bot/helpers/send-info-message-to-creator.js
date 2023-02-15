@@ -16,7 +16,7 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId} щойно`
 
-	if (text.includes('/start')) {
+	if (text.slice(0, 6) === '/start') {
 		creatorReply = `${creatorReply} натиснув команду Start.`
 	} else {
 		creatorReply = `
