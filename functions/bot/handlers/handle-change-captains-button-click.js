@@ -1,5 +1,5 @@
 const { Markup } = require('telegraf')
-const { store } = require('../../../client/functions/bot/store')
+const { store } = require('../store')
 const { replies, buttons } = require('../helpers')
 const handleStartCommand = require('./handle-start-command')
 const handleError = require('./handle-error')
