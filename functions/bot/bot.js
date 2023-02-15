@@ -3,7 +3,7 @@ const { text } = require('stream/consumers')
 const { Telegraf } = require('telegraf')
 const handlers = require('./handlers')
 const textHandlers = require('./handlers/text-handlers')
-const { resetStore } = require('./store')
+const { store, resetStore } = require('./store')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -14,6 +14,7 @@ function start() {
 
 	bot.start(async ctx => await handlers.handleStartCommand(ctx))
 	bot.command('stop', ctx => resetStore())
+	bot.command('store', ctx => ctx.reply(JSON.stringify(store)))
 
 	bot.action('skill_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action('random_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
