@@ -17,7 +17,7 @@ function start() {
 	bot.action('3', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 	bot.action('4', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 
-	bot.on('text', async ctx => await handlers.handlePlayers(ctx))
+	bot.on('text', async ctx => await handlers.handleText(ctx))
 
 	bot.action(constants.RANDOM_CAPTAINS, async ctx => await handlers.handleRandomCaptainsButtonClick(ctx))
 

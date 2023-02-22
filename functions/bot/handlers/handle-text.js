@@ -6,10 +6,10 @@ const splitHandlers = require('./split-handlers')
 const getPlayersButtons = require('../helpers/get-players-buttons')
 const sendFinalReply = require('../helpers/send-final-reply')
 const handleError = require('./handle-error')
-const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT } = require('../helpers/constants')
+const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT, CREATOR_CHAT_ID } = require('../helpers/constants')
 const { RANDOM_CAPTAINS_BUTTON } = require('../helpers/buttons')
 
-module.exports = async function handlePlayers(ctx) {
+module.exports = async function handleText(ctx) {
 	try {
 		await handleChat(ctx)
 		const chatId = ctx.chat.id

@@ -3,7 +3,7 @@ module.exports = {
 	handleStopCommand: require('./handle-stop-command'),
 	handleSplitVariantButtonClick: require('./handle-split-variant-button-click'),
 	handleTeamsQuantityButtonClick: require('./handle-teams-quantity-button-click'),
-	handlePlayers: require('./handle-players'),
+	handleText: require('./handle-text'),
 	handleRandomCaptainsButtonClick: require('./handle-random-captains-button-click'),
 	handleCancelLastChoiceButtonClick: require('./handle-cancel-last-choice-button-click'),
 	handleChangeSequenceButtonClick: require('./handle-change-sequence-button-click'),
