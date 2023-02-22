@@ -21,7 +21,7 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId} щойно відправив повідомлення "${value}" і виникла помилка: "${error}"`
 
-	username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
+	// username !== CREATOR_USERNAME && (await ctx.reply('Виникли технічні неполадки, скоро полагоджусь і повернусь 👨‍🔧'))
 
 	await ctx.telegram.sendMessage(CREATOR_CHAT_ID, creatorReply)
 }
