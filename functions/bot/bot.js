@@ -1,37 +1,29 @@
 require('dotenv').config()
-const { text } = require('stream/consumers')
 const { Telegraf } = require('telegraf')
 const handlers = require('./handlers')
-const textHandlers = require('./handlers/text-handlers')
-const { store, resetStore } = require('./store')
+const constants = require('./helpers/constants')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 function start() {
-	// Development handlers
-	// bot.on('text', async ctx => await ctx.reply('⚙️ Бот на реконструкції, скоро повернусь'));
-	// bot.on('callback_query', async ctx => await ctx.reply('⚙️ Бот на реконструкції, скоро повернусь'));
-
 	bot.start(async ctx => await handlers.handleStartCommand(ctx))
-	bot.command('stop', ctx => resetStore())
-	// bot.command('store', ctx => ctx.reply(JSON.stringify(store)))
+	bot.command('stop', async ctx => handlers.handleStopCommand(ctx))
 
-	bot.action('skill_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
-	bot.action('random_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
-	bot.action('captains_split', async ctx => await handlers.handleSplitVariantButtonClick(ctx))
+	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
+	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
+	bot.action(constants.RANDOM_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 
-	bot.action('2_teams', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
-	bot.action('3_teams', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
-	bot.action('4_teams', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
+	bot.action('2', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
+	bot.action('3', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
+	bot.action('4', async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 
-	bot.on('text', async ctx => await handlers.handleText(ctx))
+	bot.on('text', async ctx => await handlers.handlePlayers(ctx))
 
-	bot.action('random_captains', async ctx => await handlers.handleRandomCaptainsButtonClick(ctx))
+	bot.action(constants.RANDOM_CAPTAINS, async ctx => await handlers.handleRandomCaptainsButtonClick(ctx))
 
-	bot.action('cancel_last_chosen_player', async ctx => await handlers.handleLastChosenPlayerCancellation(ctx))
-	bot.action('change_sequence', async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
-	bot.action('resplit_with_these_captains', async ctx => await handlers.handleResplitWithTheseCaptainsButtonClick(ctx))
-	bot.action('change_captains', async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))
+	bot.action(constants.CANCEL_LAST_CHOICE, async ctx => await handlers.handleCancelLastChoiceButtonClick(ctx))
+	bot.action(constants.CHANGE_SEQUENCE, async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
+	bot.action(constants.CHANGE_CAPTAINS, async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))
 
 	bot.on('callback_query', async ctx => await handlers.handlePlayerButtonClick(ctx))
 

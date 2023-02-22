@@ -1,39 +1,41 @@
-const { store, resetStore } = require('../store')
-const { replies, buttons, getButtonText } = require('../helpers')
-const handleStartCommand = require('./handle-start-command')
+const { handleChat } = require('../services/chats-api')
+const { getStore, updateStore } = require('../services/stores-api')
+const deleteMessage = require('../helpers/delete-message')
+const handleSomethingWentWrong = require('./sub-handlers/handle-something-went-wrong')
 const handleError = require('./handle-error')
+const { SKILL_SPLIT } = require('../helpers/constants')
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 	try {
-		if (!store.splitVariant) {
-			await ctx.reply(replies.noActivityForLongTime)
-			await handleStartCommand(ctx)
-			return
-		}
+		await handleChat(ctx)
+		const chatId = ctx.chat.id
+		let { splitVariant } = await getStore(chatId)
+		await deleteMessage(ctx)
 
-		const { first_name, last_name } = ctx.callbackQuery.from
-		store.teamsQuantity = Number(ctx.callbackQuery.data[0])
-		const teamsQuantityChooser = `${first_name}${last_name ? ` ${last_name}` : ''}`
-		store.list = 'players'
+		if (!splitVariant) return await handleSomethingWentWrong(ctx)
 
-		for (let team = 1; team <= store.teamsQuantity; team++) store.teamsData[team] = []
+		const teamsQuantity = Number(ctx.callbackQuery.data)
+		const teamsData = {}
+		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
+
+		await updateStore(chatId, { teamsQuantity, teamsData })
+
+		const { first_name, last_name } = ctx.from
 
 		let reply = `
-<i>Користувач ${teamsQuantityChooser} обрав кількість команд: ${store.teamsQuantity}</i>
+<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав кількість команд: ${teamsQuantity}</i>
 
-Відправте список гравців де кожний наступний гравець вказаний з нового рядка
-`
+Відправте список гравців де кожний наступний гравець вказаний з нового рядка`
 
-		if (store.splitVariant === 'skill_split') {
+		if (splitVariant === SKILL_SPLIT) {
 			reply = `
 ${reply}
-<i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця (на вашу суб'єктивну думку)</i>
-`
+
+<i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця (на вашу суб'єктивну думку)</i>`
 		}
 
-		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
 		await ctx.replyWithHTML(reply)
 	} catch (err) {
-		await handleError(err, ctx)
+		await handleError({ ctx, err })
 	}
 }

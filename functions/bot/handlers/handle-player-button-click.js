@@ -1,70 +1,158 @@
-const { store, resetStore } = require('../store')
-const { replies, getButtonText, getLineups, getPlayerButtons, sendInfoMessageToCreator } = require('../helpers')
+const { Markup } = require('telegraf')
+const { handleChat } = require('../services/chats-api')
+const { getStore, updateStore, handleStore } = require('../services/stores-api')
+const deleteMessage = require('../helpers/delete-message')
+const handleSomethingWentWrong = require('./sub-handlers/handle-something-went-wrong')
+const getRandomFromArray = require('../helpers/get-random-from-array')
+const getLineups = require('../helpers/get-lineups')
+const getPlayersButtons = require('../helpers/get-players-buttons')
 const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team')
-const { splitVariantButtons, teamsQuantityButtons } = require('../helpers/buttons')
-const handleStartCommand = require('./handle-start-command')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
+const { REVERSE_SEQUENCE, DO_NOT_TOUCH_PLAYERS_BUTTONS } = require('../helpers/constants')
+const { CANCEL_LAST_CHOICE_BUTTON, CHANGE_SEQUENCE_BUTTON, CHANGE_CAPTAINS_BUTTON } = require('../helpers/buttons')
 
 module.exports = async function handlePlayerButtonClick(ctx) {
 	try {
-		if (!store.splitVariant || !store.teamsQuantity || !store.players.length) {
-			await ctx.reply(replies.noActivityForLongTime)
-			await handleStartCommand(ctx)
+		await handleChat(ctx)
+		const chatId = ctx.chat.id
+		let {
+			splitVariant,
+			teamsQuantity,
+			players,
+			captains,
+			remainedPlayers,
+			captainsChoice,
+			teamsData,
+			currentTeam,
+			lastChosenPlayers,
+			sequence,
+		} = await getStore(chatId)
+		await deleteMessage(ctx)
+
+		if (!splitVariant || !teamsQuantity || !players.length) {
+			await handleSomethingWentWrong(ctx)
 			return
 		}
 
 		const clickedPlayer = ctx.callbackQuery.data
 		if (clickedPlayer === '-') return
 
-		const count = store.teamsData[store.currentTeam].length + 1
-		const preparedPlayer = `${count}. ${clickedPlayer}`
-
-		store.lastChosenPlayers.push(preparedPlayer)
-		store.teamsData[store.currentTeam].push(preparedPlayer)
-
-		store.remainedPlayers.splice(store.remainedPlayers.indexOf(clickedPlayer), 1)
-
 		const { first_name, last_name } = ctx.callbackQuery.from
 
-		if (store.sequence === 'reverse') {
-			store.currentTeam = getPrevChoosingTeam()
-		} else {
-			store.currentTeam = getNextChoosingTeam()
-		}
+		if (captains.length < teamsQuantity) {
+			captains.push(clickedPlayer)
+			remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
 
-		const currentPickCaptain = store.teamsData[store.currentTeam][0].slice(3, -4)
+			if (captains.length === teamsQuantity) {
+				let remainedCaptains = [...captains]
+				let teams = Object.keys(teamsData)
 
-		let reply = ''
+				for (let i = 0; i < teamsQuantity; i++) {
+					const chosenCaptain = getRandomFromArray(remainedCaptains)
+					const chosenTeam = getRandomFromArray(teams)
 
-		if (store.remainedPlayers.length > 1) {
-			reply = `
-<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} для Команди ${
-				store.currentTeam
-			} обрав гравця: ${clickedPlayer}</i>
-		
-Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups()} ${replies.dontTouchPlayerButtons}
-`
-			await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
-			await ctx.replyWithHTML(reply, getPlayerButtons(store.remainedPlayers))
+					teamsData[chosenTeam].push(`1. ${chosenCaptain} (C)`)
+
+					remainedCaptains.splice(remainedCaptains.indexOf(chosenCaptain), 1)
+					teams = teams.filter(team => team !== chosenTeam)
+				}
+
+				await updateStore(chatId, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
+
+				const firstPickCaptain = teamsData[currentTeam][0].slice(3, -4)
+
+				const reply = `
+<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав ${teamsQuantity}-го капітана: ${clickedPlayer}</i>
+
+Першим обирає: <b>${firstPickCaptain}</b> ${getLineups(teamsData)} ${DO_NOT_TOUCH_PLAYERS_BUTTONS}`
+
+				const buttons = Markup.inlineKeyboard([
+					...getPlayersButtons(remainedPlayers),
+					[CHANGE_SEQUENCE_BUTTON],
+					[CHANGE_CAPTAINS_BUTTON],
+				])
+
+				await ctx.replyWithHTML(reply, buttons)
+				return
+			}
+
+			await updateStore(chatId, { captains, remainedPlayers })
+
+			const reply = `
+<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав ${
+				captains.length
+			}-го капітана: ${clickedPlayer}</i>
+
+Залишилось обрати капітанів: ${teamsQuantity - captains.length}
+
+<b>Капітани:</b>
+${Object.keys(teamsData)
+	.map((team, i) => (captains[i] ? `${team}. ${captains[i]}` : `${team}. `))
+	.join('\n')}`
+
+			const buttons = Markup.inlineKeyboard([...getPlayersButtons(remainedPlayers), [CANCEL_LAST_CHOICE_BUTTON]])
+
+			await ctx.replyWithHTML(reply, buttons)
 			return
 		}
-		if (store.remainedPlayers.length === 1) {
-			const count = store.teamsData[store.currentTeam].length + 1
-			store.teamsData[store.currentTeam].push(`${count}. ${store.remainedPlayers[0]}`)
+
+		const count = teamsData[currentTeam].length + 1
+		const preparedPlayer = `${count}. ${clickedPlayer}`
+
+		lastChosenPlayers.push(preparedPlayer)
+		teamsData[currentTeam].push(preparedPlayer)
+
+		remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
+
+		const prevCurrentTeam = currentTeam
+
+		if (sequence === REVERSE_SEQUENCE) {
+			currentTeam = getPrevChoosingTeam(currentTeam, teamsQuantity)
+		} else {
+			currentTeam = getNextChoosingTeam(currentTeam, teamsQuantity)
 		}
 
-		reply = `
+		await updateStore(chatId, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
+
+		const currentPickCaptain = teamsData[currentTeam][0].slice(3, -4)
+
+		if (remainedPlayers.length > 1) {
+			const reply = `
+<i>Користувач ${first_name}${
+				last_name ? ` ${last_name}` : ''
+			} для Команди ${prevCurrentTeam} обрав гравця: ${clickedPlayer}</i>
+		
+Зараз обирає: <b>${currentPickCaptain}</b> ${getLineups(teamsData)} ${DO_NOT_TOUCH_PLAYERS_BUTTONS}`
+
+			const buttons = Markup.inlineKeyboard([
+				...getPlayersButtons(remainedPlayers),
+				[CANCEL_LAST_CHOICE_BUTTON],
+				!(remainedPlayers.length % teamsQuantity) ? [CHANGE_SEQUENCE_BUTTON] : [],
+				[CHANGE_CAPTAINS_BUTTON],
+			])
+
+			await ctx.replyWithHTML(reply, buttons)
+			return
+		}
+
+		await handleStore(chatId)
+
+		if (remainedPlayers.length === 1) {
+			const count = teamsData[currentTeam].length + 1
+			teamsData[currentTeam].push(`${count}. ${remainedPlayers[0]}`)
+		}
+
+		const reply = `
 ✅ <b>Поділили</b>
-Варіант розподілу: ${getButtonText()}
-Кількість команд: ${store.teamsQuantity}
-Капітанів обрано: ${store.captainsChoice} ${getLineups()}
+Варіант розподілу: ${splitVariant}
+Кількість команд: ${teamsQuantity}
+Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
 `
-		await ctx.telegram.deleteMessage(ctx.chat.id, ctx.callbackQuery.message.message_id)
 		await ctx.replyWithHTML(reply)
 
 		await sendInfoMessageToCreator(ctx, reply)
-		resetStore()
 	} catch (err) {
-		await handleError(err, ctx)
+		await handleError({ ctx, err })
 	}
 }

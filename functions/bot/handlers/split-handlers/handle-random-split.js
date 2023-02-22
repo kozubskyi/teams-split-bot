@@ -1,44 +1,23 @@
-const { store } = require('../../store')
-const { getRandomFromArray } = require('../../helpers')
+const getRandomFromArray = require('../../helpers/get-random-from-array')
 
-module.exports = function handleRandomSplit() {
-	const playersQuantity = store.players.length
-	store.remainedPlayers = [...store.players]
-	const teams = Object.keys(store.teamsData)
+module.exports = function handleRandomSplit(teamsData, players) {
+	const teams = Object.keys(teamsData)
 
-	let possibleTeams = []
+	let remainedTeams = []
+	const remainedPlayers = [...players]
 
-	// for (let i = 0; i < store.players.length; i++) {
-	//   if (!possibleTeams.length) possibleTeams = [...teams]
+	for (let i = 0; i < players.length; i++) {
+		if (!remainedTeams.length) remainedTeams = [...teams]
 
-	//   const chosenPlayer = getRandomFromArray(store.remainedPlayers)
+		const chosenTeam = getRandomFromArray(remainedTeams)
+		const chosenPlayer = getRandomFromArray(remainedPlayers)
 
-	//   store.teamsData[possibleTeams[0]].push(chosenPlayer)
+		const count = teamsData[chosenTeam].length + 1
+		teamsData[chosenTeam].push(`${count}. ${chosenPlayer}`)
 
-	//   store.remainedPlayers = store.remainedPlayers.filter((player) => player !== chosenPlayer)
-	//   possibleTeams.shift()
-	// }
-
-	let teamSlots = []
-
-	for (let i = 0; i < playersQuantity; i++) {
-		if (!possibleTeams.length) possibleTeams = [...teams]
-
-		const chosenTeam = getRandomFromArray(possibleTeams)
-
-		teamSlots.push(chosenTeam)
-
-		possibleTeams = possibleTeams.filter(team => team !== chosenTeam)
+		remainedTeams = remainedTeams.filter(team => team !== chosenTeam)
+		remainedPlayers.splice(remainedPlayers.indexOf(chosenPlayer), 1)
 	}
 
-	for (let i = 0; i < playersQuantity; i++) {
-		const chosenPlayer = getRandomFromArray(store.remainedPlayers)
-		const chosenTeam = getRandomFromArray(teamSlots)
-
-		const count = store.teamsData[chosenTeam].length + 1
-		store.teamsData[chosenTeam].push(`${count}. ${chosenPlayer}`)
-
-		store.remainedPlayers.splice(store.remainedPlayers.indexOf(chosenPlayer), 1)
-		teamSlots.splice(teamSlots.indexOf(chosenTeam), 1)
-	}
+	return teamsData
 }

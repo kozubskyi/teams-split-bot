@@ -1,9 +1,7 @@
-const { store } = require('../store')
-
-const getNextChoosingTeam = () => (store.currentTeam === store.teamsQuantity ? 1 : store.currentTeam + 1)
-const getPrevChoosingTeam = () => (store.currentTeam === 1 ? store.teamsQuantity : store.currentTeam - 1)
+const getNextChoosingTeam = (currentTeam, teamsQuantity) => (currentTeam === teamsQuantity ? 1 : currentTeam + 1)
+const getPrevChoosingTeam = (currentTeam, teamsQuantity) => (currentTeam === 1 ? teamsQuantity : currentTeam - 1)
 
 module.exports = {
 	getNextChoosingTeam,
-	getPrevChoosingTeam
+	getPrevChoosingTeam,
 }

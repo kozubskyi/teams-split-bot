@@ -1,12 +1,10 @@
-const { store } = require('../store')
-
-module.exports = function getLineups() {
+module.exports = function getLineups(teamsData) {
 	return `
-${Object.keys(store.teamsData)
+${Object.keys(teamsData)
 	.map(team => {
 		return `
 <b>Команда ${team}:</b>
-${store.teamsData[team].join('\n')}
+${teamsData[team].join('\n')}
 `
 	})
 	.join('')}
