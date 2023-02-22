@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { PRIVATE_CHAT, GROUP_CHAT } = require('../helpers/constants')
+const { PRIVATE_CHAT, GROUP_CHAT, SUPERGROUP_CHAT } = require('../helpers/constants')
 
 axios.defaults.baseURL = process.env.TELEGRAM_DB_BASE_URL
 
@@ -27,7 +27,7 @@ exports.handleChat = async ctx => {
 	if (type === PRIVATE_CHAT) {
 		updatedFields = { first_name, last_name, username }
 	}
-	if (type === GROUP_CHAT) {
+	if (type === GROUP_CHAT || type === SUPERGROUP_CHAT) {
 		updatedFields = { title }
 	}
 

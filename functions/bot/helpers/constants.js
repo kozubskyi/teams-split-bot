@@ -6,6 +6,7 @@ const constants = Object.freeze({
 
 	PRIVATE_CHAT: 'private',
 	GROUP_CHAT: 'group',
+	SUPERGROUP_CHAT: 'supergroup',
 
 	CAPTAINS_SPLIT: 'Капітанами',
 	SKILL_SPLIT: 'За скілом',
