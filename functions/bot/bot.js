@@ -8,6 +8,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 function start() {
 	bot.start(async ctx => await handlers.handleStartCommand(ctx))
 	bot.command('stop', async ctx => handlers.handleStopCommand(ctx))
+	bot.command('faq', async ctx => handlers.handleFAQCommand(ctx))
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
