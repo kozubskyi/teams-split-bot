@@ -6,11 +6,13 @@ const constants = Object.freeze({
 
 	PRIVATE_CHAT: 'private',
 	GROUP_CHAT: 'group',
-	SUPERGROUP_CHAT: 'supergroup',
 
 	CAPTAINS_SPLIT: 'Капітанами',
 	SKILL_SPLIT: 'За скілом',
 	RANDOM_SPLIT: 'Рандомно',
+
+	HOW_USE_BOT: 'Як користуватися ботом?',
+	HOW_RANDOM_WORKS: 'Як працює рандом?',
 
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 

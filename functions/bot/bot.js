@@ -2,6 +2,7 @@ require('dotenv').config()
 const { Telegraf } = require('telegraf')
 const handlers = require('./handlers')
 const constants = require('./helpers/constants')
+const faqHandlers = require('./handlers/faq-handlers')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -25,6 +26,9 @@ function start() {
 	bot.action(constants.CANCEL_LAST_CHOICE, async ctx => await handlers.handleCancelLastChoiceButtonClick(ctx))
 	bot.action(constants.CHANGE_SEQUENCE, async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
 	bot.action(constants.CHANGE_CAPTAINS, async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))
+
+	bot.action(constants.HOW_USE_BOT, async ctx => await faqHandlers.handleHowUseBotQuestion(ctx))
+	bot.action(constants.HOW_RANDOM_WORKS, async ctx => await faqHandlers.handleHowRandomWorksQuestion(ctx))
 
 	bot.on('callback_query', async ctx => await handlers.handlePlayerButtonClick(ctx))
 
