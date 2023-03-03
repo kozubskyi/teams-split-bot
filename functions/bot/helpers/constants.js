@@ -13,6 +13,7 @@ const constants = Object.freeze({
 
 	HOW_USE_BOT: 'Як користуватися ботом?',
 	HOW_RANDOM_WORKS: 'Як працює рандом?',
+	BACK_TO_QUESTIONS: 'Повернутися до запитань',
 
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 

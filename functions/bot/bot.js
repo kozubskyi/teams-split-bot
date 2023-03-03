@@ -29,6 +29,7 @@ function start() {
 
 	bot.action(constants.HOW_USE_BOT, async ctx => await faqHandlers.handleHowUseBotQuestion(ctx))
 	bot.action(constants.HOW_RANDOM_WORKS, async ctx => await faqHandlers.handleHowRandomWorksQuestion(ctx))
+	bot.action(constants.BACK_TO_QUESTIONS, async ctx => await faqHandlers.handleBackToQuestionsButtonClick(ctx))
 
 	bot.on('callback_query', async ctx => await handlers.handlePlayerButtonClick(ctx))
 
