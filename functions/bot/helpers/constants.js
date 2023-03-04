@@ -11,11 +11,12 @@ const constants = Object.freeze({
 	SKILL_SPLIT: 'За скілом',
 	RANDOM_SPLIT: 'Рандомно',
 
+	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟡'],
+	SPLIT_SYMBOLS: ['.', ')', '-'],
+
 	HOW_USE_BOT: 'Як користуватися ботом?',
 	HOW_RANDOM_WORKS: 'Як працює рандом?',
 	BACK_TO_QUESTIONS: 'Повернутися до запитань',
-
-	SPLIT_SYMBOLS: ['.', ')', '-'],
 
 	STRAIGHT_SEQUENCE: 'straight',
 	REVERSE_SEQUENCE: 'reverse',

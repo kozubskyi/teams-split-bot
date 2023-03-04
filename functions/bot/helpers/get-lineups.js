@@ -1,9 +1,11 @@
+const { TEAM_COLORS } = require('./constants')
+
 module.exports = function getLineups(teamsData) {
 	return `
 ${Object.keys(teamsData)
-	.map(team => {
+	.map((team, i) => {
 		return `
-<b>Команда ${team}:</b>
+<b>${TEAM_COLORS[i]} Команда ${team}:</b>
 ${teamsData[team].join('\n')}
 `
 	})

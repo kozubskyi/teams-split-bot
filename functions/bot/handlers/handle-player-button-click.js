@@ -144,7 +144,7 @@ ${Object.keys(teamsData)
 		}
 
 		const reply = `
-✅ <b>Поділили</b>
+✔️ <b>Поділили</b>
 Варіант розподілу: ${splitVariant}
 Кількість команд: ${teamsQuantity}
 Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
