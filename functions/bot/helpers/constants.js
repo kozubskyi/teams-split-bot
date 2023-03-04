@@ -11,7 +11,7 @@ const constants = Object.freeze({
 	SKILL_SPLIT: 'За скілом',
 	RANDOM_SPLIT: 'Рандомно',
 
-	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟡'],
+	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟣'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 
 	HOW_USE_BOT: 'Як користуватися ботом?',
