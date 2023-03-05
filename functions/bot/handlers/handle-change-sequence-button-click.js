@@ -45,7 +45,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 		const buttons = Markup.inlineKeyboard([
 			...getPlayersButtons(remainedPlayers),
 			// !(remainedPlayers.length + captains.length === players.length) ? [CANCEL_LAST_CHOICE_BUTTON] : [],
-			!(remainedPlayers.length % teamsQuantity) ? [CHANGE_SEQUENCE_BUTTON] : [],
+			!((players.length - remainedPlayers.length) % teamsQuantity) ? [CHANGE_SEQUENCE_BUTTON] : [],
 			[CHANGE_CAPTAINS_BUTTON],
 		])
 

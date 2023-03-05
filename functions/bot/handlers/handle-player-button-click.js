@@ -128,7 +128,7 @@ ${Object.keys(teamsData)
 			const buttons = Markup.inlineKeyboard([
 				...getPlayersButtons(remainedPlayers),
 				[CANCEL_LAST_CHOICE_BUTTON],
-				!(remainedPlayers.length % teamsQuantity) ? [CHANGE_SEQUENCE_BUTTON] : [],
+				!((players.length - remainedPlayers.length) % teamsQuantity) ? [CHANGE_SEQUENCE_BUTTON] : [],
 				[CHANGE_CAPTAINS_BUTTON],
 			])
 

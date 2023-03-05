@@ -5,14 +5,24 @@ const deleteMessage = require('../helpers/delete-message')
 const handleSomethingWentWrong = require('./sub-handlers/handle-something-went-wrong')
 const getPlayersButtons = require('../helpers/get-players-buttons')
 const handleError = require('./handle-error')
+const { STRAIGHT_SEQUENCE } = require('../helpers/constants')
 const { RANDOM_CAPTAINS_BUTTON } = require('../helpers/buttons')
 
 module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 	try {
 		await handleChat(ctx)
 		const chatId = ctx.chat.id
-		let { splitVariant, teamsQuantity, players, captains, remainedPlayers, captainsChoice, currentTeam, teamsData } =
-			await getStore(chatId)
+		let {
+			splitVariant,
+			teamsQuantity,
+			players,
+			captains,
+			remainedPlayers,
+			sequence,
+			captainsChoice,
+			currentTeam,
+			teamsData,
+		} = await getStore(chatId)
 		await deleteMessage(ctx)
 
 		if (!splitVariant || !teamsQuantity || !players.length) {
@@ -22,11 +32,12 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 
 		captains = []
 		remainedPlayers = [...players]
+		sequence = STRAIGHT_SEQUENCE
 		captainsChoice = ''
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
 		currentTeam = 1
 
-		await updateStore(chatId, { captains, remainedPlayers, captainsChoice, teamsData, currentTeam })
+		await updateStore(chatId, { captains, remainedPlayers, sequence, captainsChoice, teamsData, currentTeam })
 
 		const { first_name, last_name } = ctx.from
 
