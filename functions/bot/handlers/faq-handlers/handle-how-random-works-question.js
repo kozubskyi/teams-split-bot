@@ -1,6 +1,4 @@
 const { Markup } = require('telegraf')
-const { handleChat } = require('../../services/chats-api')
-const { handleStore } = require('../../services/stores-api')
 const deleteMessage = require('../../helpers/delete-message')
 const handleError = require('../handle-error')
 const { HOW_RANDOM_WORKS } = require('../../helpers/constants')
@@ -8,8 +6,6 @@ const { BACK_TO_QUESTIONS_BUTTON } = require('../../helpers/buttons')
 
 module.exports = async function handleHowRandomWorksQuestion(ctx) {
 	try {
-		await handleChat(ctx)
-		await handleStore(ctx.chat.id)
 		await deleteMessage(ctx)
 
 		const reply = `

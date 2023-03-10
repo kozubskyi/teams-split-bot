@@ -1,18 +1,14 @@
 const { Markup } = require('telegraf')
-const { handleChat } = require('../services/chats-api')
-const { handleStore, updateStore } = require('../services/stores-api')
+const { updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
 const handleError = require('./handle-error')
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
 	try {
-		await handleChat(ctx)
-		const chatId = ctx.chat.id
-		await handleStore(chatId)
 		await deleteMessage(ctx)
 
 		const splitVariant = ctx.callbackQuery.data
-		await updateStore(chatId, { splitVariant })
+		await updateStore(ctx.chat.id, { splitVariant })
 
 		const { first_name, last_name } = ctx.from
 

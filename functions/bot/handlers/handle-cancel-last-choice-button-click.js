@@ -1,5 +1,4 @@
 const { Markup } = require('telegraf')
-const { handleChat } = require('../services/chats-api')
 const { getStore, updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
 const handleSomethingWentWrong = require('./sub-handlers/handle-something-went-wrong')
@@ -17,7 +16,6 @@ const {
 
 module.exports = async function handleCancelLastChoiceButtonClick(ctx) {
 	try {
-		await handleChat(ctx)
 		const chatId = ctx.chat.id
 		let {
 			splitVariant,
