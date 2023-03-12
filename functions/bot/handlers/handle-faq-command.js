@@ -1,5 +1,4 @@
 const { Markup } = require('telegraf')
-const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 const { HOW_USE_BOT, HOW_RANDOM_WORKS } = require('../helpers/constants')
 
@@ -10,6 +9,4 @@ module.exports = async function handleFAQCommand(ctx) {
 	])
 
 	await ctx.reply('Часто задаваємі питання:', buttons)
-
-	await sendInfoMessageToCreator(ctx)
 }

@@ -4,6 +4,7 @@ const handlers = require('./handlers')
 const constants = require('./helpers/constants')
 const faqHandlers = require('./handlers/faq-handlers')
 const { handleChat } = require('./services/chats-api')
+const sendInfoMessageToCreator = require('./helpers/send-info-message-to-creator')
 const handleError = require('./handlers/handle-error')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -23,7 +24,9 @@ function start() {
 	bot.command('faq', async ctx => {
 		try {
 			await handleChat(ctx)
-			handlers.handleFAQCommand(ctx)
+			await handlers.handleFAQCommand(ctx)
+			await sendInfoMessageToCreator(ctx)
+
 		} catch (err) {
 			await handleError({ ctx, err })
 		}
