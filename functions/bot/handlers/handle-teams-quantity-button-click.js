@@ -12,7 +12,7 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 
 		if (!splitVariant) return await handleStartCommand(ctx)
 
-		const teamsQuantity = Number(ctx.callbackQuery.data)
+		const teamsQuantity = Number(ctx.callbackQuery.data[0])
 		const teamsData = {}
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
 
