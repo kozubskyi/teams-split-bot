@@ -14,7 +14,7 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId}`
-	if (text[0] === '/') {
+	if (text && text[0] === '/') {
 		creatorReply = `${creatorReply} натиснув команду ${text.slice(1, 6).toUpperCase()}`
 	} else {
 		creatorReply = `
