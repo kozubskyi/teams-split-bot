@@ -1,7 +1,7 @@
 const { Markup } = require('telegraf')
 const { getStore, updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
-const handleSomethingWentWrong = require('./sub-handlers/handle-something-went-wrong')
+const handleStartCommand = require('./handle-start-command')
 const getPlayersButtons = require('../helpers/get-players-buttons')
 const handleError = require('./handle-error')
 const { STRAIGHT_SEQUENCE } = require('../helpers/constants')
@@ -23,10 +23,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 		} = await getStore(chatId)
 		await deleteMessage(ctx)
 
-		if (!splitVariant || !teamsQuantity || !players.length) {
-			await handleSomethingWentWrong(ctx)
-			return
-		}
+		if (!splitVariant || !teamsQuantity || !players.length) return await handleStartCommand(ctx)
 
 		captains = []
 		remainedPlayers = [...players]
