@@ -13,6 +13,9 @@ const { CANCEL_LAST_CHOICE_BUTTON, CHANGE_SEQUENCE_BUTTON, CHANGE_CAPTAINS_BUTTO
 
 module.exports = async function handlePlayerButtonClick(ctx) {
 	try {
+		const clickedPlayer = ctx.callbackQuery.data
+		if (clickedPlayer === '-') return
+
 		const chatId = ctx.chat.id
 		let {
 			splitVariant,
@@ -29,9 +32,6 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 		await deleteMessage(ctx)
 
 		if (!splitVariant || !teamsQuantity || !players.length) return await handleStartCommand(ctx)
-
-		const clickedPlayer = ctx.callbackQuery.data
-		if (clickedPlayer === '-') return
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
