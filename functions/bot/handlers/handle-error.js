@@ -1,4 +1,4 @@
-const { handleStore } = require('../services/stores-api')
+const { resetStore } = require('../services/stores-api')
 const { CREATOR_USERNAME, CREATOR_CHAT_ID } = require('../helpers/constants')
 
 module.exports = async function handleError({ ctx, err }) {
@@ -13,7 +13,7 @@ module.exports = async function handleError({ ctx, err }) {
 
 	const error = err?.response?.data?.message ?? err
 
-	await handleStore(chatId)
+	await resetStore(chatId)
 
 	let creatorReply = `
 ❌ Помилка!

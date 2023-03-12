@@ -3,13 +3,31 @@ const { Telegraf } = require('telegraf')
 const handlers = require('./handlers')
 const constants = require('./helpers/constants')
 const faqHandlers = require('./handlers/faq-handlers')
+const { handleChat } = require('./services/chats-api')
+const handleError = require('./handlers/handle-error')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 function start() {
-	bot.start(async ctx => await handlers.handleStartCommand(ctx))
-	bot.command('stop', async ctx => handlers.handleStopCommand(ctx))
-	bot.command('faq', async ctx => handlers.handleFAQCommand(ctx))
+	bot.start(async ctx => {
+		try {
+			await handleChat(ctx)
+			await handlers.handleStartCommand(ctx)
+		} catch (err) {
+			await handleError({ ctx, err })
+		}
+	})
+	bot.command('stop', async ctx => {
+		await handlers.handleStopCommand(ctx)
+	})
+	bot.command('faq', async ctx => {
+		try {
+			await handleChat(ctx)
+			handlers.handleFAQCommand(ctx)
+		} catch (err) {
+			await handleError({ ctx, err })
+		}
+	})
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))

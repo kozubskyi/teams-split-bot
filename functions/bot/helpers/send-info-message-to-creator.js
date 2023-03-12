@@ -14,8 +14,8 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId}`
-	if (text?.slice(0, 6) === '/start') {
-		creatorReply = `${creatorReply} натиснув команду Start`
+	if (text[0] === '/') {
+		creatorReply = `${creatorReply} натиснув команду ${text?.slice(1, 6).toUpperCase()}`
 	} else {
 		creatorReply = `
 ${creatorReply} поділив свої команди:

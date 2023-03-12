@@ -1,5 +1,4 @@
 const { Markup } = require('telegraf')
-const { handleChat } = require('../services/chats-api')
 const { handleStore } = require('../services/stores-api')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
@@ -7,11 +6,9 @@ const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT } = require('../helpers/consta
 const { CAPTAINS_SPLIT_BUTTON, SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON } = require('../helpers/buttons')
 
 module.exports = async function handleStartCommand(ctx) {
-	try {
-		await handleChat(ctx)
-		await handleStore(ctx.chat.id)
+	await handleStore(ctx.chat.id)
 
-		const reply = `
+	const reply = `
 Я бот, що був створений для розподілу гравців на команди у футболі та інших командних іграх. Для початку оберіть варіант розподілу:
 
 <b>${CAPTAINS_SPLIT}</b> - оберемо капітанів і потім кожен з них по черзі набере собі гравців у команду.
@@ -20,12 +17,9 @@ module.exports = async function handleStartCommand(ctx) {
 
 <b>${RANDOM_SPLIT}</b> - поділю гравців на команди випадковим чином.
 `
-		const buttons = Markup.inlineKeyboard([[CAPTAINS_SPLIT_BUTTON], [SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON]])
+	const buttons = Markup.inlineKeyboard([[CAPTAINS_SPLIT_BUTTON], [SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON]])
 
-		await ctx.replyWithHTML(reply, buttons)
+	await ctx.replyWithHTML(reply, buttons)
 
-		await sendInfoMessageToCreator(ctx)
-	} catch (err) {
-		await handleError({ ctx, err })
-	}
+	await sendInfoMessageToCreator(ctx)
 }
