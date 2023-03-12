@@ -15,7 +15,7 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 
 Користувач ${firstName} ${lastName} <${username}> ${userChatId}`
 	if (text[0] === '/') {
-		creatorReply = `${creatorReply} натиснув команду ${text?.slice(1, 6).toUpperCase()}`
+		creatorReply = `${creatorReply} натиснув команду ${text.slice(1, 6).toUpperCase()}`
 	} else {
 		creatorReply = `
 ${creatorReply} поділив свої команди:

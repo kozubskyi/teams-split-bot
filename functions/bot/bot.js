@@ -14,6 +14,7 @@ function start() {
 		try {
 			await handleChat(ctx)
 			await handlers.handleStartCommand(ctx)
+			await sendInfoMessageToCreator(ctx)
 		} catch (err) {
 			await handleError({ ctx, err })
 		}

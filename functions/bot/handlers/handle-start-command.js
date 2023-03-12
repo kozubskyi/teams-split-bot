@@ -1,6 +1,5 @@
 const { Markup } = require('telegraf')
 const { handleStore } = require('../services/stores-api')
-const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT } = require('../helpers/constants')
 const { CAPTAINS_SPLIT_BUTTON, SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON } = require('../helpers/buttons')
@@ -20,6 +19,4 @@ module.exports = async function handleStartCommand(ctx) {
 	const buttons = Markup.inlineKeyboard([[CAPTAINS_SPLIT_BUTTON], [SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON]])
 
 	await ctx.replyWithHTML(reply, buttons)
-
-	await sendInfoMessageToCreator(ctx)
 }
