@@ -1,6 +1,7 @@
 const { Markup } = require('telegraf')
 const { updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
+const { TWO_TEAMS, THREE_TEAMS, FOUR_TEAMS } = require('../helpers/constants')
 const handleError = require('./handle-error')
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
@@ -18,7 +19,11 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 Оберіть кількість команд`
 
 		const buttons = Markup.inlineKeyboard([
-			[Markup.button.callback('2', '2'), Markup.button.callback('3', '3'), Markup.button.callback('4', '4')],
+			[
+				Markup.button.callback('2', TWO_TEAMS),
+				Markup.button.callback('3', THREE_TEAMS),
+				Markup.button.callback('4', FOUR_TEAMS),
+			],
 		])
 
 		await ctx.replyWithHTML(reply, buttons)

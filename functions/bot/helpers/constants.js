@@ -11,6 +11,10 @@ const constants = Object.freeze({
 	SKILL_SPLIT: 'За скілом',
 	RANDOM_SPLIT: 'Рандомно',
 
+	TWO_TEAMS: 'two_teams',
+	THREE_TEAMS: "three_teams",
+	FOUR_TEAMS: "four_teams",
+
 	TEAM_COLORS: ['🟢', '🟠', '🔵', '⚪️'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 
