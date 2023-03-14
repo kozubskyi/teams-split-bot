@@ -15,7 +15,7 @@ const constants = Object.freeze({
 	THREE_TEAMS: '3_teams',
 	FOUR_TEAMS: '4_teams',
 
-	TEAM_COLORS: ['🟢', '🟠', '🔵', '⚪️'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
+	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟡'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 
 	HOW_USE_BOT: 'Як користуватися ботом?',
