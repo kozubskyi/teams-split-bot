@@ -1,5 +1,5 @@
 const { Markup } = require('telegraf')
-const { getStore, updateStore, handleStore } = require('../services/stores-api')
+const { getStore, updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
 const handleStartCommand = require('./handle-start-command')
 const getRandomFromArray = require('../helpers/get-random-from-array')
@@ -130,8 +130,6 @@ ${Object.keys(teamsData)
 			await ctx.replyWithHTML(reply, buttons)
 			return
 		}
-
-		await handleStore(chatId)
 
 		if (remainedPlayers.length === 1) {
 			const count = teamsData[currentTeam].length + 1
