@@ -133,8 +133,16 @@ ${Object.keys(teamsData)
 
 		if (remainedPlayers.length === 1) {
 			const count = teamsData[currentTeam].length + 1
-			teamsData[currentTeam].push(`${count}. ${remainedPlayers[0]}`)
+			const lastPreparedPlayer = `${count}. ${remainedPlayers[0]}`
+
+			lastChosenPlayers.push(lastPreparedPlayer)
+			teamsData[currentTeam].push(lastPreparedPlayer)
+
+			remainedPlayers = []
+			currentTeam = 1
 		}
+
+		await updateStore(chatId, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
 
 		const reply = `
 ✔️ <b>Поділили</b>

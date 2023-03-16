@@ -27,10 +27,12 @@ function start() {
 			await handleChat(ctx)
 			await handlers.handleFAQCommand(ctx)
 			await sendInfoMessageToCreator(ctx)
-
 		} catch (err) {
 			await handleError({ ctx, err })
 		}
+	})
+	bot.command('teamratings', async ctx => {
+		await handlers.handleTeamRatingsCommand(ctx)
 	})
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
