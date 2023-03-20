@@ -12,7 +12,7 @@ const {
 
 const buttons = Object.freeze({
 	CAPTAINS_SPLIT_BUTTON: Markup.button.callback(`👥 ${CAPTAINS_SPLIT}`, CAPTAINS_SPLIT),
-	SKILL_SPLIT_BUTTON: Markup.button.callback(`💪 ${SKILL_SPLIT}`, SKILL_SPLIT),
+	SKILL_SPLIT_BUTTON: Markup.button.callback(`📊 ${SKILL_SPLIT}`, SKILL_SPLIT), // 📊💪
 	RANDOM_SPLIT_BUTTON: Markup.button.callback(`🎲 ${RANDOM_SPLIT}`, RANDOM_SPLIT),
 
 	RANDOM_CAPTAINS_BUTTON: Markup.button.callback(`👉 ${RANDOM_CAPTAINS}`, RANDOM_CAPTAINS),
