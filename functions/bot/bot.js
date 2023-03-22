@@ -19,21 +19,16 @@ function start() {
 			await handleError({ ctx, err })
 		}
 	})
-	bot.command('stop', async ctx => {
-		await handlers.handleStopCommand(ctx)
-	})
+	bot.command('stop', async ctx => await handlers.handleStopCommand(ctx))
 	bot.command('faq', async ctx => {
 		try {
-			await handleChat(ctx)
 			await handlers.handleFAQCommand(ctx)
 			await sendInfoMessageToCreator(ctx)
 		} catch (err) {
 			await handleError({ ctx, err })
 		}
 	})
-	bot.command('teamratings', async ctx => {
-		await handlers.handleTeamRatingsCommand(ctx)
-	})
+	bot.command('teamratings', async ctx => await handlers.handleTeamRatingsCommand(ctx))
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
