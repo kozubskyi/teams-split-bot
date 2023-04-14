@@ -28,7 +28,7 @@ function start() {
 			await handleError({ ctx, err })
 		}
 	})
-	bot.command('teamratings', async ctx => await handlers.handleTeamRatingsCommand(ctx))
+	// bot.command('teamratings', async ctx => await handlers.handleTeamRatingsCommand(ctx))
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
