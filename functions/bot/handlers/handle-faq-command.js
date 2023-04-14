@@ -9,5 +9,5 @@ module.exports = async function handleFAQCommand(ctx) {
 		[Markup.button.callback(HOW_SKILL_SPLIT_WORKS, HOW_SKILL_SPLIT_WORKS)],
 	])
 
-	await ctx.reply('Часто задаваємі питання:', buttons)
+	await ctx.reply('Часті запитання:', buttons)
 }
