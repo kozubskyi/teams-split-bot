@@ -12,7 +12,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 function start() {
 	bot.start(async ctx => {
 		try {
-			handleChat(ctx) // await не додаю, тому що не потрібно чекати виконання запиту, а можна одразу відправляти відповідь користувачу
+			await handleChat(ctx)
 			await handlers.handleStartCommand(ctx)
 			await sendInfoMessageToCreator(ctx)
 		} catch (err) {

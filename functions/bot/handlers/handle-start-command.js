@@ -5,7 +5,7 @@ const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT } = require('../helpers/consta
 const { CAPTAINS_SPLIT_BUTTON, SKILL_SPLIT_BUTTON, RANDOM_SPLIT_BUTTON } = require('../helpers/buttons')
 
 module.exports = async function handleStartCommand(ctx) {
-	handleStore(ctx.chat.id) // await не додаю, тому що не потрібно чекати виконання запиту, а можна одразу відправляти відповідь користувачу
+	await handleStore(ctx.chat.id)
 
 	const reply = `
 Я бот, що був створений для розподілу гравців на команди у футболі та інших командних іграх. Для початку оберіть варіант розподілу:
