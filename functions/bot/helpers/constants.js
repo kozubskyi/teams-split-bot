@@ -29,7 +29,7 @@ const constants = Object.freeze({
 	RANDOM_CAPTAINS: 'Обрати капітанів рандомно',
 	CANCEL_LAST_CHOICE: 'Відмінити останній вибір',
 	CHANGE_SEQUENCE: 'Змінити послідовність вибору',
-	CHANGE_CAPTAINS: 'Переобрати капітанів',
+	CHANGE_CAPTAINS: 'Змінити капітанів',
 	// RESPLIT_WITH_THE_CAPTAINS: 'Переділитися цими ж капітанами'
 
 	SOMETHING_WENT_WRONG: '⚠️ Щось пішло не так, потрібно розпочати спочатку',
