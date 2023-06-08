@@ -7,6 +7,7 @@ const sendFinalReply = require('../helpers/send-final-reply')
 const handleError = require('./handle-error')
 const { CAPTAINS_SPLIT, SKILL_SPLIT, RANDOM_SPLIT, CREATOR_CHAT_ID } = require('../helpers/constants')
 const { RANDOM_CAPTAINS_BUTTON } = require('../helpers/buttons')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 
 module.exports = async function handleText(ctx) {
 	try {
@@ -26,6 +27,8 @@ module.exports = async function handleText(ctx) {
 		}
 
 		players = handlePlayersList(playersList)
+
+		await sendInfoMessageToCreator(ctx, 'playersList')
 
 		if (playersQuantity === teamsQuantity) {
 			teamsData = splitHandlers.handlePlayersQuantityEqualToTeamsQuantity(teamsData, players, splitVariant)

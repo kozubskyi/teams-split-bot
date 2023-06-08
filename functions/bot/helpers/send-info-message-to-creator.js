@@ -16,6 +16,11 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 Користувач ${firstName} ${lastName} <${username}> ${userChatId}`
 	if (text && text[0] === '/') {
 		creatorReply = `${creatorReply} натиснув команду ${text}`
+	} else if (reply === 'playersList') {
+		creatorReply = `
+${creatorReply} відправив список гравців:
+
+${text}`
 	} else {
 		creatorReply = `
 ${creatorReply} поділив свої команди:
