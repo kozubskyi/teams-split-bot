@@ -1,5 +1,5 @@
 const { Markup } = require('telegraf')
-const { getStore, updateStore } = require('../services/stores-api')
+const { getStore, updateStore, resetStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
 const handleStartCommand = require('./handle-start-command')
 const getRandomFromArray = require('../helpers/get-random-from-array')
@@ -151,8 +151,8 @@ ${Object.keys(teamsData)
 Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
 `
 		await ctx.replyWithHTML(reply)
-
 		await sendInfoMessageToCreator(ctx, reply)
+		await resetStore(chatId)
 	} catch (err) {
 		await handleError({ ctx, err })
 	}

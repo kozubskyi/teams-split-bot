@@ -56,7 +56,7 @@ ${Object.keys(teamsData)
 		if (splitVariant === SKILL_SPLIT) teamsData = splitHandlers.handleSkillSplit(teamsData, players)
 		if (splitVariant === RANDOM_SPLIT) teamsData = splitHandlers.handleRandomSplit(teamsData, players)
 
-		await updateStore(chatId, { players, teamsData })
+		// await updateStore(chatId, { players, teamsData })
 
 		await sendFinalReply(ctx, { splitVariant, teamsQuantity, teamsData })
 	} catch (err) {

@@ -1,3 +1,4 @@
+const { resetStore } = require('../services/stores-api')
 const getLineups = require('./get-lineups')
 const sendInfoMessageToCreator = require('./send-info-message-to-creator')
 
@@ -9,4 +10,5 @@ module.exports = async function sendFinalReply(ctx, { splitVariant, teamsQuantit
 
 	await ctx.replyWithHTML(reply)
 	await sendInfoMessageToCreator(ctx, reply)
+	await resetStore(ctx.chat.id)
 }
