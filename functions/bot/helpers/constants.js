@@ -18,6 +18,9 @@ const constants = Object.freeze({
 	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟡'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 
+	REMAIN_CAPTAINS_SELECTION_ORDER: 'Залишити',
+	RANDOM_CAPTAINS_SELECTION_ORDER: 'Рандомна',
+
 	HOW_USE_BOT: 'Як користуватися ботом?',
 	HOW_RANDOM_WORKS: 'Як працює рандом?',
 	HOW_SKILL_SPLIT_WORKS: 'Як працює поділ "За скілом"?',

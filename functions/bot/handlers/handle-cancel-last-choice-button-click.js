@@ -34,7 +34,7 @@ module.exports = async function handleCancelLastChoiceButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.from
 
-		if (captains.length < teamsQuantity) {
+		if (captains.length + remainedPlayers.length === players.length) {
 			const lastChosenCaptain = captains.pop()
 			remainedPlayers.push(lastChosenCaptain)
 

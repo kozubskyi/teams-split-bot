@@ -42,6 +42,15 @@ function start() {
 
 	bot.action(constants.RANDOM_CAPTAINS, async ctx => await handlers.handleRandomCaptainsButtonClick(ctx))
 
+	bot.action(
+		constants.REMAIN_CAPTAINS_SELECTION_ORDER,
+		async ctx => await handlers.handleRemainCaptainsSelectionOrderButtonClick(ctx)
+	)
+	bot.action(
+		constants.RANDOM_CAPTAINS_SELECTION_ORDER,
+		async ctx => await handlers.handleRandomCaptainsSelectionOrderButtonClick(ctx)
+	)
+
 	bot.action(constants.CANCEL_LAST_CHOICE, async ctx => await handlers.handleCancelLastChoiceButtonClick(ctx))
 	bot.action(constants.CHANGE_SEQUENCE, async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
 	bot.action(constants.CHANGE_CAPTAINS, async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))

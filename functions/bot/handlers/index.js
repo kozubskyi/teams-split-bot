@@ -7,6 +7,8 @@ module.exports = {
 	handleTeamsQuantityButtonClick: require('./handle-teams-quantity-button-click'),
 	handleText: require('./handle-text'),
 	handleRandomCaptainsButtonClick: require('./handle-random-captains-button-click'),
+	handleRemainCaptainsSelectionOrderButtonClick: require('./handle-remain-captains-selection-order-button-click'),
+	handleRandomCaptainsSelectionOrderButtonClick: require('./handle-random-captains-selection-order-button-click'),
 	handleCancelLastChoiceButtonClick: require('./handle-cancel-last-choice-button-click'),
 	handleChangeSequenceButtonClick: require('./handle-change-sequence-button-click'),
 	handleChangeCaptainsButtonClick: require('./handle-change-captains-button-click'),
