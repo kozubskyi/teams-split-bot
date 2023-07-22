@@ -9,7 +9,7 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 		await deleteMessage(ctx)
 
 		const splitVariant = ctx.callbackQuery.data
-		await updateStore(ctx.chat.id, { splitVariant })
+		await updateStore(ctx, { splitVariant })
 
 		const { first_name, last_name } = ctx.from
 

@@ -33,7 +33,7 @@ module.exports = async function handleRandomCaptainsSelectionOrderButtonClick(ct
 			teams = teams.filter(team => team !== chosenTeam)
 		}
 
-		await updateStore(chatId, { teamsData })
+		await updateStore(ctx, { teamsData })
 
 		const { first_name, last_name } = ctx.from
 		const firstPickCaptain = teamsData[currentTeam][0].slice(3, -4)

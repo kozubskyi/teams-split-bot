@@ -38,7 +38,7 @@ module.exports = async function handleCancelLastChoiceButtonClick(ctx) {
 			const lastChosenCaptain = captains.pop()
 			remainedPlayers.push(lastChosenCaptain)
 
-			await updateStore(chatId, { captains, remainedPlayers })
+			await updateStore(ctx, { captains, remainedPlayers })
 
 			const reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} відмінив вибір ${
@@ -82,7 +82,7 @@ ${Object.keys(teamsData)
 			currentTeam = getPrevChoosingTeam(currentTeam, teamsQuantity)
 		}
 
-		await updateStore(chatId, { remainedPlayers, currentTeam, teamsData, lastChosenPlayers })
+		await updateStore(ctx, { remainedPlayers, currentTeam, teamsData, lastChosenPlayers })
 
 		const currentPickCaptain = teamsData[currentTeam][0].slice(3, -4)
 

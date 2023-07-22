@@ -16,7 +16,7 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 		const teamsData = {}
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
 
-		await updateStore(chatId, { teamsQuantity, teamsData })
+		await updateStore(ctx, { teamsQuantity, teamsData })
 
 		const { first_name, last_name } = ctx.from
 

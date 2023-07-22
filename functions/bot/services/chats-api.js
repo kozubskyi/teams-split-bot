@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { PRIVATE_CHAT, GROUP_CHAT, SUPERGROUP_CHAT } = require('../helpers/constants')
+const getFields = require('../helpers/get-fields')
 
 axios.defaults.baseURL = process.env.TELEGRAM_DB_BASE_URL
 
@@ -8,32 +8,17 @@ const createChat = async chatData => {
 	return data
 }
 
-const updateChat = async (chatId, updatedFields) => {
-	const { data } = await axios.patch(`/chats/chatId/${chatId}`, updatedFields)
+const updateChat = async chatData => {
+	const { data } = await axios.patch(`/chats/chatId/${chatData.chatId}`, chatData)
 	return data
 }
 
 exports.handleChat = async ctx => {
-	const type = ctx.chat?.type
-	const chatId = ctx.chat?.id
-	const userChatId = ctx.from?.id
-	const first_name = ctx.from?.first_name
-	const last_name = ctx.from?.last_name
-	const username = ctx.from?.username
-	const title = ctx.chat?.title
+	const fields = getFields(ctx)
 
-	let updatedFields = {}
-
-	if (type === PRIVATE_CHAT) {
-		updatedFields = { first_name, last_name, username }
-	}
-	if (type === GROUP_CHAT || type === SUPERGROUP_CHAT) {
-		updatedFields = { title }
-	}
-
-	const createdChat = await createChat({ chatId, type, ...updatedFields })
+	const createdChat = await createChat(fields)
 
 	if (!createdChat) {
-		await updateChat(chatId, updatedFields)
+		await updateChat(fields)
 	}
 }

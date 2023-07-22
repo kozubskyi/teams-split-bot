@@ -38,7 +38,7 @@ module.exports = async function handleText(ctx) {
 		}
 
 		if (splitVariant === CAPTAINS_SPLIT) {
-			await updateStore(chatId, { players, remainedPlayers: players })
+			await updateStore(ctx, { players, remainedPlayers: players })
 
 			const reply = `
 Оберіть ${teamsQuantity}-х капітанів. Послідовність я оберу самостійно випадковим чином.
@@ -56,7 +56,7 @@ ${Object.keys(teamsData)
 		if (splitVariant === SKILL_SPLIT) teamsData = splitHandlers.handleSkillSplit(teamsData, players)
 		if (splitVariant === RANDOM_SPLIT) teamsData = splitHandlers.handleRandomSplit(teamsData, players)
 
-		// await updateStore(chatId, { players, teamsData })
+		// await updateStore(ctx, { players, teamsData })
 
 		await sendFinalReply(ctx, { splitVariant, teamsQuantity, teamsData })
 	} catch (err) {

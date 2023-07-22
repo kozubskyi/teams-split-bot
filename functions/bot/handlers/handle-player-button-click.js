@@ -46,7 +46,7 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 			remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
 
 			if (captains.length === teamsQuantity) {
-				await updateStore(chatId, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
+				await updateStore(ctx, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
 
 				const reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав останнього ${
@@ -69,7 +69,7 @@ ${Object.keys(teamsData)
 				return
 			}
 
-			await updateStore(chatId, { captains, remainedPlayers })
+			await updateStore(ctx, { captains, remainedPlayers })
 
 			const reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав ${
@@ -105,7 +105,7 @@ ${Object.keys(teamsData)
 			currentTeam = getNextChoosingTeam(currentTeam, teamsQuantity)
 		}
 
-		await updateStore(chatId, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
+		await updateStore(ctx, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
 
 		const currentPickCaptain = teamsData[currentTeam][0].slice(3, -4)
 
@@ -139,7 +139,7 @@ ${Object.keys(teamsData)
 			currentTeam = 1
 		}
 
-		await updateStore(chatId, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
+		await updateStore(ctx, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
 
 		const reply = `
 ✔️ <b>Поділили</b>
@@ -149,7 +149,7 @@ ${Object.keys(teamsData)
 `
 		await ctx.replyWithHTML(reply)
 		await sendInfoMessageToCreator(ctx, reply)
-		await resetStore(chatId)
+		await resetStore(ctx)
 	} catch (err) {
 		await handleError({ ctx, err })
 	}

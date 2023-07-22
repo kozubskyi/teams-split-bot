@@ -20,7 +20,7 @@ module.exports = async function handleRemainCaptainsSelectionOrderButtonClick(ct
 
 		captains.forEach((captain, i) => teamsData[i + 1].push(`1. ${captain} (C)`))
 
-		await updateStore(chatId, { teamsData })
+		await updateStore(ctx, { teamsData })
 
 		const { first_name, last_name } = ctx.from
 		// const firstPickCaptain = teamsData[currentTeam][0].slice(3, -4)

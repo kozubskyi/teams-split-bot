@@ -10,5 +10,5 @@ module.exports = async function sendFinalReply(ctx, { splitVariant, teamsQuantit
 
 	await ctx.replyWithHTML(reply)
 	await sendInfoMessageToCreator(ctx, reply)
-	await resetStore(ctx.chat.id)
+	await resetStore(ctx)
 }

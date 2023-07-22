@@ -32,7 +32,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
 		currentTeam = 1
 
-		await updateStore(chatId, { captains, remainedPlayers, sequence, captainsChoice, teamsData, currentTeam })
+		await updateStore(ctx, { captains, remainedPlayers, sequence, captainsChoice, teamsData, currentTeam })
 
 		const { first_name, last_name } = ctx.from
 

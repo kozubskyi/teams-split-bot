@@ -1,4 +1,5 @@
 const axios = require('axios')
+const getFields = require('../helpers/get-fields')
 
 axios.defaults.baseURL = process.env.TELEGRAM_DB_BASE_URL
 
@@ -15,13 +16,16 @@ const initialStore = {
 	lastChosenPlayers: [],
 }
 
-const createStore = async chatId => {
-	const { data } = await axios.post('/stores', { chatId })
+const createStore = async storeData => {
+	const { data } = await axios.post('/stores', storeData)
 	return data
 }
 
-const resetStore = async chatId => {
-	const { data } = await axios.patch(`/stores/chatId/${chatId}`, initialStore)
+const resetStore = async ctx => {
+	const fields = getFields(ctx)
+
+	const { data } = await axios.patch(`/stores/chatId/${fields.chatId}`, { ...fields, ...initialStore })
+
 	return data
 }
 
@@ -32,17 +36,19 @@ exports.getStore = async chatId => {
 	return data
 }
 
-exports.updateStore = async (chatId, updatedFields) => {
-	const { data } = await axios.patch(`/stores/chatId/${chatId}`, updatedFields)
+exports.updateStore = async (ctx, updatedFields) => {
+	const fields = getFields(ctx)
+
+	const { data } = await axios.patch(`/stores/chatId/${fields.chatId}`, { ...fields, ...updatedFields })
 	return data
 }
 
-exports.handleStore = async chatId => {
-	let store = await createStore(chatId)
+exports.handleStore = async ctx => {
+	const fields = getFields(ctx)
 
-	if (!store) {
-		store = await resetStore(chatId)
+	const createdStore = await createStore(fields)
+
+	if (!createdStore) {
+		await resetStore(ctx)
 	}
-
-	return store
 }

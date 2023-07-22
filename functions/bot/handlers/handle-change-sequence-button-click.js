@@ -26,7 +26,7 @@ module.exports = async function handleChangeCaptainsButtonClick(ctx) {
 			currentTeam = getNextChoosingTeam(currentTeam, teamsQuantity)
 		}
 
-		await updateStore(chatId, { sequence, currentTeam })
+		await updateStore(ctx, { sequence, currentTeam })
 
 		const currentPickCaptain = teamsData[currentTeam][0].slice(3, -4)
 

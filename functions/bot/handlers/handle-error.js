@@ -13,7 +13,7 @@ module.exports = async function handleError({ ctx, err }) {
 
 	const error = err?.response?.data?.message ?? err
 
-	// await resetStore(chatId)
+	// await resetStore(ctx)
 
 	let creatorReply = `
 ❌ Помилка!
