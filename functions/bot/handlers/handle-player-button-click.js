@@ -1,6 +1,7 @@
 const { Markup } = require('telegraf')
-const { getStore, updateStore, resetStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
+const { handleChat } = require('../services/chats-api')
+const { getStore, updateStore, resetStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const getRandomFromArray = require('../helpers/get-random-from-array')
 const getLineups = require('../helpers/get-lineups')
@@ -22,6 +23,8 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 		const clickedPlayer = ctx.callbackQuery.data
 		if (clickedPlayer === '-') return
 
+		await deleteMessage(ctx)
+		await handleChat(ctx)
 		const chatId = ctx.chat.id
 		let {
 			splitVariant,
@@ -35,7 +38,6 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 			lastChosenPlayers,
 			sequence,
 		} = await getStore(chatId)
-		await deleteMessage(ctx)
 
 		if (!splitVariant || !teamsQuantity || !players.length) return await handleStartCommand(ctx)
 

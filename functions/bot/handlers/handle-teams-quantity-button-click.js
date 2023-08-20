@@ -1,14 +1,16 @@
-const { getStore, updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
+const { handleChat } = require('../services/chats-api')
+const { getStore, updateStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const handleError = require('./handle-error')
 const { SKILL_SPLIT } = require('../helpers/constants')
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 	try {
+		await deleteMessage(ctx)
+		await handleChat(ctx)
 		const chatId = ctx.chat.id
 		let { splitVariant } = await getStore(chatId)
-		await deleteMessage(ctx)
 
 		if (!splitVariant) return await handleStartCommand(ctx)
 

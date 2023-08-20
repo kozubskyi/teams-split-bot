@@ -1,6 +1,7 @@
 const { Markup } = require('telegraf')
-const { getStore, updateStore } = require('../services/stores-api')
 const deleteMessage = require('../helpers/delete-message')
+const { handleChat } = require('../services/chats-api')
+const { getStore, updateStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const getRandomFromArray = require('../helpers/get-random-from-array')
 const getLineups = require('../helpers/get-lineups')
@@ -12,9 +13,10 @@ const { CHANGE_SEQUENCE_BUTTON, CHANGE_CAPTAINS_BUTTON } = require('../helpers/b
 
 module.exports = async function handleRemainCaptainsSelectionOrderButtonClick(ctx) {
 	try {
+		await deleteMessage(ctx)
+		await handleChat(ctx)
 		const chatId = ctx.chat.id
 		let { splitVariant, teamsQuantity, players, captains, remainedPlayers, teamsData } = await getStore(chatId)
-		await deleteMessage(ctx)
 
 		if (!splitVariant || !teamsQuantity || !players.length) return await handleStartCommand(ctx)
 

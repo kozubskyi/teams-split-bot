@@ -22,6 +22,7 @@ function start() {
 	bot.command('stop', async ctx => await handlers.handleStopCommand(ctx))
 	bot.command('faq', async ctx => {
 		try {
+			await handleChat(ctx)
 			await handlers.handleFAQCommand(ctx)
 			await sendInfoMessageToCreator(ctx)
 		} catch (err) {

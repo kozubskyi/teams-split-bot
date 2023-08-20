@@ -1,9 +1,11 @@
+const { handleChat } = require('../services/chats-api')
 const { getStore } = require('../services/stores-api')
 const getLineups = require('../helpers/get-lineups')
 const handleError = require('./handle-error')
 
 module.exports = async function handleTeamRatingsCommand(ctx) {
 	try {
+		await handleChat(ctx)
 		const { splitVariant, teamsQuantity, players, teamsData } = await getStore(ctx.chat.id)
 
 		const teamsDataPlayersQuantity = teamsData ? Object.values(teamsData).flatMap(arr => arr).length : 0

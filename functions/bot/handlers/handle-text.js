@@ -1,4 +1,5 @@
 const { Markup } = require('telegraf')
+const { handleChat } = require('../services/chats-api')
 const { getStore, updateStore } = require('../services/stores-api')
 const handlePlayersList = require('./sub-handlers/handle-players-list')
 const splitHandlers = require('./split-handlers')
@@ -11,6 +12,7 @@ const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creato
 
 module.exports = async function handleText(ctx) {
 	try {
+		await handleChat(ctx)
 		const chatId = ctx.chat.id
 		let { splitVariant, teamsQuantity, players, captains, teamsData } = await getStore(chatId)
 
