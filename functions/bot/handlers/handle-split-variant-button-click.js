@@ -3,6 +3,7 @@ const deleteMessage = require('../helpers/delete-message')
 const { handleChat } = require('../services/chats-api')
 const { updateStore } = require('../services/stores-api')
 const { TWO_TEAMS, THREE_TEAMS, FOUR_TEAMS } = require('../helpers/constants')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 
 module.exports = async function handleSplitVariantButtonClick(ctx) {
@@ -28,6 +29,7 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 		])
 
 		await ctx.replyWithHTML(reply, buttons)
+		await sendInfoMessageToCreator(ctx, 'splitVariant')
 	} catch (err) {
 		await handleError({ ctx, err })
 	}

@@ -2,8 +2,9 @@ const deleteMessage = require('../helpers/delete-message')
 const { handleChat } = require('../services/chats-api')
 const { getStore, updateStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
-const handleError = require('./handle-error')
 const { SKILL_SPLIT } = require('../helpers/constants')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
+const handleError = require('./handle-error')
 
 module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 	try {
@@ -35,6 +36,7 @@ ${reply}
 		}
 
 		await ctx.replyWithHTML(reply)
+		await sendInfoMessageToCreator(ctx, 'teamsQuantity')
 	} catch (err) {
 		await handleError({ ctx, err })
 	}

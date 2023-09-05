@@ -9,6 +9,7 @@ module.exports = async function sendInfoMessageToCreator(ctx, reply) {
 	const username = ctx.from?.username
 	const userChatId = ctx.from?.id
 	const text = ctx.message?.text
+	const btnValue = ctx.callbackQuery?.data
 
 	let creatorReply = `
 Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
@@ -16,6 +17,10 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 Користувач ${firstName} ${lastName} <${username}> ${userChatId}`
 	if (text && text[0] === '/') {
 		creatorReply = `${creatorReply} натиснув команду ${text}`
+	} else if (reply === 'splitVariant') {
+		creatorReply = `${creatorReply} обрав варіант розподілу: ${btnValue}`
+	} else if (reply === 'teamsQuantity') {
+		creatorReply = `${creatorReply} обрав кількість команд: ${btnValue[0]}`
 	} else if (reply === 'playersList') {
 		creatorReply = `
 ${creatorReply} відправив список гравців:
