@@ -38,7 +38,7 @@ module.exports = async function handleCancelLastChoiceButtonClick(ctx) {
 
 		if (captains.length + remainedPlayers.length === players.length) {
 			const lastChosenCaptain = captains.pop()
-			remainedPlayers.push(lastChosenCaptain)
+			remainedPlayers.unshift(lastChosenCaptain)
 
 			await updateStore(ctx, { captains, remainedPlayers })
 
@@ -76,7 +76,7 @@ ${Object.keys(teamsData)
 
 		const slicedLastChosenPlayer = lastChosenPlayer.slice(3).trim()
 
-		remainedPlayers.push(slicedLastChosenPlayer)
+		remainedPlayers.unshift(slicedLastChosenPlayer)
 
 		if (sequence === REVERSE_SEQUENCE) {
 			currentTeam = getNextChoosingTeam(currentTeam, teamsQuantity)
