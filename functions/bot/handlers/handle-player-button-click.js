@@ -48,23 +48,56 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 			remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
 
 			if (captains.length === teamsQuantity) {
+				// 				await updateStore(ctx, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
+
+				// 				const reply = `
+				// <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав останнього ${
+				// 					captains.length
+				// 				}-го капітана: ${clickedPlayer}</i>
+
+				// Оберіть черговість набору гравців капітанами
+
+				// <b>Капітани:</b>
+				// ${Object.keys(teamsData)
+				// 	.map((team, i) => (captains[i] ? `${team}. ${captains[i]}` : `${team}. `))
+				// 	.join('\n')}`
+
+				// 				const buttons = Markup.inlineKeyboard([
+				// 					[REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON, RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON],
+				// 					[CANCEL_LAST_CHOICE_BUTTON],
+				// 				])
+
+				// 				await ctx.replyWithHTML(reply, buttons)
+				// 				return
+
+				let remainedCaptains = [...captains]
+				let teams = Object.keys(teamsData)
+
+				for (let i = 0; i < teamsQuantity; i++) {
+					const chosenCaptain = getRandomFromArray(remainedCaptains)
+					const chosenTeam = getRandomFromArray(teams)
+
+					teamsData[chosenTeam].push(`1. ${chosenCaptain} (C)`)
+
+					remainedCaptains.splice(remainedCaptains.indexOf(chosenCaptain), 1)
+					teams = teams.filter(team => team !== chosenTeam)
+				}
+
 				await updateStore(ctx, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
+
+				const firstPickCaptain = teamsData[currentTeam][0].slice(3, -4)
 
 				const reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав останнього ${
 					captains.length
 				}-го капітана: ${clickedPlayer}</i>
-				
-Оберіть черговість набору гравців капітанами	
-				
-<b>Капітани:</b>
-${Object.keys(teamsData)
-	.map((team, i) => (captains[i] ? `${team}. ${captains[i]}` : `${team}. `))
-	.join('\n')}`
+
+Першим обирає: <b>${firstPickCaptain}</b> ${getLineups(teamsData)} ${DO_NOT_TOUCH_PLAYERS_BUTTONS}`
 
 				const buttons = Markup.inlineKeyboard([
-					[REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON, RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON],
-					[CANCEL_LAST_CHOICE_BUTTON],
+					...getPlayersButtons(remainedPlayers),
+					[CHANGE_SEQUENCE_BUTTON],
+					[CHANGE_CAPTAINS_BUTTON],
 				])
 
 				await ctx.replyWithHTML(reply, buttons)
