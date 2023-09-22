@@ -10,8 +10,7 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 	try {
 		await deleteMessage(ctx)
 		await handleChat(ctx)
-		const chatId = ctx.chat.id
-		let { splitVariant } = await getStore(chatId)
+		let { splitVariant } = await getStore(ctx.chat.id)
 
 		if (!splitVariant) return await handleStartCommand(ctx)
 

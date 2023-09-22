@@ -10,8 +10,10 @@ module.exports = async function handleTeamRatingsCommand(ctx) {
 
 		const teamsDataPlayersQuantity = teamsData ? Object.values(teamsData).flatMap(arr => arr).length : 0
 
-		if (players.length === 0 || teamsDataPlayersQuantity !== players.length)
-			return await ctx.reply('Спочатку треба поділити команди')
+		if (players.length === 0 || teamsDataPlayersQuantity !== players.length) {
+			await ctx.reply('Спочатку треба поділити команди')
+			return
+		}
 
 		const playersCopy = [...players]
 		const teamRatings = {}
