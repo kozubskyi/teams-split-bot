@@ -56,6 +56,9 @@ function start() {
 	bot.action(constants.CHANGE_SEQUENCE, async ctx => await handlers.handleChangeSequenceButtonClick(ctx))
 	bot.action(constants.CHANGE_CAPTAINS, async ctx => await handlers.handleChangeCaptainsButtonClick(ctx))
 
+	bot.action(constants.TRANSFERS, async ctx => await handlers.handleTransfersButtonClick(ctx))
+	bot.action(constants.FINISH_TRANSFERS, async ctx => await handlers.handleFinishTransfersButtonClick(ctx))
+
 	bot.action(constants.HOW_USE_BOT, async ctx => await faqHandlers.handleHowUseBotQuestion(ctx))
 	bot.action(constants.HOW_RANDOM_WORKS, async ctx => await faqHandlers.handleHowRandomWorksQuestion(ctx))
 	bot.action(constants.HOW_SKILL_SPLIT_WORKS, async ctx => await faqHandlers.handleHowSkillSplitWorks(ctx))
