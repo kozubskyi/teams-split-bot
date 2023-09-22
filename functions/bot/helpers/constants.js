@@ -33,6 +33,8 @@ const constants = Object.freeze({
 	CANCEL_LAST_CHOICE: 'Відмінити останній вибір',
 	CHANGE_SEQUENCE: 'Змінити послідовність вибору',
 	CHANGE_CAPTAINS: 'Змінити капітанів',
+	TRANSFERS: 'Трансфери',
+	FINISH_TRANSFERS: 'Завершити трансфери',
 	// RESPLIT_WITH_THE_CAPTAINS: 'Переділитися цими ж капітанами'
 
 	SOMETHING_WENT_WRONG: '⚠️ Щось пішло не так, потрібно розпочати спочатку',

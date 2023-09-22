@@ -9,6 +9,8 @@ const {
 	CANCEL_LAST_CHOICE,
 	CHANGE_SEQUENCE,
 	CHANGE_CAPTAINS,
+	TRANSFERS,
+	FINISH_TRANSFERS,
 	BACK_TO_QUESTIONS,
 } = require('./constants')
 
@@ -24,6 +26,8 @@ const buttons = Object.freeze({
 	CANCEL_LAST_CHOICE_BUTTON: Markup.button.callback(`❌ ${CANCEL_LAST_CHOICE}`, CANCEL_LAST_CHOICE), // ❌✖️🚫❎
 	CHANGE_SEQUENCE_BUTTON: Markup.button.callback(`🔙 ${CHANGE_SEQUENCE}`, CHANGE_SEQUENCE), // ↩️🔙🔀
 	CHANGE_CAPTAINS_BUTTON: Markup.button.callback(`👨‍✈️ ${CHANGE_CAPTAINS}`, CHANGE_CAPTAINS), // ©️⭐️👨‍✈️👥
+	TRANSFERS_BUTTON: Markup.button.callback(TRANSFERS, TRANSFERS),
+	FINISH_TRANSFERS_BUTTON: Markup.button.callback(`☑️ ${FINISH_TRANSFERS}`, FINISH_TRANSFERS),
 	// RESPLIT_WITH_THE_CAPTAINS_BUTTON: Markup.button.callback(`©️ ${RESPLIT_WITH_THE_CAPTAINS}`, RESPLIT_WITH_THE_CAPTAINS), // ©️⏮⏪◀️⬅️🔚🔙🔝
 
 	BACK_TO_QUESTIONS_BUTTON: Markup.button.callback(BACK_TO_QUESTIONS, BACK_TO_QUESTIONS),

@@ -13,5 +13,7 @@ module.exports = {
 	handleChangeSequenceButtonClick: require('./handle-change-sequence-button-click'),
 	handleChangeCaptainsButtonClick: require('./handle-change-captains-button-click'),
 	handlePlayerButtonClick: require('./handle-player-button-click'),
+	handleTransfersButtonClick: require('./handle-transfers-button-click'),
+	handleFinishTransfersButtonClick: require('./handle-finish-transfers-button-click'),
 	handleError: require('./handle-error'),
 }
