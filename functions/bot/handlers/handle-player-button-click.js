@@ -1,7 +1,7 @@
 const { Markup } = require('telegraf')
 const deleteMessage = require('../helpers/delete-message')
 const { handleChat } = require('../services/chats-api')
-const { getStore, updateStore, resetStore } = require('../services/stores-api')
+const { getStore, updateStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const getRandomFromArray = require('../helpers/get-random-from-array')
 const getLineups = require('../helpers/get-lineups')
@@ -16,6 +16,7 @@ const {
 	CHANGE_CAPTAINS_BUTTON,
 	REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON,
 	RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON,
+	FINISH_TRANSFERS_BUTTON,
 } = require('../helpers/buttons')
 
 module.exports = async function handlePlayerButtonClick(ctx) {
@@ -43,33 +44,135 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 
 		const { first_name, last_name } = ctx.callbackQuery.from
 
+		const teamsDataPlayersQuantity = teamsData ? Object.values(teamsData).flatMap(arr => arr).length : 0
+
+		if (teamsDataPlayersQuantity === players.length) {
+			const preparedClickedPlayer = clickedPlayer.slice(3).trim()
+
+			lastChosenPlayers.push(clickedPlayer)
+
+			if (lastChosenPlayers.length % 2) {
+				for (let team = 1; team <= teamsQuantity; team++) {
+					const players = teamsData[team]
+
+					if (players.includes(clickedPlayer)) {
+						teamsData[team] = players.map(player => (player === clickedPlayer ? null : player))
+					}
+				}
+
+				await updateStore(ctx, { lastChosenPlayers, teamsData })
+
+				let preparedPlayersArray = []
+
+				for (let i = 0; i < Math.ceil(players.length / teamsQuantity); i++) {
+					Object.keys(teamsData).forEach(team => {
+						let player = teamsData[team][i]
+
+						if (player === null) player = '-'
+						if (player === undefined) player = `${i + 1}. (К${team})`
+
+						preparedPlayersArray.push(player)
+					})
+				}
+
+				const reply = `
+<i>Користувач ${first_name}${
+					last_name ? ` ${last_name}` : ''
+				} обрав першого гравця для трансфера: ${preparedClickedPlayer}</i>
+
+Оберіть гравця, з яким бажаєте його поміняти`
+
+				const buttons = Markup.inlineKeyboard([
+					...getPlayersButtons(preparedPlayersArray, teamsQuantity),
+					[FINISH_TRANSFERS_BUTTON],
+				])
+
+				await ctx.replyWithHTML(reply, buttons)
+			} else {
+				const lastChosenPlayer = lastChosenPlayers[lastChosenPlayers.length - 2]
+
+				let preparedPlayersArray = []
+
+				if (clickedPlayer.includes('. (К')) {
+					const team = clickedPlayer[clickedPlayer.length - 2]
+					const preparedPlayer = `${clickedPlayer.slice(0, 3).trim()} ${lastChosenPlayer.slice(3).trim()}`
+
+					teamsData[team].push(preparedPlayer)
+
+					for (let team = 1; team <= teamsQuantity; team++) {
+						const index = teamsData[team].indexOf(null)
+
+						if (index >= 0) {
+							teamsData[team].splice(index, 1)
+
+							teamsData[team] = teamsData[team].map((player, i) => `${i + 1}. ${player.slice(3).trim()}`)
+						}
+					}
+				} else {
+					for (let team = 1; team <= teamsQuantity; team++) {
+						const players = teamsData[team]
+
+						if (players.includes(clickedPlayer)) {
+							const index = players.indexOf(clickedPlayer)
+
+							teamsData[team].splice(index, 1, `${index + 1}. ${lastChosenPlayer.slice(3).trim()}`)
+						}
+						if (players.includes(null)) {
+							const index = players.indexOf(null)
+
+							teamsData[team].splice(index, 1, `${index + 1}. ${preparedClickedPlayer}`)
+						}
+					}
+				}
+
+				await updateStore(ctx, { lastChosenPlayers, teamsData })
+
+				for (let i = 0; i < Math.ceil(players.length / teamsQuantity); i++) {
+					Object.keys(teamsData).forEach(team => {
+						const player = teamsData[team][i]
+						preparedPlayersArray.push(player ? player : '-')
+					})
+				}
+
+				let reply = `<i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав `
+				let transfer = null
+
+				if (clickedPlayer.includes('. (К')) {
+					const team = clickedPlayer[clickedPlayer.length - 2]
+
+					transfer = `${lastChosenPlayer} ➡️ Команда ${team}`
+
+					reply += `команду в яку перевести гравця</i>`
+				} else {
+					transfer = `${lastChosenPlayer} 🔄 ${clickedPlayer}`
+
+					reply += `другого гравця для трансфера: ${preparedClickedPlayer}</i>`
+				}
+
+				reply += `
+
+Поточний трансфер:
+${transfer}
+				
+Для завершення трансферів натисніть кнопку "Завершити трансери". Для продовження трансферів далі обирайте гравців.`
+
+				const buttons = Markup.inlineKeyboard([
+					...getPlayersButtons(preparedPlayersArray, teamsQuantity),
+					[FINISH_TRANSFERS_BUTTON],
+				])
+
+				await ctx.replyWithHTML(reply, buttons)
+				await sendInfoMessageToCreator(ctx, 'transfer', transfer)
+			}
+
+			return
+		}
+
 		if (captains.length < teamsQuantity) {
 			captains.push(clickedPlayer)
 			remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
 
 			if (captains.length === teamsQuantity) {
-				// 				await updateStore(ctx, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
-
-				// 				const reply = `
-				// <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав останнього ${
-				// 					captains.length
-				// 				}-го капітана: ${clickedPlayer}</i>
-
-				// Оберіть черговість набору гравців капітанами
-
-				// <b>Капітани:</b>
-				// ${Object.keys(teamsData)
-				// 	.map((team, i) => (captains[i] ? `${team}. ${captains[i]}` : `${team}. `))
-				// 	.join('\n')}`
-
-				// 				const buttons = Markup.inlineKeyboard([
-				// 					[REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON, RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON],
-				// 					[CANCEL_LAST_CHOICE_BUTTON],
-				// 				])
-
-				// 				await ctx.replyWithHTML(reply, buttons)
-				// 				return
-
 				let remainedCaptains = [...captains]
 				let teams = Object.keys(teamsData)
 
@@ -184,7 +287,7 @@ ${Object.keys(teamsData)
 `
 		await ctx.replyWithHTML(reply)
 		await sendInfoMessageToCreator(ctx, reply)
-		await resetStore(ctx)
+		// await resetStore(ctx)
 	} catch (err) {
 		await handleError({ ctx, err })
 	}
