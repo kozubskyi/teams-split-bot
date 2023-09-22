@@ -1,6 +1,6 @@
 const { Markup } = require('telegraf')
 
-module.exports = function getPlayersButtons(players, buttonsInString = 2) {
+module.exports = function getPlayersButtons(players, buttonsInString = 3) {
 	const buttons = []
 	let currentIndex = 0
 
