@@ -13,8 +13,7 @@ const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creato
 module.exports = async function handleText(ctx) {
 	try {
 		await handleChat(ctx)
-		const chatId = ctx.chat.id
-		let { splitVariant, teamsQuantity, players, captains, teamsData } = await getStore(chatId)
+		let { splitVariant, teamsQuantity, players, captains, teamsData } = await getStore(ctx.chat.id)
 
 		if (!splitVariant || !teamsQuantity || players.length) return
 
@@ -58,7 +57,7 @@ ${Object.keys(teamsData)
 		if (splitVariant === SKILL_SPLIT) teamsData = splitHandlers.handleSkillSplit(teamsData, players)
 		if (splitVariant === RANDOM_SPLIT) teamsData = splitHandlers.handleRandomSplit(teamsData, players)
 
-		// await updateStore(ctx, { players, teamsData })
+		await updateStore(ctx, { players, teamsData })
 
 		await sendFinalReply(ctx, { splitVariant, teamsQuantity, teamsData })
 	} catch (err) {
