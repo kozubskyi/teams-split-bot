@@ -1,6 +1,6 @@
 const { CREATOR_CHAT_ID } = require('./constants')
 
-module.exports = async function sendInfoMessageToCreator(ctx, reply) {
+module.exports = async function sendInfoMessageToCreator(ctx, reply, ...others) {
 	const chatId = ctx.chat?.id
 	const type = ctx.chat?.type
 	const title = ctx.chat?.title
@@ -26,6 +26,18 @@ Chat: ${type} ${title ? `"${title}" ` : ''}${chatId}
 ${creatorReply} відправив список гравців:
 
 ${text}`
+	} else if (reply === 'transfers') {
+		creatorReply = `${creatorReply} натиснув кнопку Трансфери`
+	} else if (reply === 'transfer') {
+		creatorReply = `
+${creatorReply} зробив трансфер:
+
+${others[0]}`
+	} else if (reply === 'finishTransfers') {
+		creatorReply = `
+${creatorReply} підтвердив трансфери:
+
+${others[0]}`
 	} else {
 		creatorReply = `
 ${creatorReply} поділив свої команди:
