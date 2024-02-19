@@ -16,6 +16,7 @@ const {
 	CHANGE_CAPTAINS_BUTTON,
 	REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON,
 	RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON,
+	TRANSFERS_BUTTON,
 	FINISH_TRANSFERS_BUTTON,
 } = require('../helpers/buttons')
 
@@ -115,12 +116,20 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 						if (players.includes(clickedPlayer)) {
 							const index = players.indexOf(clickedPlayer)
 
-							teamsData[team].splice(index, 1, `${index + 1}. ${lastChosenPlayer.slice(3).trim()}`)
+							teamsData[team].splice(
+								index,
+								1,
+								`${index + 1}. ${lastChosenPlayer.slice(3).replace(' (C)', '').trim()}${index ? '' : ' (C)'}`
+							)
 						}
 						if (players.includes(null)) {
 							const index = players.indexOf(null)
 
-							teamsData[team].splice(index, 1, `${index + 1}. ${preparedClickedPlayer}`)
+							teamsData[team].splice(
+								index,
+								1,
+								`${index + 1}. ${preparedClickedPlayer.replace(' (C)', '')}${index ? '' : ' (C)'}`
+							)
 						}
 					}
 				}
@@ -173,34 +182,23 @@ ${transfer}
 			remainedPlayers.splice(remainedPlayers.indexOf(clickedPlayer), 1)
 
 			if (captains.length === teamsQuantity) {
-				let remainedCaptains = [...captains]
-				let teams = Object.keys(teamsData)
-
-				for (let i = 0; i < teamsQuantity; i++) {
-					const chosenCaptain = getRandomFromArray(remainedCaptains)
-					const chosenTeam = getRandomFromArray(teams)
-
-					teamsData[chosenTeam].push(`1. ${chosenCaptain} (C)`)
-
-					remainedCaptains.splice(remainedCaptains.indexOf(chosenCaptain), 1)
-					teams = teams.filter(team => team !== chosenTeam)
-				}
-
-				await updateStore(ctx, { captains, remainedPlayers, teamsData, captainsChoice: 'Вказано' })
-
-				const firstPickCaptain = teamsData[currentTeam][0].slice(3, -4)
+				await updateStore(ctx, { captains, remainedPlayers, captainsChoice: 'Вказано' })
 
 				const reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав останнього ${
 					captains.length
 				}-го капітана: ${clickedPlayer}</i>
+				
+<b>Капітани:</b>
+${Object.keys(teamsData)
+	.map((team, i) => (captains[i] ? `${team}. ${captains[i]}` : `${team}. `))
+	.join('\n')}
 
-Першим обирає: <b>${firstPickCaptain}</b> ${getLineups(teamsData)} ${DO_NOT_TOUCH_PLAYERS_BUTTONS}`
+Оберіть черговість набору гравців капітанами. Залишити як у списку капітанів чи розрахувати випадковим чином (рандомно)?`
 
 				const buttons = Markup.inlineKeyboard([
-					...getPlayersButtons(remainedPlayers),
-					[CHANGE_SEQUENCE_BUTTON],
-					[CHANGE_CAPTAINS_BUTTON],
+					[REMAIN_CAPTAINS_SELECTION_ORDER_BUTTON, RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON],
+					[CANCEL_LAST_CHOICE_BUTTON],
 				])
 
 				await ctx.replyWithHTML(reply, buttons)
@@ -277,7 +275,7 @@ ${Object.keys(teamsData)
 			currentTeam = 1
 		}
 
-		await updateStore(ctx, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers })
+		await updateStore(ctx, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers: [] })
 
 		const reply = `
 ✔️ <b>Поділили</b>
@@ -285,7 +283,9 @@ ${Object.keys(teamsData)
 Кількість команд: ${teamsQuantity}
 Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
 `
-		await ctx.replyWithHTML(reply)
+		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON]])
+
+		await ctx.replyWithHTML(reply, buttons)
 		await sendInfoMessageToCreator(ctx, reply)
 		// await resetStore(ctx)
 	} catch (err) {

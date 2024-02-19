@@ -31,7 +31,7 @@ module.exports = async function handleRemainCaptainsSelectionOrderButtonClick(ct
 		const reply = `
 <i>Користувач ${first_name}${
 			last_name ? ` ${last_name}` : ''
-		} вирішив залишити черговість набору гравців капітанами таку як було обрано капітанів</i>
+		} вирішив залишити черговість набору гравців таку, як була у списку капітанів</i>
 
 Першим обирає: <b>${firstPickCaptain}</b> ${getLineups(teamsData)} ${DO_NOT_TOUCH_PLAYERS_BUTTONS}`
 

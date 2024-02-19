@@ -17,7 +17,7 @@ module.exports = async function handleText(ctx) {
 
 		if (!splitVariant || !teamsQuantity || players.length) return
 
-		const playersList = ctx.message.text.split('\n')
+		const playersList = ctx.message.text.split('\n').filter(player => !!player)
 		const playersQuantity = playersList.length
 
 		if (playersQuantity < teamsQuantity) {
@@ -42,7 +42,7 @@ module.exports = async function handleText(ctx) {
 			await updateStore(ctx, { players, remainedPlayers: players })
 
 			const reply = `
-Оберіть ${teamsQuantity}-х капітанів. Послідовність я оберу самостійно випадковим чином.
+Оберіть ${teamsQuantity}-х капітанів
 
 <b>Капітани:</b>
 ${Object.keys(teamsData)

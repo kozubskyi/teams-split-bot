@@ -9,7 +9,7 @@ const handleError = require('./handlers/handle-error')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-function start() {
+function run() {
 	bot.start(async ctx => {
 		try {
 			await handleChat(ctx)
@@ -71,7 +71,7 @@ function start() {
 	console.log('✅ The bot is configured and must work correctly')
 }
 
-start()
+run()
 
 // bot.launch()
 

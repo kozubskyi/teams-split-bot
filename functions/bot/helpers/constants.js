@@ -18,8 +18,8 @@ const constants = Object.freeze({
 	TEAM_COLORS: ['🟢', '🔴', '🔵', '🟡'], // 🟢🔴🔵🟣🟡🟠🟤⚪️⚫️
 	SPLIT_SYMBOLS: ['.', ')', '-'],
 
-	REMAIN_CAPTAINS_SELECTION_ORDER: 'Залишити',
-	RANDOM_CAPTAINS_SELECTION_ORDER: 'Рандомна',
+	REMAIN_CAPTAINS_SELECTION_ORDER: 'REMAIN_CAPTAINS_SELECTION_ORDER',
+	RANDOM_CAPTAINS_SELECTION_ORDER: 'RANDOM_CAPTAINS_SELECTION_ORDER',
 
 	HOW_USE_BOT: 'Як користуватися ботом?',
 	HOW_RANDOM_WORKS: 'Як працює рандом?',

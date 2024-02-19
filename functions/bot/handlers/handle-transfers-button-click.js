@@ -1,6 +1,6 @@
 const { Markup } = require('telegraf')
 const { handleChat } = require('../services/chats-api')
-const { getStore, updateStore } = require('../services/stores-api')
+const { getStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const { FINISH_TRANSFERS_BUTTON } = require('../helpers/buttons')
 const getPlayersButtons = require('../helpers/get-players-buttons')
@@ -10,7 +10,7 @@ const handleError = require('./handle-error')
 module.exports = async function handleTransfersButtonClick(ctx) {
 	try {
 		await handleChat(ctx)
-		let { splitVariant, teamsQuantity, players, teamsData } = await getStore(ctx.chat.id)
+		let { teamsQuantity, players, teamsData } = await getStore(ctx.chat.id)
 
 		const teamsDataPlayersQuantity = teamsData ? Object.values(teamsData).flatMap(arr => arr).length : 0
 

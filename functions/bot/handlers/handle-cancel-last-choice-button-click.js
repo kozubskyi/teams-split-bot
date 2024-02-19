@@ -105,6 +105,5 @@ ${Object.keys(teamsData)
 		await ctx.replyWithHTML(reply, buttons)
 	} catch (err) {
 		await handleError({ ctx, err })
-		console.log({ err })
 	}
 }
