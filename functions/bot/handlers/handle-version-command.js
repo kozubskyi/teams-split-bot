@@ -7,7 +7,7 @@ module.exports = async function handleVersionCommand(ctx) {
 	try {
 		await handleChat(ctx)
 
-		fs.readFile('package.json', 'utf8', (err, data) => {
+		fs.readFile(path.resolve(__dirname, '../../../package.json'), 'utf8', (err, data) => {
 			if (err) return handleError({ ctx, err })
 
 			const { version, lastUpdateDate } = JSON.parse(data)
