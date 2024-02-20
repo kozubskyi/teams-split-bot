@@ -1,7 +1,8 @@
 const fs = require('fs')
+const path = require('path')
 const { handleChat } = require('../services/chats-api')
-const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
+const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 
 module.exports = async function handleVersionCommand(ctx) {
 	try {
