@@ -9,7 +9,7 @@ const getPlayersButtons = require('../helpers/get-players-buttons')
 const { getNextChoosingTeam, getPrevChoosingTeam } = require('../helpers/get-choosing-team')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
-const { REVERSE_SEQUENCE, DO_NOT_TOUCH_PLAYERS_BUTTONS } = require('../helpers/constants')
+const { REVERSE_SEQUENCE, DO_NOT_TOUCH_PLAYERS_BUTTONS, CAPTAINS_SPLIT } = require('../helpers/constants')
 const {
 	CANCEL_LAST_CHOICE_BUTTON,
 	CHANGE_SEQUENCE_BUTTON,
@@ -119,7 +119,9 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 							teamsData[team].splice(
 								index,
 								1,
-								`${index + 1}. ${lastChosenPlayer.slice(3).replace(' (C)', '').trim()}${index ? '' : ' (C)'}`
+								`${index + 1}. ${lastChosenPlayer.slice(3).replace(' (C)', '').trim()}${
+									splitVariant === CAPTAINS_SPLIT && !index ? ' (C)' : ''
+								}`
 							)
 						}
 						if (players.includes(null)) {
@@ -128,7 +130,9 @@ module.exports = async function handlePlayerButtonClick(ctx) {
 							teamsData[team].splice(
 								index,
 								1,
-								`${index + 1}. ${preparedClickedPlayer.replace(' (C)', '')}${index ? '' : ' (C)'}`
+								`${index + 1}. ${preparedClickedPlayer.replace(' (C)', '')}${
+									splitVariant === CAPTAINS_SPLIT && !index ? ' (C)' : ''
+								}`
 							)
 						}
 					}
