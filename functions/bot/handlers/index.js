@@ -2,6 +2,7 @@ module.exports = {
 	handleStartCommand: require('./handle-start-command'),
 	handleStopCommand: require('./handle-stop-command'),
 	handleFAQCommand: require('./handle-faq-command'),
+	handleVersionCommand: require('./handle-version-command'),
 	handleTeamRatingsCommand: require('./handle-team-ratings-command'),
 	handleSplitVariantButtonClick: require('./handle-split-variant-button-click'),
 	handleTeamsQuantityButtonClick: require('./handle-teams-quantity-button-click'),

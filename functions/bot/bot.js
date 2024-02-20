@@ -29,6 +29,7 @@ function run() {
 			await handleError({ ctx, err })
 		}
 	})
+	bot.command('version', async ctx => await handlers.handleVersionCommand(ctx))
 	// bot.command('teamratings', async ctx => await handlers.handleTeamRatingsCommand(ctx))
 
 	bot.action(constants.CAPTAINS_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
@@ -73,19 +74,19 @@ function run() {
 
 run()
 
-// bot.launch()
+bot.launch()
 
 // Enable graceful stop
 // process.once('SIGINT', () => bot.stop('SIGINT'))
 // process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
-exports.handler = async event => {
-	try {
-		await bot.handleUpdate(JSON.parse(event.body))
-		return { statusCode: 200, body: '' }
-	} catch (e) {
-		console.error('error in handler:', e)
-		return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' }
-	}
-}
+// exports.handler = async event => {
+// 	try {
+// 		await bot.handleUpdate(JSON.parse(event.body))
+// 		return { statusCode: 200, body: '' }
+// 	} catch (e) {
+// 		console.error('error in handler:', e)
+// 		return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' }
+// 	}
+// }
