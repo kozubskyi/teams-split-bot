@@ -2,13 +2,13 @@ const { handleChat } = require('../services/chats-api')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 
-module.exports = function handleVersionCommand(ctx) {
+module.exports = async function handleVersionCommand(ctx) {
 	try {
-		handleChat(ctx)
+		await handleChat(ctx)
 
-		ctx.replyWithHTML('<b>Версія: 3.4.3</b>\nОновлено: 20.02.2024')
+		await ctx.replyWithHTML('<b>Версія: 3.4.3</b>\nОновлено: 20.02.2024')
 
-		sendInfoMessageToCreator(ctx)
+		await sendInfoMessageToCreator(ctx)
 	} catch (err) {
 		handleError({ ctx, err })
 	}
