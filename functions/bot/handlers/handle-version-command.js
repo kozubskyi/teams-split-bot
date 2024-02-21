@@ -6,7 +6,7 @@ module.exports = async function handleVersionCommand(ctx) {
 	try {
 		await handleChat(ctx)
 
-		await ctx.replyWithHTML('<b>Версія: 3.4.3</b>\nОновлено: 20.02.2024')
+		await ctx.replyWithHTML('<b>Версія: 3.4.4</b>\nОновлено: 21.02.2024')
 
 		await sendInfoMessageToCreator(ctx)
 	} catch (err) {

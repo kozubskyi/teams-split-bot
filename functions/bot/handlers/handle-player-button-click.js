@@ -281,12 +281,11 @@ ${Object.keys(teamsData)
 
 		await updateStore(ctx, { remainedPlayers, teamsData, currentTeam, lastChosenPlayers: [] })
 
-		const reply = `
-✔️ <b>Поділили</b>
+		const reply = `✔️ <b>Поділили</b>
 Варіант розподілу: ${splitVariant}
-Кількість команд: ${teamsQuantity}
-Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
-`
+Кількість команд: ${teamsQuantity} ${getLineups(teamsData)}`
+		// Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
+
 		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON]])
 
 		await ctx.replyWithHTML(reply, buttons)

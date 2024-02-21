@@ -53,10 +53,10 @@ ${transfers}`
 			await sendInfoMessageToCreator(ctx, 'finishTransfers', transfers)
 		}
 
-		const reply = `
-✔️ <b>${lastChosenPlayers.length ? 'Поділили' : 'Поділив'}</b>
-Варіант розподілу: ${splitVariant}${lastChosenPlayers.length ? ' з трансферами' : ''}
+		const reply = `✔️ <b>${lastChosenPlayers.length ? 'Поділили' : 'Поділив'}</b>
+Варіант розподілу: ${splitVariant}
 Кількість команд: ${teamsQuantity} ${getLineups(teamsData)}`
+		// ${splitVariant === CAPTAINS_SPLIT ? `Капітанів обрано: ${captainsChoice}` : ''} ${getLineups(teamsData)}`
 
 		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON]])
 
