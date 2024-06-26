@@ -6,7 +6,14 @@ module.exports = async function handleVersionCommand(ctx) {
 	try {
 		await handleChat(ctx)
 
-		await ctx.replyWithHTML('<b>Версія: 3.4.4</b>\nОновлено: 21.02.2024')
+		const reply = `
+<b>Версія: 3.5.2</b>
+Оновлено: 26.06.2024
+
+<i>- додано кнопку "🔄 Переділити", щоб одразу після поділу на команди можна було сформувати нові склади, не починаючи весь процес заново</i>
+`
+
+		await ctx.replyWithHTML(reply)
 
 		await sendInfoMessageToCreator(ctx)
 	} catch (err) {
