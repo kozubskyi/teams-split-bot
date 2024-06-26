@@ -16,5 +16,6 @@ module.exports = {
 	handlePlayerButtonClick: require('./handle-player-button-click'),
 	handleTransfersButtonClick: require('./handle-transfers-button-click'),
 	handleFinishTransfersButtonClick: require('./handle-finish-transfers-button-click'),
+	handleResplitButtonClick: require('./handle-resplit-button-click'),
 	handleError: require('./handle-error'),
 }

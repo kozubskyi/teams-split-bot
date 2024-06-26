@@ -35,6 +35,7 @@ const constants = Object.freeze({
 	CHANGE_CAPTAINS: 'Змінити капітанів',
 	TRANSFERS: 'Трансфери',
 	FINISH_TRANSFERS: 'Завершити трансфери',
+	RESPLIT: 'Переділити',
 	// RESPLIT_WITH_THE_CAPTAINS: 'Переділитися цими ж капітанами'
 
 	SOMETHING_WENT_WRONG: '⚠️ Щось пішло не так, потрібно розпочати спочатку',

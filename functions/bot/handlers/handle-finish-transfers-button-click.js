@@ -4,7 +4,8 @@ const { handleChat } = require('../services/chats-api')
 const { getStore, updateStore } = require('../services/stores-api')
 const handleStartCommand = require('./handle-start-command')
 const getLineups = require('../helpers/get-lineups')
-const { TRANSFERS_BUTTON } = require('../helpers/buttons')
+const { SKILL_SPLIT, RANDOM_SPLIT } = require('../helpers/constants')
+const { TRANSFERS_BUTTON, RESPLIT_BUTTON } = require('../helpers/buttons')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 
@@ -58,7 +59,7 @@ ${transfers}`
 Кількість команд: ${teamsQuantity} ${getLineups(teamsData)}`
 		// ${splitVariant === CAPTAINS_SPLIT ? `Капітанів обрано: ${captainsChoice}` : ''} ${getLineups(teamsData)}`
 
-		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON]])
+		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON], [RESPLIT_BUTTON]])
 
 		await updateStore(ctx, { lastChosenPlayers: [], teamsData })
 

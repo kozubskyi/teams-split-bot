@@ -18,6 +18,7 @@ const {
 	RANDOM_CAPTAINS_SELECTION_ORDER_BUTTON,
 	TRANSFERS_BUTTON,
 	FINISH_TRANSFERS_BUTTON,
+	RESPLIT_BUTTON,
 } = require('../helpers/buttons')
 
 module.exports = async function handlePlayerButtonClick(ctx) {
@@ -286,7 +287,7 @@ ${Object.keys(teamsData)
 Кількість команд: ${teamsQuantity} ${getLineups(teamsData)}`
 		// Капітанів обрано: ${captainsChoice} ${getLineups(teamsData)}
 
-		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON]])
+		const buttons = Markup.inlineKeyboard([[TRANSFERS_BUTTON], [RESPLIT_BUTTON]])
 
 		await ctx.replyWithHTML(reply, buttons)
 		await sendInfoMessageToCreator(ctx, reply)

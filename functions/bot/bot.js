@@ -59,6 +59,7 @@ function run() {
 
 	bot.action(constants.TRANSFERS, async ctx => await handlers.handleTransfersButtonClick(ctx))
 	bot.action(constants.FINISH_TRANSFERS, async ctx => await handlers.handleFinishTransfersButtonClick(ctx))
+	bot.action(constants.RESPLIT, async ctx => await handlers.handleResplitButtonClick(ctx))
 
 	bot.action(constants.HOW_USE_BOT, async ctx => await faqHandlers.handleHowUseBotQuestion(ctx))
 	bot.action(constants.HOW_RANDOM_WORKS, async ctx => await faqHandlers.handleHowRandomWorksQuestion(ctx))
