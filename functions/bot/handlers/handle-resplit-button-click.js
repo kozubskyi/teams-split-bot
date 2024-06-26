@@ -12,7 +12,6 @@ const {
 	STRAIGHT_SEQUENCE,
 } = require('../helpers/constants')
 const { RANDOM_CAPTAINS_BUTTON } = require('../helpers/buttons')
-//! const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 
 module.exports = async function handleResplitButtonClick(ctx) {
 	try {
