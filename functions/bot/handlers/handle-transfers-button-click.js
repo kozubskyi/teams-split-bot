@@ -1,7 +1,6 @@
 const { Markup } = require('telegraf')
 const { handleChat } = require('../services/chats-api')
 const { getStore } = require('../services/stores-api')
-const handleStartCommand = require('./handle-start-command')
 const { FINISH_TRANSFERS_BUTTON } = require('../helpers/buttons')
 const getPlayersButtons = require('../helpers/get-players-buttons')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
@@ -14,7 +13,7 @@ module.exports = async function handleTransfersButtonClick(ctx) {
 
 		const teamsDataPlayersQuantity = teamsData ? Object.values(teamsData).flatMap(arr => arr).length : 0
 
-		if (players.length === 0 || teamsDataPlayersQuantity !== players.length) return await handleStartCommand(ctx)
+		if (players.length === 0 || teamsDataPlayersQuantity !== players.length) return
 
 		let preparedPlayersArray = []
 

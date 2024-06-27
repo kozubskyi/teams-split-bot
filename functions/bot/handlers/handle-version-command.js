@@ -7,7 +7,7 @@ module.exports = async function handleVersionCommand(ctx) {
 		await handleChat(ctx)
 
 		const reply = `
-<b>Версія: 3.5.3</b>
+<b>Версія: 3.5.4</b>
 Оновлено: 27.06.2024
 
 <i>Основні оновлення:
