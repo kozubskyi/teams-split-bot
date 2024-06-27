@@ -1,6 +1,7 @@
 const { Markup } = require('telegraf')
 const { handleChat } = require('../services/chats-api')
 const { getStore, updateStore } = require('../services/stores-api')
+const handleStartCommand = require('./handle-start-command')
 const splitHandlers = require('./split-handlers')
 const getPlayersButtons = require('../helpers/get-players-buttons')
 const sendFinalReply = require('../helpers/send-final-reply')
@@ -18,7 +19,7 @@ module.exports = async function handleResplitButtonClick(ctx) {
 		await handleChat(ctx)
 		let { splitVariant, teamsQuantity, players } = await getStore(ctx.chat.id)
 
-		if (!splitVariant || !teamsQuantity || !players.length) return
+		if (!splitVariant || !teamsQuantity || !players.length) return await handleStartCommand(ctx)
 
 		let teamsData = {}
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
