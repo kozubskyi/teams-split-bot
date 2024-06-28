@@ -11,6 +11,7 @@ const constants = Object.freeze({
 	SKILL_SPLIT: 'За скілом',
 	RANDOM_SPLIT: 'Рандомно',
 
+	ONE_TEAM: '1_team',
 	TWO_TEAMS: '2_teams',
 	THREE_TEAMS: '3_teams',
 	FOUR_TEAMS: '4_teams',

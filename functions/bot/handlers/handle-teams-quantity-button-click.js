@@ -15,6 +15,7 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 		if (!splitVariant) return await handleStartCommand(ctx)
 
 		const teamsQuantity = Number(ctx.callbackQuery.data[0])
+
 		const teamsData = {}
 		for (let team = 1; team <= teamsQuantity; team++) teamsData[team] = []
 
@@ -25,14 +26,17 @@ module.exports = async function handleTeamsQuantityButtonClick(ctx) {
 		let reply = `
 <i>Користувач ${first_name}${last_name ? ` ${last_name}` : ''} обрав кількість команд: ${teamsQuantity}</i>
 
-Відправте список гравців де кожний наступний гравець вказаний з нового рядка`
-
-		if (splitVariant === SKILL_SPLIT) {
-			reply = `
-${reply}
-
-<i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця. Чим більш об'єктивно буде сформовано список тим більш справедливо будуть поділені команди.</i>`
-		}
+Відправте список гравців де кожний наступний гравець вказаний з нового рядка
+${
+	splitVariant === SKILL_SPLIT
+		? `\n<i>❗Ви обрали розподіл "За скілом", тому обов'язково потрібно відправити список гравців, сформований від найкращого до найгіршого гравця. Чим більш об'єктивно буде сформовано список тим більш справедливо будуть поділені команди.</i>`
+		: ''
+}
+${
+	teamsQuantity === 1
+		? '<i>❗Оскільки було обрано 1 команду, то буде сформовано список з випадковим розташуванням кожного гравця.</i>'
+		: ''
+}`
 
 		await ctx.replyWithHTML(reply)
 		await sendInfoMessageToCreator(ctx, 'teamsQuantity')

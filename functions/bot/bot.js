@@ -36,6 +36,7 @@ function run() {
 	bot.action(constants.SKILL_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 	bot.action(constants.RANDOM_SPLIT, async ctx => await handlers.handleSplitVariantButtonClick(ctx))
 
+	bot.action(constants.ONE_TEAM, async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 	bot.action(constants.TWO_TEAMS, async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 	bot.action(constants.THREE_TEAMS, async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))
 	bot.action(constants.FOUR_TEAMS, async ctx => await handlers.handleTeamsQuantityButtonClick(ctx))

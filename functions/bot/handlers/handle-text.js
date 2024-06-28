@@ -55,7 +55,11 @@ ${Object.keys(teamsData)
 			return
 		}
 		if (splitVariant === SKILL_SPLIT) teamsData = splitHandlers.handleSkillSplit(teamsData, players)
-		if (splitVariant === RANDOM_SPLIT) teamsData = splitHandlers.handleRandomSplit(teamsData, players)
+		if (splitVariant === RANDOM_SPLIT && teamsQuantity !== 1)
+			teamsData = splitHandlers.handleRandomSplit(teamsData, players)
+		if (teamsQuantity === 1) {
+			teamsData[1] = splitHandlers.handleOneTeamRandomSplit(players)
+		}
 
 		await updateStore(ctx, { players, teamsData })
 

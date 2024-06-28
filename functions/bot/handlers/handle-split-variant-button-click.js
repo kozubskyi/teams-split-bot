@@ -2,7 +2,7 @@ const { Markup } = require('telegraf')
 const deleteMessage = require('../helpers/delete-message')
 const { handleChat } = require('../services/chats-api')
 const { updateStore } = require('../services/stores-api')
-const { TWO_TEAMS, THREE_TEAMS, FOUR_TEAMS } = require('../helpers/constants')
+const { ONE_TEAM, TWO_TEAMS, THREE_TEAMS, FOUR_TEAMS, RANDOM_SPLIT } = require('../helpers/constants')
 const sendInfoMessageToCreator = require('../helpers/send-info-message-to-creator')
 const handleError = require('./handle-error')
 
@@ -20,15 +20,17 @@ module.exports = async function handleSplitVariantButtonClick(ctx) {
 		
 Оберіть кількість команд`
 
-		const buttons = Markup.inlineKeyboard([
-			[
-				Markup.button.callback('2', TWO_TEAMS),
-				Markup.button.callback('3', THREE_TEAMS),
-				Markup.button.callback('4', FOUR_TEAMS),
-			],
-		])
+		const buttons = [
+			Markup.button.callback('2', TWO_TEAMS),
+			Markup.button.callback('3', THREE_TEAMS),
+			Markup.button.callback('4', FOUR_TEAMS),
+		]
 
-		await ctx.replyWithHTML(reply, buttons)
+		if (splitVariant === RANDOM_SPLIT) buttons.unshift(Markup.button.callback('1', ONE_TEAM))
+
+		const keyboard = Markup.inlineKeyboard([buttons])
+
+		await ctx.replyWithHTML(reply, keyboard)
 		await sendInfoMessageToCreator(ctx, 'splitVariant')
 	} catch (err) {
 		await handleError({ ctx, err })
